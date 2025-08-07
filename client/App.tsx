@@ -13,6 +13,7 @@ import Coaching from "./pages/Coaching";
 import GetStarted from "./pages/GetStarted";
 import PlaceholderPage from "./pages/PlaceholderPage";
 import NotFound from "./pages/NotFound";
+import ChatAssistant from "./components/ChatAssistant";
 
 const queryClient = new QueryClient();
 
