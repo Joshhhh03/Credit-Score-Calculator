@@ -26,5 +26,12 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
 
+  // User data API routes
+  app.post("/api/users/data", saveUserData);
+  app.get("/api/users/:userId/data", getUserData);
+  app.post("/api/users/:userId/credit-score", updateCreditScore);
+  app.get("/api/users/:userId/credit-history", getCreditHistory);
+  app.post("/api/calculate-credit-score", calculateCreditScore);
+
   return app;
 }
