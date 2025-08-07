@@ -159,9 +159,12 @@ export default function CreditScoreGauge({
         
         {/* Center circle with score */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div 
-            className="text-4xl font-bold transition-all duration-1000"
-            style={{ color: scoreColor }}
+          <div
+            className="text-4xl font-bold"
+            style={{
+              color: scoreColor,
+              transition: animated ? 'color 0.5s ease-out' : 'none'
+            }}
           >
             {Math.round(animatedScore)}
           </div>
