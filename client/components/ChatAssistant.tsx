@@ -65,7 +65,20 @@ export default function ChatAssistant() {
 
   const generateAIResponse = (userMessage: string): { content: string; suggestions?: string[] } => {
     const message = userMessage.toLowerCase();
-    
+
+    // More specific matching for "What affects my CreditBridge score?"
+    if (message.includes("affect") && message.includes("score")) {
+      return {
+        content: "Your CreditBridge score is affected by four main factors:\n\n🏠 **Rent Payments (30% impact)** - Your payment history and consistency\n⚡ **Utility Payments (15% impact)** - Electric, gas, water, internet bill payments\n💼 **Employment History (20% impact)** - Job stability and income consistency\n💰 **Cash Flow (25% impact)** - Banking patterns, savings rate, and financial stability\n\nUnlike traditional credit scores that rely heavily on credit cards and loans, we focus on the financial responsibilities you already have. This gives you credit for being a responsible renter, reliable bill payer, and having stable employment - even if you don't have extensive credit card history.",
+        suggestions: [
+          "How is rent payment scored?",
+          "What utility payments count?",
+          "Does my job history matter?",
+          "How do you measure cash flow?"
+        ]
+      };
+    }
+
     if (message.includes("improve") && message.includes("score")) {
       return {
         content: "Great question! Here are the top ways to improve your CreditBridge score:\n\n1. **Pay rent on time consistently** - This has the biggest impact (+30 points)\n2. **Set up autopay for utilities** - Avoid late payments (+15 points)\n3. **Build an emergency fund** - Shows financial stability (+15 points)\n4. **Add more data sources** - More data = better accuracy (+10-20 points)\n5. **Maintain stable employment** - Employment history matters (+20 points)\n\nWould you like me to help you with any specific area?",
