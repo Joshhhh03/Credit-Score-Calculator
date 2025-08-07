@@ -14,12 +14,36 @@ export default function CreditScoreGauge({
   animated = true 
 }: CreditScoreGaugeProps) {
   const [animatedScore, setAnimatedScore] = useState(0);
-  
+
   useEffect(() => {
     if (animated) {
+      const startScore = animatedScore;
+      const targetScore = score;
+      const duration = 2000; // 2 seconds for smooth animation
+      const startTime = Date.now();
+
+      const animateScore = () => {
+        const currentTime = Date.now();
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        // Ease-out cubic function for smooth deceleration
+        const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+        const easedProgress = easeOutCubic(progress);
+
+        const currentScore = startScore + (targetScore - startScore) * easedProgress;
+        setAnimatedScore(currentScore);
+
+        if (progress < 1) {
+          requestAnimationFrame(animateScore);
+        }
+      };
+
+      // Start animation after a short delay
       const timer = setTimeout(() => {
-        setAnimatedScore(score);
-      }, 500);
+        requestAnimationFrame(animateScore);
+      }, 300);
+
       return () => clearTimeout(timer);
     } else {
       setAnimatedScore(score);
