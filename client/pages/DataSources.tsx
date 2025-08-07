@@ -19,7 +19,7 @@ import {
   Shield,
   ArrowRight,
   FileText,
-  Bank,
+  Landmark,
   Briefcase
 } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -42,7 +42,7 @@ export default function DataSources() {
       type: "bank",
       status: "connected",
       lastUpdated: "2 hours ago",
-      icon: <Bank className="h-5 w-5" />,
+      icon: <Landmark className="h-5 w-5" />,
       color: "bg-blue-100 text-blue-700"
     },
     {
@@ -75,7 +75,7 @@ export default function DataSources() {
     {
       name: "Bank Account",
       description: "Connect your checking/savings account to verify income and spending patterns",
-      icon: <Bank className="h-6 w-6" />,
+      icon: <Landmark className="h-6 w-6" />,
       color: "bg-blue-100 text-blue-700",
       scoreImpact: "+25 points"
     },
@@ -400,7 +400,7 @@ export default function DataSources() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center">
-                    <Bank className="h-5 w-5 mr-2" />
+                    <Landmark className="h-5 w-5 mr-2" />
                     Banking Information
                   </CardTitle>
                   <CardDescription>
