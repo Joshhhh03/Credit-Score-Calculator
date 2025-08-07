@@ -4,6 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import CreditScoreGauge from "@/components/CreditScoreGauge";
+import ScoreHistoryChart from "@/components/ScoreHistoryChart";
 import { 
   CreditCard, 
   TrendingUp, 
@@ -158,36 +160,8 @@ export default function Dashboard() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="flex items-center gap-8">
-                <div className="text-center">
-                  <div className={`text-6xl font-bold ${getScoreColor(creditScore)}`}>
-                    {creditScore}
-                  </div>
-                  <div className="text-lg font-medium text-gray-700 mt-2">
-                    {getScoreLevel(creditScore)}
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <div className="space-y-3">
-                    <div className="flex justify-between text-sm">
-                      <span>Poor</span>
-                      <span>Fair</span>
-                      <span>Good</span>
-                      <span>Excellent</span>
-                    </div>
-                    <div className="relative">
-                      <Progress value={(creditScore / 850) * 100} className="h-3" />
-                      <div 
-                        className="absolute top-0 h-3 w-1 bg-gray-700 rounded"
-                        style={{ left: `${(creditScore / 850) * 100}%` }}
-                      />
-                    </div>
-                    <div className="flex justify-between text-xs text-gray-500">
-                      <span>300</span>
-                      <span>850</span>
-                    </div>
-                  </div>
-                </div>
+              <div className="flex items-center justify-center">
+                <CreditScoreGauge score={creditScore} size={280} animated={true} />
               </div>
             </CardContent>
           </Card>
@@ -299,25 +273,7 @@ export default function Dashboard() {
           </TabsContent>
 
           <TabsContent value="history" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Score History</CardTitle>
-                <CardDescription>
-                  Track your credit score changes over time
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="text-gray-400 mb-2">Score tracking chart will appear here</div>
-                    <Button variant="outline">
-                      <RefreshCw className="h-4 w-4 mr-2" />
-                      Generate History
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <ScoreHistoryChart userId="demo-user" />
           </TabsContent>
 
           <TabsContent value="insights" className="space-y-6">
