@@ -151,6 +151,58 @@ export default function ChatAssistant() {
       };
     }
 
+    // Specific responses for rent-related questions
+    if (message.includes("rent") && (message.includes("payment") || message.includes("score") || message.includes("history"))) {
+      return {
+        content: "Rent payments are the **largest factor** in your CreditBridge score (30% impact)! Here's how we evaluate them:\n\n✅ **On-time payments** - Each month you pay rent on time boosts your score\n📅 **Payment consistency** - We look at 12-24 months of history\n💳 **Payment method** - Bank transfers and checks show better than cash\n🏠 **Rent amount vs income** - We consider if rent is reasonable for your income\n\nTo maximize your rent score:\n• Set up automatic payments\n• Keep payment receipts/records\n• Ask your landlord for a payment verification letter\n• If you have gaps, explain them (job loss, etc.)",
+        suggestions: [
+          "How do I prove rent payments?",
+          "What if I pay cash rent?",
+          "Can late rent payments be fixed?",
+          "How to add rent history?"
+        ]
+      };
+    }
+
+    // Utility-specific questions
+    if (message.includes("utilit") && (message.includes("payment") || message.includes("bill") || message.includes("count"))) {
+      return {
+        content: "Utility payments contribute **15% to your CreditBridge score**. Here's what counts:\n\n⚡ **Electric & Gas** - Primary utilities with consistent monthly bills\n💧 **Water & Sewer** - Municipal services (if billed separately)\n🌐 **Internet & Cable** - Telecommunications services\n📱 **Cell Phone** - Mobile service plans\n\n**What helps your score:**\n• Autopay setup (shows responsibility)\n• 12+ months of on-time payments\n• Multiple utility types (shows broader responsibility)\n• Consistent payment amounts\n\n**Pro tip:** Even if you live with roommates, having utilities in your name and paying them consistently builds your credit profile!",
+        suggestions: [
+          "How to add utility accounts?",
+          "What if utilities are included in rent?",
+          "Do prepaid plans count?",
+          "How to set up autopay?"
+        ]
+      };
+    }
+
+    // Employment and income questions
+    if (message.includes("job") || message.includes("employment") || message.includes("income") || message.includes("salary")) {
+      return {
+        content: "Employment history accounts for **20% of your CreditBridge score**. We evaluate:\n\n👔 **Job Stability** - Length of time at current employer\n💼 **Income Consistency** - Regular paychecks and steady earnings\n📈 **Career Progression** - Promotions, raises, skill development\n🏢 **Employment Type** - Full-time, part-time, contract, or self-employed\n\n**Score boosters:**\n• 2+ years at current job = excellent stability\n• Direct deposit paychecks show reliability\n• Annual salary increases demonstrate growth\n• Professional references from employers\n\n**If you're self-employed:** We look at consistent client payments, business bank account activity, and tax documentation.",
+        suggestions: [
+          "How to verify employment?",
+          "What if I'm self-employed?",
+          "Does job hopping hurt my score?",
+          "How to add income proof?"
+        ]
+      };
+    }
+
+    // Cash flow and banking questions
+    if (message.includes("cash flow") || message.includes("banking") || message.includes("bank account") || message.includes("savings")) {
+      return {
+        content: "Cash flow analysis makes up **25% of your CreditBridge score**. We examine:\n\n🏦 **Account Management** - How you handle your bank accounts\n💰 **Income vs Expenses** - Your monthly financial balance\n📊 **Savings Pattern** - Building emergency funds and reserves\n🔄 **Transaction History** - Responsible spending and payment habits\n\n**What improves your cash flow score:**\n• Maintaining positive account balances\n• Building emergency savings (3-6 months expenses)\n• Consistent monthly income deposits\n• Avoiding overdrafts and NSF fees\n• Regular but not excessive spending patterns\n\n**We look for:** Financial responsibility, not just high income. Someone earning $40K with good habits can score higher than someone earning $100K with poor money management!",
+        suggestions: [
+          "How much emergency fund do I need?",
+          "What if I have overdrafts?",
+          "How to improve spending habits?",
+          "Connect my bank account safely?"
+        ]
+      };
+    }
+
     if (message.includes("help") || message.includes("support") || message.includes("problem")) {
       return {
         content: "I'm here to help! I can assist you with:\n\n🎯 **Credit Score Questions** - Understanding factors, improvements\n📊 **Dashboard Help** - Navigating features, reading charts\n💡 **Financial Coaching** - Goal setting, recommendations\n🔗 **Data Connection** - Adding new sources, troubleshooting\n🏦 **Loan Information** - Qualification, offers, applications\n\nJust ask me anything, or choose from the suggestions below!",
