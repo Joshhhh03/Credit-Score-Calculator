@@ -129,7 +129,7 @@ export default function ChatAssistant() {
     
     if (message.includes("score") && (message.includes("mean") || message.includes("good") || message.includes("bad"))) {
       return {
-        content: "Your score of 723 is in the **Good** range! Here's what this means:\n\n✅ **You qualify for**:\n• Most credit cards with good rates\n• Auto loans with competitive terms\n• Personal loans\n• Some mortgage programs\n\n📈 **Score Ranges**:\n• Excellent: 750-850\n• Good: 700-749 (that's you!)\n• Fair: 650-699\n• Poor: 300-649\n\nWith some improvement, you could reach Excellent range and unlock even better rates and terms!",
+        content: "Your score of 723 is in the **Good** range! Here's what this means:\n\n✅ **You qualify for**:\n• Most credit cards with good rates\n• Auto loans with competitive terms\n�� Personal loans\n• Some mortgage programs\n\n📈 **Score Ranges**:\n• Excellent: 750-850\n• Good: 700-749 (that's you!)\n• Fair: 650-699\n• Poor: 300-649\n\nWith some improvement, you could reach Excellent range and unlock even better rates and terms!",
         suggestions: [
           "How to reach Excellent range?",
           "View available loan offers",
@@ -215,14 +215,40 @@ export default function ChatAssistant() {
       };
     }
     
-    // Default response for unrecognized queries
+    // Specific credit building questions
+    if (message.includes("build") && message.includes("credit")) {
+      return {
+        content: "Building credit with CreditBridge is different from traditional methods! Here's your roadmap:\n\n🚀 **Quick Wins (0-30 days):**\n• Connect all utility accounts and set up autopay\n• Upload 12+ months of rent payment receipts\n• Add employment verification and income proof\n• Link your primary bank account\n\n📈 **Medium-term Growth (1-6 months):**\n• Maintain perfect payment timing on all bills\n• Build emergency savings to 3 months expenses\n• Establish consistent income patterns\n• Add more data sources (additional utilities, etc.)\n\n🎯 **Long-term Excellence (6+ months):**\n• Maintain 24+ months of perfect payment history\n• Increase income through raises or promotions\n• Build 6-month emergency fund\n• Consider homeownership or investment accounts\n\nRemember: CreditBridge rewards **consistency and responsibility** over time, not just high income!",
+        suggestions: [
+          "What's the fastest way to improve?",
+          "How long to see score changes?",
+          "Best strategies for my situation?",
+          "Set up automatic payments?"
+        ]
+      };
+    }
+
+    // Security and data safety questions
+    if (message.includes("secure") || message.includes("safe") || message.includes("privacy") || message.includes("data")) {
+      return {
+        content: "Your data security is our top priority! Here's how we protect you:\n\n🔒 **Bank-Level Encryption** - All data encrypted with AES-256\n🛡️ **No Credential Storage** - We never store your login passwords\n🔐 **Read-Only Access** - We can only view, never move your money\n🏛️ **Regulatory Compliance** - SOC 2 Type II and GDPR compliant\n\n**What we access:**\n✅ Account balances and transaction patterns\n✅ Payment history and timing\n✅ Income and employment verification\n\n**What we NEVER access:**\n❌ Your login credentials or passwords\n❌ Ability to move or transfer money\n❌ Personal documents or photos\n❌ Social media or browsing history\n\n**You're in control:** Disconnect any data source anytime from your dashboard!",
+        suggestions: [
+          "How do you connect to my bank?",
+          "Can I disconnect data sources?",
+          "Who else sees my information?",
+          "What if I have a security concern?"
+        ]
+      };
+    }
+
+    // Default response with better context awareness
     return {
-      content: "I understand you're asking about your credit and financial situation. While I'm still learning to understand every question perfectly, I'm here to help with:\n\n• Credit score explanations and improvements\n• Dashboard navigation and features\n• Financial coaching and goal setting\n• Data connection and security\n• Loan qualification questions\n\nCould you rephrase your question or try one of the suggestions below?",
+      content: `I'd be happy to help you with that! Based on your question about "${userMessage}", let me provide some guidance:\n\nI can help you understand:\n\n🎯 **Your Credit Score** - What affects it and how to improve it\n📊 **Dashboard Features** - Reading your score breakdown and trends\n💡 **Financial Tips** - Personalized advice for your situation\n🔗 **Adding Data** - Safely connecting accounts and documents\n💳 **Loan Options** - What you qualify for and how to apply\n\nCould you be more specific about what you'd like to know? For example:\n• "How do I improve my score?"\n• "What affects my CreditBridge score?"\n• "How do I add my rent payments?"\n• "What loans can I qualify for?"`,
       suggestions: [
-        "How can I improve my credit score?",
-        "Explain my dashboard",
-        "Help me add data sources",
-        "What loans can I qualify for?"
+        "What affects my CreditBridge score?",
+        "How can I improve my score?",
+        "Help me add my financial data",
+        "What loans do I qualify for?"
       ]
     };
   };
