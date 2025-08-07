@@ -146,8 +146,11 @@ export default function CreditScoreGauge({
         
         {/* Pointer */}
         <div
-          className="absolute w-3 h-3 bg-gray-700 rounded-full border-2 border-white shadow-lg transform -translate-x-1/2 -translate-y-1/2 transition-all ease-out"
-          style={{ transitionDuration: '2s' }}
+          className="absolute w-3 h-3 bg-gray-700 rounded-full border-2 border-white shadow-lg transform -translate-x-1/2 -translate-y-1/2"
+          style={{
+            transition: animated ? 'all 2s cubic-bezier(0.25, 0.46, 0.45, 0.94)' : 'none',
+            transitionProperty: 'left, top'
+          }}
           style={{
             left: pointerX,
             top: pointerY,
