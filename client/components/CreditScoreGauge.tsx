@@ -114,7 +114,7 @@ export default function CreditScoreGauge({
             strokeWidth={strokeWidth}
             strokeLinecap="round"
             style={{
-              transition: animated ? "all 2s ease-out" : "none",
+              transition: animated ? "stroke-dasharray 2s cubic-bezier(0.25, 0.46, 0.45, 0.94)" : "none",
             }}
           />
           
