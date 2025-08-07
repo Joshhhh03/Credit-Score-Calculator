@@ -150,7 +150,7 @@ export default function Index() {
               <Card key={index} className="hover:shadow-lg transition-shadow">
                 <CardContent className="p-6 text-center">
                   <div className={`h-12 w-12 rounded-full ${type.color} flex items-center justify-center mx-auto mb-4`}>
-                    <type.icon className="h-6 w-6" />
+                    {type.icon}
                   </div>
                   <h3 className="font-semibold text-gray-900">{type.name}</h3>
                 </CardContent>
