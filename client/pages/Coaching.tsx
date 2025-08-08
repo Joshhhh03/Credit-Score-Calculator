@@ -4,10 +4,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  CreditCard, 
-  Target, 
-  TrendingUp, 
+import CourseContentModal from "@/components/CourseContentModal";
+import {
+  CreditCard,
+  Target,
+  TrendingUp,
   CheckCircle,
   Clock,
   Star,
@@ -19,7 +20,8 @@ import {
   Zap,
   BookOpen,
   Award,
-  AlertTriangle
+  AlertTriangle,
+  PlayCircle
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -49,6 +51,8 @@ interface LearningModule {
 
 export default function Coaching() {
   const [selectedGoal, setSelectedGoal] = useState<string | null>(null);
+  const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
+  const [completedCourses, setCompletedCourses] = useState<Set<string>>(new Set(['credit-basics']));
   
   const coachingGoals: CoachingGoal[] = [
     {
@@ -251,6 +255,19 @@ export default function Coaching() {
       default:
         return "bg-gray-100 text-gray-700";
     }
+  };
+
+  const handleCourseComplete = (courseId: string) => {
+    setCompletedCourses(prev => new Set(prev).add(courseId));
+  };
+
+  const handleStartGoal = (goalId: string) => {
+    setSelectedGoal(selectedGoal === goalId ? null : goalId);
+    // In a real app, this would save the goal to user's profile
+  };
+
+  const handleStartCourse = (courseId: string) => {
+    setSelectedCourse(courseId);
   };
 
   return (
