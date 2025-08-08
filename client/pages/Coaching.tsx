@@ -557,6 +557,19 @@ export default function Coaching() {
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Course Content Modal */}
+      {selectedCourse && (
+        <CourseContentModal
+          isOpen={!!selectedCourse}
+          onClose={() => setSelectedCourse(null)}
+          courseId={selectedCourse}
+          courseTitle={learningModules.find(m => m.id === selectedCourse)?.title || ''}
+          duration={learningModules.find(m => m.id === selectedCourse)?.duration || ''}
+          difficulty={learningModules.find(m => m.id === selectedCourse)?.difficulty || ''}
+          onComplete={() => handleCourseComplete(selectedCourse)}
+        />
+      )}
     </div>
   );
 }
