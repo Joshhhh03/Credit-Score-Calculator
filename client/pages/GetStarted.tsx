@@ -731,13 +731,17 @@ export default function GetStarted() {
             {currentStep === 5 && (
               <div className="text-center space-y-8">
                 <div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                    Your CreditBridge Score
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                    Your CreditBridge Risk Score
                   </h3>
+                  <Badge className="mb-4 bg-green-100 text-green-700">
+                    Hybrid Traditional + Alternative Data Algorithm
+                  </Badge>
                   {isCalculating ? (
                     <div className="flex flex-col items-center space-y-4">
                       <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600"></div>
-                      <p className="text-gray-600">Calculating your score based on your financial data...</p>
+                      <p className="text-gray-600">Calculating your personalized credit risk score...</p>
+                      <p className="text-sm text-gray-500">Analyzing traditional credit + alternative financial data</p>
                     </div>
                   ) : (
                     <div className="flex justify-center mb-8">
