@@ -173,25 +173,29 @@ export default function GetStarted() {
     // Real-time validation for immediate feedback
     if (showValidation) {
       const errorKey = `${section}.${field}`;
+      let errorMessage = '';
 
       // Validate specific field based on section and field
-      let validationResult = { isValid: true, error: undefined as string | undefined };
-
       if (section === 'firstName' || section === 'lastName') {
-        validationResult = CreditDataValidator.validateName(value, field);
+        const result = CreditDataValidator.validateName(value, field);
+        errorMessage = result.error || '';
       } else if (section === 'email') {
-        validationResult = CreditDataValidator.validateEmail(value);
+        const result = CreditDataValidator.validateEmail(value);
+        errorMessage = result.error || '';
       } else if (section === 'phone') {
-        validationResult = CreditDataValidator.validatePhoneNumber(value);
+        const result = CreditDataValidator.validatePhoneNumber(value);
+        errorMessage = result.error || '';
       } else if (section === 'dateOfBirth') {
-        validationResult = CreditDataValidator.validateDateOfBirth(value);
+        const result = CreditDataValidator.validateDateOfBirth(value);
+        errorMessage = result.error || '';
       } else if (section === 'ssn') {
-        validationResult = CreditDataValidator.validateSSN(value);
+        const result = CreditDataValidator.validateSSN(value);
+        errorMessage = result.error || '';
       }
 
       setValidationErrors(prev => ({
         ...prev,
-        [errorKey]: validationResult.error || ''
+        [errorKey]: errorMessage
       }));
     }
   };
