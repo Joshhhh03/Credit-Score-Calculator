@@ -90,7 +90,7 @@ export default function Index() {
               Serving 49M+ Americans with thin credit files
             </Badge>
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-              Credit Scoring for{" "}
+              Credit Risk Scoring for&nbsp;
               <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                 Everyone
               </span>
