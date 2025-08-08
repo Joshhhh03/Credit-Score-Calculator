@@ -5,7 +5,7 @@ import UserProfile from "./UserProfile";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { CreditCard } from "lucide-react";
+import { CreditCard, RefreshCw } from "lucide-react";
 
 interface AppWrapperProps {
   children: React.ReactNode;
@@ -68,6 +68,16 @@ export default function AppWrapper({ children }: AppWrapperProps) {
                     <Link to="/analytics">
                       <Button variant="ghost">Analytics</Button>
                     </Link>
+                    {location.pathname === '/analytics' && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => window.location.reload()}
+                      >
+                        <RefreshCw className="h-4 w-4 mr-2" />
+                        Refresh
+                      </Button>
+                    )}
                     <UserProfile />
                   </>
                 ) : (
