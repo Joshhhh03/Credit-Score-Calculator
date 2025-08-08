@@ -84,6 +84,8 @@ export default function GetStarted() {
   const [calculatedScore, setCalculatedScore] = useState<number | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
   const [showRatingPrompt, setShowRatingPrompt] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<{[key: string]: string}>({});
+  const [showValidation, setShowValidation] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
