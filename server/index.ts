@@ -22,7 +22,8 @@ import {
   getProfile,
   updateProfile,
   changePassword,
-  deleteAccount
+  deleteAccount,
+  validateSession
 } from "./routes/auth";
 import {
   generateAnalytics,
@@ -63,6 +64,7 @@ export function createServer() {
   // Authentication API routes
   app.post("/api/auth/signup", signUp);
   app.post("/api/auth/signin", signIn);
+  app.post("/api/auth/validate", validateSession);
   app.get("/api/auth/profile/:userId", getProfile);
   app.put("/api/auth/profile/:userId", updateProfile);
   app.put("/api/auth/password/:userId", changePassword);
