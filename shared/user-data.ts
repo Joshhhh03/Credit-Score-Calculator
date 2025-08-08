@@ -71,6 +71,7 @@ export interface CreditScoreFactors {
   utilityPayments: number;
   cashFlow: number;
   employmentHistory: number;
+  traditionalCredit: number;
 }
 
 export interface CreditHistoryEntry {
