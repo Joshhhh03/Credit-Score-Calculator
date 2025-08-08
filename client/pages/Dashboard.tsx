@@ -40,6 +40,19 @@ export default function Dashboard() {
   const [lastUpdated, setLastUpdated] = useState("2 hours ago");
   const [showRatingPrompt, setShowRatingPrompt] = useState(false);
 
+  // Show rating prompt for returning users (simulate check for first-time vs returning)
+  useEffect(() => {
+    const hasSeenRating = localStorage.getItem('creditbridge-rating-shown');
+    if (!hasSeenRating) {
+      const timer = setTimeout(() => {
+        setShowRatingPrompt(true);
+        localStorage.setItem('creditbridge-rating-shown', 'true');
+      }, 5000); // Show after 5 seconds on dashboard
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   const scoreFactors: ScoreFactor[] = [
     {
       category: "Rent Payments",
