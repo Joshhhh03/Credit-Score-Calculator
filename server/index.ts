@@ -16,6 +16,19 @@ import {
   updateRating,
   getTestimonials
 } from "./routes/ratings";
+import {
+  signUp,
+  signIn,
+  getProfile,
+  updateProfile,
+  changePassword,
+  deleteAccount
+} from "./routes/auth";
+import {
+  generateAnalytics,
+  getAnalytics,
+  getLoanOffers
+} from "./routes/analytics";
 
 export function createServer() {
   const app = express();
