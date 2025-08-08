@@ -384,7 +384,7 @@ export default function GetStarted() {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <Label htmlFor="dateOfBirth">Date of Birth *</Label>
-                    <Input 
+                    <Input
                       id="dateOfBirth"
                       type="date"
                       value={formData.dateOfBirth}
@@ -394,7 +394,7 @@ export default function GetStarted() {
                   </div>
                   <div>
                     <Label htmlFor="ssn">Social Security Number *</Label>
-                    <Input 
+                    <Input
                       id="ssn"
                       value={formData.ssn}
                       onChange={(e) => handleInputChange('ssn' as keyof FormData, '', e.target.value)}
@@ -403,6 +403,42 @@ export default function GetStarted() {
                       required
                     />
                   </div>
+                </div>
+
+                <div className="space-y-4 border-t pt-6">
+                  <h3 className="text-lg font-semibold text-gray-900">Traditional Credit Information</h3>
+                  <div>
+                    <Label htmlFor="hasTraditionalCredit">Do you have a traditional credit score?</Label>
+                    <Select onValueChange={(value) => handleInputChange('hasTraditionalCredit' as keyof FormData, '', value)}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select an option" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="yes">Yes, I know my credit score</SelectItem>
+                        <SelectItem value="no">No, I have no credit history</SelectItem>
+                        <SelectItem value="limited">I have limited credit history</SelectItem>
+                        <SelectItem value="unsure">I'm not sure</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {(formData.hasTraditionalCredit === 'yes' || formData.hasTraditionalCredit === 'limited') && (
+                    <div>
+                      <Label htmlFor="traditionalCreditScore">Current Traditional Credit Score (FICO/VantageScore)</Label>
+                      <Input
+                        id="traditionalCreditScore"
+                        type="number"
+                        min="300"
+                        max="850"
+                        value={formData.traditionalCreditScore}
+                        onChange={(e) => handleInputChange('traditionalCreditScore' as keyof FormData, '', e.target.value)}
+                        placeholder="Enter your current credit score (300-850)"
+                      />
+                      <p className="text-sm text-gray-500 mt-1">
+                        You can find this on Credit Karma, your bank app, or credit card statements
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 <div>
