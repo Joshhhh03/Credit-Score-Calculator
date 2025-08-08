@@ -27,6 +27,8 @@ interface FormData {
   phone: string;
   dateOfBirth: string;
   ssn: string;
+  traditionalCreditScore: string;
+  hasTraditionalCredit: string;
   address: {
     street: string;
     city: string;
