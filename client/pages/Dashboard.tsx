@@ -38,6 +38,7 @@ export default function Dashboard() {
   const [creditScore, setCreditScore] = useState(723);
   const [scoreChange, setScoreChange] = useState("+12");
   const [lastUpdated, setLastUpdated] = useState("2 hours ago");
+  const [showRatingPrompt, setShowRatingPrompt] = useState(false);
 
   const scoreFactors: ScoreFactor[] = [
     {
