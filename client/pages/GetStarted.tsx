@@ -841,8 +841,7 @@ export default function GetStarted() {
 
                     <div className="text-center">
                       <p className="text-gray-600 mb-6">
-                        Your score is calculated using your rent payments, employment history, banking data, and utility payments.
-                        Create an account to see detailed breakdowns and personalized improvement recommendations.
+                        Your hybrid Credit Risk Score combines {formData.hasTraditionalCredit === 'yes' ? 'traditional credit (40%) with alternative financial data (60%)' : formData.hasTraditionalCredit === 'limited' ? 'limited traditional credit (25%) with strong alternative data (75%)' : 'entirely alternative financial data (100%)'} for a more complete and fair assessment of your creditworthiness.
                       </p>
                       <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Link to="/dashboard">
