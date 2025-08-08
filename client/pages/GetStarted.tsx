@@ -752,10 +752,44 @@ export default function GetStarted() {
 
                 {calculatedScore && (
                   <>
-                    <Card className="border-blue-200 bg-blue-50 max-w-2xl mx-auto">
+                    <Card className="border-blue-200 bg-blue-50 max-w-2xl mx-auto mb-6">
                       <CardContent className="p-6">
-                        <h4 className="font-semibold text-blue-900 mb-4">What this score means:</h4>
-                        <div className="grid md:grid-cols-2 gap-4 text-sm">
+                        <h4 className="font-semibold text-blue-900 mb-4">Your Hybrid Credit Risk Score Breakdown:</h4>
+
+                        {formData.hasTraditionalCredit === 'yes' && (
+                          <div className="mb-4 p-3 bg-white rounded">
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm font-medium">Traditional Credit Score (40% weight)</span>
+                              <span className="font-bold">{formData.traditionalCreditScore}</span>
+                            </div>
+                          </div>
+                        )}
+
+                        {formData.hasTraditionalCredit === 'limited' && (
+                          <div className="mb-4 p-3 bg-white rounded">
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm font-medium">Traditional Credit Score (25% weight)</span>
+                              <span className="font-bold">{formData.traditionalCreditScore}</span>
+                            </div>
+                          </div>
+                        )}
+
+                        <div className="mb-4 p-3 bg-white rounded">
+                          <div className="flex justify-between items-center mb-2">
+                            <span className="text-sm font-medium">
+                              Alternative Financial Data ({formData.hasTraditionalCredit === 'yes' ? '60%' : formData.hasTraditionalCredit === 'limited' ? '75%' : '100%'} weight)
+                            </span>
+                            <span className="font-bold text-green-600">Strong</span>
+                          </div>
+                          <div className="text-xs text-gray-600 space-y-1">
+                            <div>✓ Rent payment consistency</div>
+                            <div>✓ Utility payment reliability</div>
+                            <div>✓ Employment stability</div>
+                            <div>✓ Banking/cash flow patterns</div>
+                          </div>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-4 text-sm mt-4">
                           <div className="flex items-center">
                             <CheckCircle className="h-4 w-4 text-green-600 mr-2" />
                             <span>Qualify for most credit cards</span>
@@ -772,6 +806,35 @@ export default function GetStarted() {
                             <CheckCircle className="h-4 w-4 text-green-600 mr-2" />
                             <span>Competitive interest rates</span>
                           </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="border-green-200 bg-green-50 max-w-2xl mx-auto">
+                      <CardContent className="p-6">
+                        <h4 className="font-semibold text-green-900 mb-3">Why This Score is More Fair:</h4>
+                        <div className="text-sm text-green-800 space-y-2">
+                          {formData.hasTraditionalCredit === 'no' && (
+                            <div className="flex items-start">
+                              <Badge className="mr-2 mt-0.5 bg-green-600 text-white text-xs">100% Alternative</Badge>
+                              <span>Your score is based entirely on your financial responsibility with rent, utilities, and banking - no credit history needed!</span>
+                            </div>
+                          )}
+                          {formData.hasTraditionalCredit === 'limited' && (
+                            <div className="flex items-start">
+                              <Badge className="mr-2 mt-0.5 bg-blue-600 text-white text-xs">75% Alternative</Badge>
+                              <span>Your limited credit history is supplemented with strong alternative data for a more complete picture.</span>
+                            </div>
+                          )}
+                          {formData.hasTraditionalCredit === 'yes' && (
+                            <div className="flex items-start">
+                              <Badge className="mr-2 mt-0.5 bg-purple-600 text-white text-xs">60% Alternative</Badge>
+                              <span>Your traditional credit is enhanced with alternative data, potentially boosting your score beyond traditional limits.</span>
+                            </div>
+                          )}
+                          <div>• Rewards consistent rent and utility payments</div>
+                          <div>• Values employment stability and cash flow management</div>
+                          <div>• No penalty for limited traditional credit history</div>
                         </div>
                       </CardContent>
                     </Card>
