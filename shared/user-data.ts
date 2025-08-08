@@ -7,6 +7,8 @@ export interface UserPersonalInfo {
   phone?: string;
   dateOfBirth: string;
   ssn: string;
+  traditionalCreditScore?: number;
+  hasTraditionalCredit: 'yes' | 'no' | 'limited' | 'unsure';
   address: {
     street: string;
     city: string;
