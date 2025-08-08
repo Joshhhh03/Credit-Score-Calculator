@@ -18,6 +18,7 @@ import {
   Landmark
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import RatingPrompt from "@/components/RatingPrompt";
 
 interface FormData {
   // Personal Information
