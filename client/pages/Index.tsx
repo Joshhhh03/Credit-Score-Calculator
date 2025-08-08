@@ -71,8 +71,8 @@ export default function Index() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Link to="/dashboard">
-                <Button variant="ghost">Dashboard</Button>
+              <Link to="/auth">
+                <Button variant="ghost">Sign In</Button>
               </Link>
               <Link to="/get-started">
                 <Button>Get Started</Button>
