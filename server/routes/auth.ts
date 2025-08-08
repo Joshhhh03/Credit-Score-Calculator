@@ -308,6 +308,59 @@ export const changePassword: RequestHandler = async (req, res) => {
   }
 };
 
+// Validate session
+export const validateSession: RequestHandler = async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({
+        valid: false,
+        error: "User ID is required"
+      });
+    }
+
+    const user = await FileStorage.loadUserProfile(userId);
+    if (!user) {
+      return res.status(404).json({
+        valid: false,
+        error: "User not found"
+      });
+    }
+
+    // Check if account is active (not deleted)
+    if (user.email.startsWith('deleted_')) {
+      return res.status(401).json({
+        valid: false,
+        error: "Account has been deleted"
+      });
+    }
+
+    res.json({
+      valid: true,
+      user: {
+        userId: user.userId,
+        email: user.email,
+        firstName: user.personalInfo.firstName,
+        lastName: user.personalInfo.lastName,
+        lastLogin: user.lastLogin,
+        hasCompletedProfile: !!(
+          user.personalInfo.dateOfBirth &&
+          user.financialData.employment.employerName &&
+          user.financialData.housing.housingType
+        )
+      }
+    });
+
+  } catch (error) {
+    console.error("Session validation error:", error);
+    res.status(500).json({
+      valid: false,
+      error: "Failed to validate session"
+    });
+  }
+};
+
 // Delete user account
 export const deleteAccount: RequestHandler = async (req, res) => {
   try {
