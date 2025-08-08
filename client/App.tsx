@@ -25,13 +25,16 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/auth" element={<Auth />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/data-sources" element={<DataSources />} />
           <Route path="/coaching" element={<Coaching />} />
           <Route path="/get-started" element={<GetStarted />} />
+          <Route path="/analytics" element={<Analytics />} />
 
           {/* Placeholder routes */}
           <Route
@@ -79,6 +82,7 @@ const App = () => (
         </Routes>
         <ChatAssistant />
       </BrowserRouter>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
