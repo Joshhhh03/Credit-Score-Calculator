@@ -536,7 +536,7 @@ export default function Coaching() {
                     <p className="text-sm text-gray-600 mb-3">
                       Based on your payment patterns, setting up autopay for your utilities could increase your score by 8-12 points within 60 days.
                     </p>
-                    <Button size="sm">
+                    <Button size="sm" onClick={() => handleStartGoal('autopay-setup')}>
                       <Target className="h-4 w-4 mr-2" />
                       Create Autopay Goal
                     </Button>
@@ -546,7 +546,7 @@ export default function Coaching() {
                     <p className="text-sm text-gray-600 mb-3">
                       Your employment history is strong. Consider adding a second income stream or side hustle to further improve your financial profile.
                     </p>
-                    <Button size="sm" variant="outline">
+                    <Button size="sm" variant="outline" onClick={() => handleStartCourse('financial-goals')}>
                       <BookOpen className="h-4 w-4 mr-2" />
                       Learn More
                     </Button>
