@@ -9,6 +9,13 @@ import {
   getCreditHistory,
   calculateCreditScore
 } from "./routes/user-data";
+import {
+  submitRating,
+  getRatingStats,
+  getUserRatings,
+  updateRating,
+  getTestimonials
+} from "./routes/ratings";
 
 export function createServer() {
   const app = express();
