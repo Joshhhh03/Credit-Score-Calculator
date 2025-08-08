@@ -745,7 +745,7 @@ export default function GetStarted() {
                     </div>
                   ) : (
                     <div className="flex justify-center mb-8">
-                      <CreditScoreGauge score={calculatedScore || 723} size={240} animated={true} />
+                      <CreditScoreBar score={calculatedScore || 723} width={400} animated={true} showDetails={true} />
                     </div>
                   )}
                 </div>
