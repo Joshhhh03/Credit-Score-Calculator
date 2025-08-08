@@ -489,6 +489,14 @@ export default function GetStarted() {
             {/* Step 1: Personal Information */}
             {currentStep === 1 && (
               <div className="space-y-6">
+                {showValidation && Object.keys(validationErrors).length > 0 && (
+                  <Alert className="border-red-200 bg-red-50">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription className="text-red-800">
+                      Please correct the errors below to continue.
+                    </AlertDescription>
+                  </Alert>
+                )}
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <Label htmlFor="firstName">First Name *</Label>
