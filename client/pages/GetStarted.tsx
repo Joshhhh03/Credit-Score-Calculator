@@ -538,14 +538,22 @@ export default function GetStarted() {
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <Label htmlFor="dateOfBirth">Date of Birth *</Label>
-                    <Input
-                      id="dateOfBirth"
-                      type="date"
+                    <DateInput
+                      label="Date of Birth"
                       value={formData.dateOfBirth}
-                      onChange={(e) => handleInputChange('dateOfBirth' as keyof FormData, '', e.target.value)}
-                      required
+                      onChange={(value) => handleInputChange('dateOfBirth' as keyof FormData, '', value)}
+                      required={true}
+                      constraints={{
+                        minAge: 18,
+                        maxAge: 120,
+                        futureAllowed: false,
+                        pastRequired: true
+                      }}
+                      maxDate={new Date()}
                     />
+                    {validationErrors['dateOfBirth'] && (
+                      <p className="text-sm text-red-600 mt-1">{validationErrors['dateOfBirth']}</p>
+                    )}
                   </div>
                   <div>
                     <Label htmlFor="ssn">Social Security Number *</Label>
