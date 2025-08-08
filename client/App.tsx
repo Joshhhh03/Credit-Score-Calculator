@@ -7,6 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
+import AppWrapper from "./components/AppWrapper";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import DataSources from "./pages/DataSources";
@@ -28,61 +29,63 @@ const App = () => (
       <Sonner />
       <AuthProvider>
         <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/data-sources" element={<DataSources />} />
-          <Route path="/coaching" element={<Coaching />} />
-          <Route path="/get-started" element={<GetStarted />} />
-          <Route path="/analytics" element={<Analytics />} />
+          <AppWrapper>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/data-sources" element={<DataSources />} />
+              <Route path="/coaching" element={<Coaching />} />
+              <Route path="/get-started" element={<GetStarted />} />
+              <Route path="/analytics" element={<Analytics />} />
 
-          {/* Placeholder routes */}
-          <Route
-            path="/loan-offers"
-            element={
-              <PlaceholderPage
-                title="Loan Offers"
-                description="View personalized loan offers based on your CreditBridge score. Connect your data to unlock exclusive rates and terms from our lending partners."
-                suggestedActions={[
-                  { label: "Connect Data", href: "/data-sources" },
-                  { label: "Dashboard", href: "/dashboard" }
-                ]}
+              {/* Placeholder routes */}
+              <Route
+                path="/loan-offers"
+                element={
+                  <PlaceholderPage
+                    title="Loan Offers"
+                    description="View personalized loan offers based on your CreditBridge score. Connect your data to unlock exclusive rates and terms from our lending partners."
+                    suggestedActions={[
+                      { label: "Connect Data", href: "/data-sources" },
+                      { label: "Dashboard", href: "/dashboard" }
+                    ]}
+                  />
+                }
               />
-            }
-          />
-          <Route
-            path="/credit-monitoring"
-            element={
-              <PlaceholderPage
-                title="Credit Monitoring"
-                description="Monitor your credit score changes in real-time and get alerts when your score improves or factors change."
-                suggestedActions={[
-                  { label: "Dashboard", href: "/dashboard" },
-                  { label: "Coaching", href: "/coaching" }
-                ]}
+              <Route
+                path="/credit-monitoring"
+                element={
+                  <PlaceholderPage
+                    title="Credit Monitoring"
+                    description="Monitor your credit score changes in real-time and get alerts when your score improves or factors change."
+                    suggestedActions={[
+                      { label: "Dashboard", href: "/dashboard" },
+                      { label: "Coaching", href: "/coaching" }
+                    ]}
+                  />
+                }
               />
-            }
-          />
-          <Route
-            path="/reports"
-            element={
-              <PlaceholderPage
-                title="Credit Reports"
-                description="Generate detailed credit reports showing all factors affecting your score with clear explanations and improvement recommendations."
-                suggestedActions={[
-                  { label: "Dashboard", href: "/dashboard" },
-                  { label: "View Score", href: "/get-started" }
-                ]}
+              <Route
+                path="/reports"
+                element={
+                  <PlaceholderPage
+                    title="Credit Reports"
+                    description="Generate detailed credit reports showing all factors affecting your score with clear explanations and improvement recommendations."
+                    suggestedActions={[
+                      { label: "Dashboard", href: "/dashboard" },
+                      { label: "View Score", href: "/get-started" }
+                    ]}
+                  />
+                }
               />
-            }
-          />
 
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <ChatAssistant />
-      </BrowserRouter>
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AppWrapper>
+          <ChatAssistant />
+        </BrowserRouter>
       </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
