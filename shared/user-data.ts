@@ -135,6 +135,8 @@ export interface GetCreditHistoryResponse {
 }
 
 export interface CalculateCreditScoreRequest {
+  traditionalCreditScore?: number;
+  hasTraditionalCredit: 'yes' | 'no' | 'limited' | 'unsure';
   financialData: Partial<FinancialData>;
 }
 
