@@ -148,9 +148,7 @@ export default function CreditScoreGauge({
         <div
           className="absolute w-3 h-3 bg-gray-700 rounded-full border-2 border-white shadow-lg transform -translate-x-1/2 -translate-y-1/2"
           style={{
-            transition: animated ? 'left 2s cubic-bezier(0.25, 0.46, 0.45, 0.94), top 2s cubic-bezier(0.25, 0.46, 0.45, 0.94)' : 'none'
-          }}
-          style={{
+            transition: animated ? 'left 2s cubic-bezier(0.25, 0.46, 0.45, 0.94), top 2s cubic-bezier(0.25, 0.46, 0.45, 0.94)' : 'none',
             left: pointerX,
             top: pointerY,
           }}
