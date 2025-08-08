@@ -319,17 +319,59 @@ export const calculateCreditScore: RequestHandler = (req, res) => {
       baseScore += factors.employmentHistory * 0.2;
     }
 
-    const finalScore = Math.round(Math.min(850, Math.max(300, baseScore)));
+    // Calculate alternative data score (300-850 range)
+    let alternativeScore = 500; // Base score for alternative data
+
+    // Alternative data contributes to score improvement
+    if (factors.rentPayments > 0) alternativeScore += (factors.rentPayments / 100) * 80;
+    if (factors.utilityPayments > 0) alternativeScore += (factors.utilityPayments / 100) * 60;
+    if (factors.cashFlow > 0) alternativeScore += (factors.cashFlow / 100) * 70;
+    if (factors.employmentHistory > 0) alternativeScore += (factors.employmentHistory / 100) * 50;
+
+    alternativeScore = Math.min(850, Math.max(300, alternativeScore));
+
+    // Calculate hybrid score
+    if (traditionalWeight > 0) {
+      hybridScore = (traditionalCreditScore * traditionalWeight) + (alternativeScore * alternativeWeight);
+    } else {
+      hybridScore = alternativeScore;
+    }
+
+    // Apply risk adjustment based on alternative data strength
+    const alternativeDataStrength = (factors.rentPayments + factors.utilityPayments + factors.cashFlow + factors.employmentHistory) / 4;
+
+    // Boost score for users with strong alternative data but weak/no traditional credit
+    if (hasTraditionalCredit === 'no' || hasTraditionalCredit === 'limited') {
+      if (alternativeDataStrength > 80) {
+        hybridScore += 20; // Excellent alternative data bonus
+      } else if (alternativeDataStrength > 70) {
+        hybridScore += 15; // Good alternative data bonus
+      } else if (alternativeDataStrength > 60) {
+        hybridScore += 10; // Fair alternative data bonus
+      }
+    }
+
+    const finalScore = Math.round(Math.min(850, Math.max(300, hybridScore)));
 
     res.json({
       score: finalScore,
+      scoreType: "Credit Risk Score",
+      algorithm: "Hybrid Traditional + Alternative Data",
       factors,
+      weights: {
+        traditional: traditionalWeight,
+        alternative: alternativeWeight
+      },
       breakdown: {
-        baseScore: 600,
-        rentContribution: factors.rentPayments * 0.3,
-        utilityContribution: factors.utilityPayments * 0.15,
-        cashFlowContribution: factors.cashFlow * 0.25,
-        employmentContribution: factors.employmentHistory * 0.2,
+        traditionalScore: traditionalCreditScore || 0,
+        alternativeScore: Math.round(alternativeScore),
+        hybridScore: Math.round(hybridScore),
+        rentContribution: Math.round((factors.rentPayments / 100) * 80 * alternativeWeight),
+        utilityContribution: Math.round((factors.utilityPayments / 100) * 60 * alternativeWeight),
+        cashFlowContribution: Math.round((factors.cashFlow / 100) * 70 * alternativeWeight),
+        employmentContribution: Math.round((factors.employmentHistory / 100) * 50 * alternativeWeight),
+        alternativeDataBonus: hasTraditionalCredit === 'no' && alternativeDataStrength > 60 ?
+          (alternativeDataStrength > 80 ? 20 : alternativeDataStrength > 70 ? 15 : 10) : 0
       }
     });
   } catch (error) {
