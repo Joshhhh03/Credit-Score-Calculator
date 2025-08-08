@@ -492,13 +492,17 @@ export default function GetStarted() {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <Label htmlFor="firstName">First Name *</Label>
-                    <Input 
+                    <Input
                       id="firstName"
                       value={formData.firstName}
                       onChange={(e) => handleInputChange('firstName' as keyof FormData, '', e.target.value)}
                       placeholder="Enter your first name"
                       required
+                      className={validationErrors['firstName'] ? 'border-red-500' : ''}
                     />
+                    {validationErrors['firstName'] && (
+                      <p className="text-sm text-red-600 mt-1">{validationErrors['firstName']}</p>
+                    )}
                   </div>
                   <div>
                     <Label htmlFor="lastName">Last Name *</Label>
