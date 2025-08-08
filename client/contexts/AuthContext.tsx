@@ -33,16 +33,52 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check for stored user session
-    const storedUser = localStorage.getItem('creditbridge_user');
-    if (storedUser) {
+    // Check for stored user session and validate it
+    const initializeAuth = async () => {
       try {
-        setUser(JSON.parse(storedUser));
+        const storedUser = localStorage.getItem('creditbridge_user');
+        if (storedUser) {
+          const userData = JSON.parse(storedUser);
+
+          // Validate the stored session is still valid
+          try {
+            const response = await fetch('/api/auth/validate', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ userId: userData.userId }),
+            });
+
+            if (response.ok) {
+              const result = await response.json();
+              if (result.valid) {
+                setUser(userData);
+                // Update last login time
+                const updatedUser = { ...userData, lastLogin: new Date().toISOString() };
+                setUser(updatedUser);
+                localStorage.setItem('creditbridge_user', JSON.stringify(updatedUser));
+              } else {
+                // Session invalid, clear stored data
+                localStorage.removeItem('creditbridge_user');
+              }
+            } else {
+              // If validation fails, keep the user but don't update
+              setUser(userData);
+            }
+          } catch (validationError) {
+            // If validation request fails, still use stored user data
+            setUser(userData);
+          }
+        }
       } catch (error) {
+        // If there's an error parsing stored data, clear it
         localStorage.removeItem('creditbridge_user');
       }
-    }
-    setIsLoading(false);
+      setIsLoading(false);
+    };
+
+    initializeAuth();
   }, []);
 
   const signIn = async (email: string, password: string) => {
