@@ -23,6 +23,7 @@ import {
   Award
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import RatingPrompt from "@/components/RatingPrompt";
 
 interface ScoreFactor {
   category: string;
