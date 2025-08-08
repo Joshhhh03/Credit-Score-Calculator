@@ -212,7 +212,14 @@ function analyzeUserProfile(user: UserProfile, scoreData: any) {
   const weaknesses = [];
   const recommendations = [];
 
-  // Analyze each factor
+  // Calculate derived metrics
+  const income = user.financialData.banking.monthlyIncome || 0;
+  const expenses = user.financialData.banking.monthlyExpenses || 0;
+  const savingsRate = income > 0 ? ((income - expenses) / income) * 100 : 0;
+  const debtToIncome = expenses > 0 ? (expenses / income) * 100 : 0;
+  const salary = user.financialData.employment.annualSalary || 0;
+
+  // RENT PAYMENT ANALYSIS
   if (scoreData.factors.rentPayments >= 80) {
     strengths.push({
       title: "Excellent Rent Payment History",
@@ -230,6 +237,7 @@ function analyzeUserProfile(user: UserProfile, scoreData: any) {
     recommendations.push("Set up automatic rent payments to ensure consistency");
   }
 
+  // UTILITY PAYMENT ANALYSIS
   if (scoreData.factors.utilityPayments >= 75) {
     strengths.push({
       title: "Reliable Utility Payments",
@@ -247,6 +255,7 @@ function analyzeUserProfile(user: UserProfile, scoreData: any) {
     recommendations.push("Set up autopay for all utilities to avoid late payments");
   }
 
+  // EMPLOYMENT STABILITY ANALYSIS
   if (scoreData.factors.employmentHistory >= 80) {
     strengths.push({
       title: "Stable Employment History",
@@ -264,6 +273,7 @@ function analyzeUserProfile(user: UserProfile, scoreData: any) {
     recommendations.push("Focus on job stability and building tenure with current employer");
   }
 
+  // CASH FLOW ANALYSIS
   if (scoreData.factors.cashFlow >= 70) {
     strengths.push({
       title: "Strong Cash Flow Management",
@@ -279,6 +289,178 @@ function analyzeUserProfile(user: UserProfile, scoreData: any) {
       impact: "high"
     });
     recommendations.push("Build an emergency fund and reduce monthly expenses");
+  }
+
+  // INCOME LEVEL ANALYSIS
+  if (salary >= 75000) {
+    strengths.push({
+      title: "Strong Income Level",
+      description: `Your annual salary of $${salary.toLocaleString()} provides good financial foundation`,
+      score: Math.min(100, (salary / 100000) * 100),
+      impact: "high"
+    });
+  } else if (salary < 35000 && salary > 0) {
+    weaknesses.push({
+      title: "Lower Income Level",
+      description: "Increasing income through skills development or career advancement could improve your profile",
+      score: (salary / 35000) * 100,
+      impact: "medium"
+    });
+    recommendations.push("Consider skills training or career advancement opportunities to increase income");
+  }
+
+  // SAVINGS RATE ANALYSIS
+  if (savingsRate >= 20) {
+    strengths.push({
+      title: "Excellent Savings Discipline",
+      description: `You save ${savingsRate.toFixed(1)}% of your income, showing strong financial planning`,
+      score: Math.min(100, savingsRate * 5),
+      impact: "high"
+    });
+  } else if (savingsRate < 5 && income > 0) {
+    weaknesses.push({
+      title: "Low Savings Rate",
+      description: "Building emergency savings is crucial for financial stability and credit health",
+      score: savingsRate * 20,
+      impact: "high"
+    });
+    recommendations.push("Aim to save at least 10-20% of your income for financial security");
+  }
+
+  // DEBT-TO-INCOME ANALYSIS
+  if (debtToIncome <= 30 && income > 0) {
+    strengths.push({
+      title: "Healthy Debt-to-Income Ratio",
+      description: `Your DTI of ${debtToIncome.toFixed(1)}% shows responsible debt management`,
+      score: 100 - debtToIncome,
+      impact: "medium"
+    });
+  } else if (debtToIncome > 50 && income > 0) {
+    weaknesses.push({
+      title: "High Debt-to-Income Ratio",
+      description: "High debt levels relative to income may limit credit opportunities",
+      score: Math.max(0, 100 - debtToIncome),
+      impact: "high"
+    });
+    recommendations.push("Focus on reducing monthly expenses or increasing income to improve DTI ratio");
+  }
+
+  // BANKING RELATIONSHIP ANALYSIS
+  if (user.financialData.banking.bankName) {
+    strengths.push({
+      title: "Established Banking Relationship",
+      description: `Banking with ${user.financialData.banking.bankName} shows financial stability`,
+      score: 85,
+      impact: "low"
+    });
+  } else {
+    weaknesses.push({
+      title: "Limited Banking History",
+      description: "Establishing primary banking relationships helps build credit foundation",
+      score: 30,
+      impact: "medium"
+    });
+    recommendations.push("Open checking and savings accounts with a major bank to build financial history");
+  }
+
+  // EMPLOYMENT TYPE ANALYSIS
+  if (user.financialData.employment.employmentType === 'full-time') {
+    strengths.push({
+      title: "Full-time Employment Status",
+      description: "Full-time employment provides stable income verification for lenders",
+      score: 90,
+      impact: "medium"
+    });
+  } else if (user.financialData.employment.employmentType === 'self-employed') {
+    weaknesses.push({
+      title: "Self-employment Income Variability",
+      description: "Self-employed income may require additional documentation for loan approval",
+      score: 65,
+      impact: "medium"
+    });
+    recommendations.push("Maintain detailed financial records and consider business banking accounts");
+  }
+
+  // HOUSING SITUATION ANALYSIS
+  if (user.financialData.housing.housingType === 'own') {
+    strengths.push({
+      title: "Homeownership",
+      description: "Property ownership demonstrates financial stability and investment capacity",
+      score: 95,
+      impact: "high"
+    });
+  } else if (user.financialData.housing.housingType === 'family') {
+    weaknesses.push({
+      title: "Limited Housing Payment History",
+      description: "Living with family may limit verifiable housing payment history",
+      score: 40,
+      impact: "medium"
+    });
+    recommendations.push("Consider documenting any financial contributions to household expenses");
+  }
+
+  // TRADITIONAL CREDIT ANALYSIS
+  if (user.traditionalCredit.hasCredit === 'yes') {
+    strengths.push({
+      title: "Existing Credit History",
+      description: "Having traditional credit products provides additional credit verification",
+      score: 85,
+      impact: "medium"
+    });
+  } else if (user.traditionalCredit.hasCredit === 'no') {
+    weaknesses.push({
+      title: "No Traditional Credit History",
+      description: "Limited traditional credit may restrict loan options and interest rates",
+      score: 20,
+      impact: "high"
+    });
+    recommendations.push("Consider secured credit cards or credit-building loans to establish traditional credit");
+  }
+
+  // Ensure we have at least 5 of each by adding generic ones if needed
+  while (strengths.length < 5) {
+    if (scoreData.score >= 700) {
+      strengths.push({
+        title: "Good Overall Credit Score",
+        description: `Your CreditBridge score of ${scoreData.score} opens many lending opportunities`,
+        score: scoreData.score / 8.5,
+        impact: "medium"
+      });
+    } else {
+      strengths.push({
+        title: "Credit Building Progress",
+        description: "You're actively working to build your credit profile through alternative data",
+        score: 75,
+        impact: "low"
+      });
+    }
+  }
+
+  while (weaknesses.length < 5) {
+    if (scoreData.score < 650) {
+      weaknesses.push({
+        title: "Credit Score Below Prime",
+        description: "Improving your score above 650 will unlock better interest rates",
+        score: scoreData.score / 8.5,
+        impact: "high"
+      });
+    } else {
+      weaknesses.push({
+        title: "Credit Profile Depth",
+        description: "Adding more data sources could provide a more comprehensive credit picture",
+        score: 60,
+        impact: "low"
+      });
+    }
+
+    if (weaknesses.length < 5) {
+      weaknesses.push({
+        title: "Credit Mix Diversification",
+        description: "Consider diversifying your financial relationships and payment history types",
+        score: 55,
+        impact: "low"
+      });
+    }
   }
 
   // Determine risk profile
