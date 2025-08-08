@@ -1,10 +1,22 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import CreditScoreBar from "@/components/CreditScoreBar";
@@ -19,7 +31,7 @@ import {
   User,
   Building,
   Briefcase,
-  Landmark
+  Landmark,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import RatingPrompt from "@/components/RatingPrompt";
@@ -40,7 +52,7 @@ interface FormData {
     state: string;
     zipCode: string;
   };
-  
+
   // Employment Details
   employment: {
     employerName: string;
@@ -50,7 +62,7 @@ interface FormData {
     employmentType: string;
     workAddress: string;
   };
-  
+
   // Housing Information
   housing: {
     housingType: string;
@@ -59,7 +71,7 @@ interface FormData {
     leaseStartDate: string;
     rentPaymentMethod: string;
   };
-  
+
   // Banking Details
   banking: {
     bankName: string;
@@ -68,7 +80,7 @@ interface FormData {
     monthlyIncome: string;
     monthlyExpenses: string;
   };
-  
+
   // Utility Information
   utilities: {
     electricProvider: string;
@@ -85,7 +97,9 @@ export default function GetStarted() {
   const [calculatedScore, setCalculatedScore] = useState<number | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
   const [showRatingPrompt, setShowRatingPrompt] = useState(false);
-  const [validationErrors, setValidationErrors] = useState<{[key: string]: string}>({});
+  const [validationErrors, setValidationErrors] = useState<{
+    [key: string]: string;
+  }>({});
   const [showValidation, setShowValidation] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
@@ -100,7 +114,7 @@ export default function GetStarted() {
       street: "",
       city: "",
       state: "",
-      zipCode: ""
+      zipCode: "",
     },
     employment: {
       employerName: "",
@@ -108,21 +122,21 @@ export default function GetStarted() {
       annualSalary: "",
       startDate: "",
       employmentType: "",
-      workAddress: ""
+      workAddress: "",
     },
     housing: {
       housingType: "",
       landlordName: "",
       monthlyRent: "",
       leaseStartDate: "",
-      rentPaymentMethod: ""
+      rentPaymentMethod: "",
     },
     banking: {
       bankName: "",
       accountType: "",
       routingNumber: "",
       monthlyIncome: "",
-      monthlyExpenses: ""
+      monthlyExpenses: "",
     },
     utilities: {
       electricProvider: "",
@@ -130,72 +144,79 @@ export default function GetStarted() {
       gasProvider: "",
       gasAccount: "",
       internetProvider: "",
-      internetAccount: ""
-    }
+      internetAccount: "",
+    },
   });
 
   const steps = [
     {
       title: "Personal Information",
       description: "Basic information to get started",
-      icon: <User className="h-5 w-5" />
+      icon: <User className="h-5 w-5" />,
     },
     {
       title: "Employment Details",
       description: "Your job and income information",
-      icon: <Briefcase className="h-5 w-5" />
+      icon: <Briefcase className="h-5 w-5" />,
     },
     {
       title: "Housing Information",
       description: "Rent payments and housing details",
-      icon: <Building className="h-5 w-5" />
+      icon: <Building className="h-5 w-5" />,
     },
     {
       title: "Financial Accounts",
       description: "Banking and utility account details",
-      icon: <Landmark className="h-5 w-5" />
+      icon: <Landmark className="h-5 w-5" />,
     },
     {
       title: "Your Credit Score",
-      description: "See your calculated score"
-    }
+      description: "See your calculated score",
+    },
   ];
 
-  const handleInputChange = (section: keyof FormData, field: string, value: string) => {
-    setFormData(prev => ({
+  const handleInputChange = (
+    section: keyof FormData,
+    field: string,
+    value: string,
+  ) => {
+    setFormData((prev) => ({
       ...prev,
-      [section]: typeof prev[section] === 'object' ? {
-        ...prev[section],
-        [field]: value
-      } : value
+      [section]:
+        typeof prev[section] === "object"
+          ? {
+              ...prev[section],
+              [field]: value,
+            }
+          : value,
     }));
 
     // Real-time validation for immediate feedback
     if (showValidation) {
       const errorKey = `${section}.${field}`;
-      let errorMessage = '';
+      let errorMessage = "";
 
       // Validate specific field based on section and field
-      if (section === 'firstName' || section === 'lastName') {
+      if (section === "firstName" || section === "lastName") {
         const result = CreditDataValidator.validateName(value, field);
-        errorMessage = result.error || '';
-      } else if (section === 'email') {
+        errorMessage = result.error || "";
+      } else if (section === "email") {
         const result = CreditDataValidator.validateEmail(value);
-        errorMessage = result.error || '';
-      } else if (section === 'phone') {
+        errorMessage = result.error || "";
+      } else if (section === "phone") {
         const result = CreditDataValidator.validatePhoneNumber(value);
-        errorMessage = result.error || '';
-      } else if (section === 'dateOfBirth') {
+        errorMessage = result.error || "";
+      } else if (section === "dateOfBirth") {
         const result = CreditDataValidator.validateDateOfBirth(value);
-        errorMessage = result.error || '';
-      } else if (section === 'ssn') {
+        errorMessage = result.error || "";
+      } else if (section === "ssn") {
         const result = CreditDataValidator.validateSSN(value);
-        errorMessage = result.error || '';
+        errorMessage = result.error || "";
       }
 
-      setValidationErrors(prev => ({
+      setValidationErrors((prev) => ({
         ...prev,
-        [errorKey]: errorMessage
+        [errorKey]: errorMessage,
       }));
     }
   };
@@ -221,7 +242,7 @@ export default function GetStarted() {
   };
 
   const validateCurrentStep = () => {
-    const errors: {[key: string]: string} = {};
+    const errors: { [key: string]: string } = {};
 
     switch (currentStep) {
       case 1:
@@ -232,15 +253,21 @@ export default function GetStarted() {
           phone: formData.phone,
           dateOfBirth: formData.dateOfBirth,
           ssn: formData.ssn,
-          address: formData.address
+          address: formData.address,
         });
 
-        if (!personalValidation.firstName.isValid) errors['firstName'] = personalValidation.firstName.error || '';
-        if (!personalValidation.lastName.isValid) errors['lastName'] = personalValidation.lastName.error || '';
-        if (!personalValidation.email.isValid) errors['email'] = personalValidation.email.error || '';
-        if (!personalValidation.dateOfBirth.isValid) errors['dateOfBirth'] = personalValidation.dateOfBirth.error || '';
-        if (!personalValidation.ssn.isValid) errors['ssn'] = personalValidation.ssn.error || '';
-        if (!formData.hasTraditionalCredit) errors['hasTraditionalCredit'] = 'Please select an option';
+        if (!personalValidation.firstName.isValid)
+          errors["firstName"] = personalValidation.firstName.error || "";
+        if (!personalValidation.lastName.isValid)
+          errors["lastName"] = personalValidation.lastName.error || "";
+        if (!personalValidation.email.isValid)
+          errors["email"] = personalValidation.email.error || "";
+        if (!personalValidation.dateOfBirth.isValid)
+          errors["dateOfBirth"] = personalValidation.dateOfBirth.error || "";
+        if (!personalValidation.ssn.isValid)
+          errors["ssn"] = personalValidation.ssn.error || "";
+        if (!formData.hasTraditionalCredit)
+          errors["hasTraditionalCredit"] = "Please select an option";
         break;
 
       case 2:
@@ -249,12 +276,18 @@ export default function GetStarted() {
           jobTitle: formData.employment.jobTitle,
           annualSalary: formData.employment.annualSalary,
           startDate: formData.employment.startDate,
-          employmentType: formData.employment.employmentType
+          employmentType: formData.employment.employmentType,
         });
 
-        if (!employmentValidation.employerName.isValid) errors['employment.employerName'] = employmentValidation.employerName.error || '';
-        if (!employmentValidation.jobTitle.isValid) errors['employment.jobTitle'] = employmentValidation.jobTitle.error || '';
-        if (!employmentValidation.annualSalary.isValid) errors['employment.annualSalary'] = employmentValidation.annualSalary.error || '';
+        if (!employmentValidation.employerName.isValid)
+          errors["employment.employerName"] =
+            employmentValidation.employerName.error || "";
+        if (!employmentValidation.jobTitle.isValid)
+          errors["employment.jobTitle"] =
+            employmentValidation.jobTitle.error || "";
+        if (!employmentValidation.annualSalary.isValid)
+          errors["employment.annualSalary"] =
+            employmentValidation.annualSalary.error || "";
         break;
 
       case 3:
@@ -262,12 +295,18 @@ export default function GetStarted() {
           housingType: formData.housing.housingType,
           landlordName: formData.housing.landlordName,
           monthlyRent: formData.housing.monthlyRent,
-          leaseStartDate: formData.housing.leaseStartDate
+          leaseStartDate: formData.housing.leaseStartDate,
         });
 
-        if (!housingValidation.housingType.isValid) errors['housing.housingType'] = housingValidation.housingType.error || '';
-        if (!housingValidation.landlordName.isValid) errors['housing.landlordName'] = housingValidation.landlordName.error || '';
-        if (!housingValidation.monthlyRent.isValid) errors['housing.monthlyRent'] = housingValidation.monthlyRent.error || '';
+        if (!housingValidation.housingType.isValid)
+          errors["housing.housingType"] =
+            housingValidation.housingType.error || "";
+        if (!housingValidation.landlordName.isValid)
+          errors["housing.landlordName"] =
+            housingValidation.landlordName.error || "";
+        if (!housingValidation.monthlyRent.isValid)
+          errors["housing.monthlyRent"] =
+            housingValidation.monthlyRent.error || "";
         break;
 
       case 4:
@@ -275,11 +314,14 @@ export default function GetStarted() {
           bankName: formData.banking.bankName,
           accountType: formData.banking.accountType,
           monthlyIncome: formData.banking.monthlyIncome,
-          monthlyExpenses: formData.banking.monthlyExpenses
+          monthlyExpenses: formData.banking.monthlyExpenses,
         });
 
-        if (!bankingValidation.bankName.isValid) errors['banking.bankName'] = bankingValidation.bankName.error || '';
-        if (!bankingValidation.accountType.isValid) errors['banking.accountType'] = bankingValidation.accountType.error || '';
+        if (!bankingValidation.bankName.isValid)
+          errors["banking.bankName"] = bankingValidation.bankName.error || "";
+        if (!bankingValidation.accountType.isValid)
+          errors["banking.accountType"] =
+            bankingValidation.accountType.error || "";
         break;
     }
 
@@ -294,44 +336,48 @@ export default function GetStarted() {
 
   const calculateCreditScore = async () => {
     setIsCalculating(true);
-    
+
     try {
       // Simulate API call to calculate credit score
-      const response = await fetch('/api/calculate-credit-score', {
-        method: 'POST',
+      const response = await fetch("/api/calculate-credit-score", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          traditionalCreditScore: formData.traditionalCreditScore ? parseFloat(formData.traditionalCreditScore) : null,
+          traditionalCreditScore: formData.traditionalCreditScore
+            ? parseFloat(formData.traditionalCreditScore)
+            : null,
           hasTraditionalCredit: formData.hasTraditionalCredit,
           financialData: {
             employment: {
               ...formData.employment,
-              annualSalary: parseFloat(formData.employment.annualSalary) || 0
+              annualSalary: parseFloat(formData.employment.annualSalary) || 0,
             },
             housing: {
               ...formData.housing,
               monthlyRent: parseFloat(formData.housing.monthlyRent) || 0,
-              rentPaymentHistory: generateMockRentHistory()
+              rentPaymentHistory: generateMockRentHistory(),
             },
             banking: {
               ...formData.banking,
               monthlyIncome: parseFloat(formData.banking.monthlyIncome) || 0,
-              monthlyExpenses: parseFloat(formData.banking.monthlyExpenses) || 0,
-              averageBalance: (parseFloat(formData.banking.monthlyIncome) || 0) * 0.3
+              monthlyExpenses:
+                parseFloat(formData.banking.monthlyExpenses) || 0,
+              averageBalance:
+                (parseFloat(formData.banking.monthlyIncome) || 0) * 0.3,
             },
-            utilities: generateMockUtilityHistory()
-          }
-        })
+            utilities: generateMockUtilityHistory(),
+          },
+        }),
       });
-      
+
       const result = await response.json();
       setCalculatedScore(result.score);
       // Show rating prompt after a short delay to let user see their score
       setTimeout(() => setShowRatingPrompt(true), 3000);
     } catch (error) {
-      console.error('Error calculating credit score:', error);
+      console.error("Error calculating credit score:", error);
       // Fallback calculation
       setCalculatedScore(680 + Math.floor(Math.random() * 100));
       setTimeout(() => setShowRatingPrompt(true), 3000);
@@ -347,9 +393,9 @@ export default function GetStarted() {
       const date = new Date(today);
       date.setMonth(date.getMonth() - i);
       history.push({
-        date: date.toISOString().split('T')[0],
+        date: date.toISOString().split("T")[0],
         amount: parseFloat(formData.housing.monthlyRent) || 1200,
-        status: Math.random() > 0.1 ? 'on-time' : 'late' // 90% on-time rate
+        status: Math.random() > 0.1 ? "on-time" : "late", // 90% on-time rate
       });
     }
     return history;
@@ -358,16 +404,18 @@ export default function GetStarted() {
   const generateMockUtilityHistory = () => {
     return [
       {
-        provider: formData.utilities.electricProvider || 'Electric Company',
-        type: 'electric',
-        accountNumber: formData.utilities.electricAccount || '12345',
+        provider: formData.utilities.electricProvider || "Electric Company",
+        type: "electric",
+        accountNumber: formData.utilities.electricAccount || "12345",
         monthlyAmount: 120,
         paymentHistory: Array.from({ length: 12 }, (_, i) => ({
-          date: new Date(Date.now() - i * 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+          date: new Date(Date.now() - i * 30 * 24 * 60 * 60 * 1000)
+            .toISOString()
+            .split("T")[0],
           amount: 100 + Math.random() * 40,
-          status: Math.random() > 0.15 ? 'on-time' : 'late'
-        }))
-      }
+          status: Math.random() > 0.15 ? "on-time" : "late",
+        })),
+      },
     ];
   };
 
@@ -381,15 +429,17 @@ export default function GetStarted() {
           phone: formData.phone,
           dateOfBirth: formData.dateOfBirth,
           ssn: formData.ssn,
-          address: formData.address
+          address: formData.address,
         });
 
-        return personalValidation.firstName.isValid &&
-               personalValidation.lastName.isValid &&
-               personalValidation.email.isValid &&
-               personalValidation.dateOfBirth.isValid &&
-               personalValidation.ssn.isValid &&
-               formData.hasTraditionalCredit;
+        return (
+          personalValidation.firstName.isValid &&
+          personalValidation.lastName.isValid &&
+          personalValidation.email.isValid &&
+          personalValidation.dateOfBirth.isValid &&
+          personalValidation.ssn.isValid &&
+          formData.hasTraditionalCredit
+        );
 
       case 2:
         const employmentValidation = CreditDataValidator.validateEmployment({
@@ -397,35 +447,41 @@ export default function GetStarted() {
           jobTitle: formData.employment.jobTitle,
           annualSalary: formData.employment.annualSalary,
           startDate: formData.employment.startDate,
-          employmentType: formData.employment.employmentType
+          employmentType: formData.employment.employmentType,
         });
 
-        return employmentValidation.employerName.isValid &&
-               employmentValidation.jobTitle.isValid &&
-               employmentValidation.annualSalary.isValid;
+        return (
+          employmentValidation.employerName.isValid &&
+          employmentValidation.jobTitle.isValid &&
+          employmentValidation.annualSalary.isValid
+        );
 
       case 3:
         const housingValidation = CreditDataValidator.validateHousing({
           housingType: formData.housing.housingType,
           landlordName: formData.housing.landlordName,
           monthlyRent: formData.housing.monthlyRent,
-          leaseStartDate: formData.housing.leaseStartDate
+          leaseStartDate: formData.housing.leaseStartDate,
         });
 
-        return housingValidation.housingType.isValid &&
-               housingValidation.landlordName.isValid &&
-               housingValidation.monthlyRent.isValid;
+        return (
+          housingValidation.housingType.isValid &&
+          housingValidation.landlordName.isValid &&
+          housingValidation.monthlyRent.isValid
+        );
 
       case 4:
         const bankingValidation = CreditDataValidator.validateBanking({
           bankName: formData.banking.bankName,
           accountType: formData.banking.accountType,
           monthlyIncome: formData.banking.monthlyIncome,
-          monthlyExpenses: formData.banking.monthlyExpenses
+          monthlyExpenses: formData.banking.monthlyExpenses,
         });
 
-        return bankingValidation.bankName.isValid &&
-               bankingValidation.accountType.isValid;
+        return (
+          bankingValidation.bankName.isValid &&
+          bankingValidation.accountType.isValid
+        );
 
       default:
         return true;
@@ -434,20 +490,21 @@ export default function GetStarted() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             {steps.map((step, index) => (
               <div key={index} className="flex items-center">
-                <div className={`h-12 w-12 rounded-full flex items-center justify-center ${
-                  index + 1 === currentStep 
-                    ? 'bg-blue-600 text-white' 
-                    : index + 1 < currentStep 
-                      ? 'bg-green-600 text-white'
-                      : 'bg-gray-200 text-gray-600'
-                }`}>
+                <div
+                  className={`h-12 w-12 rounded-full flex items-center justify-center ${
+                    index + 1 === currentStep
+                      ? "bg-blue-600 text-white"
+                      : index + 1 < currentStep
+                        ? "bg-green-600 text-white"
+                        : "bg-gray-200 text-gray-600"
+                  }`}
+                >
                   {index + 1 < currentStep ? (
                     <CheckCircle className="h-6 w-6" />
                   ) : (
@@ -455,16 +512,22 @@ export default function GetStarted() {
                   )}
                 </div>
                 {index < steps.length - 1 && (
-                  <div className={`h-1 w-16 mx-2 ${
-                    index + 1 < currentStep ? 'bg-green-600' : 'bg-gray-200'
-                  }`} />
+                  <div
+                    className={`h-1 w-16 mx-2 ${
+                      index + 1 < currentStep ? "bg-green-600" : "bg-gray-200"
+                    }`}
+                  />
                 )}
               </div>
             ))}
           </div>
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-gray-900">{steps[currentStep - 1].title}</h2>
-            <p className="text-gray-600">{steps[currentStep - 1].description}</p>
+            <h2 className="text-2xl font-bold text-gray-900">
+              {steps[currentStep - 1].title}
+            </h2>
+            <p className="text-gray-600">
+              {steps[currentStep - 1].description}
+            </p>
           </div>
         </div>
 
@@ -488,46 +551,74 @@ export default function GetStarted() {
                     <Input
                       id="firstName"
                       value={formData.firstName}
-                      onChange={(e) => handleInputChange('firstName' as keyof FormData, '', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "firstName" as keyof FormData,
+                          "",
+                          e.target.value,
+                        )
+                      }
                       placeholder="Enter your first name"
                       required
-                      className={validationErrors['firstName'] ? 'border-red-500' : ''}
+                      className={
+                        validationErrors["firstName"] ? "border-red-500" : ""
+                      }
                     />
-                    {validationErrors['firstName'] && (
-                      <p className="text-sm text-red-600 mt-1">{validationErrors['firstName']}</p>
+                    {validationErrors["firstName"] && (
+                      <p className="text-sm text-red-600 mt-1">
+                        {validationErrors["firstName"]}
+                      </p>
                     )}
                   </div>
                   <div>
                     <Label htmlFor="lastName">Last Name *</Label>
-                    <Input 
+                    <Input
                       id="lastName"
                       value={formData.lastName}
-                      onChange={(e) => handleInputChange('lastName' as keyof FormData, '', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "lastName" as keyof FormData,
+                          "",
+                          e.target.value,
+                        )
+                      }
                       placeholder="Enter your last name"
                       required
                     />
                   </div>
                 </div>
-                
+
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <Label htmlFor="email">Email Address *</Label>
-                    <Input 
+                    <Input
                       id="email"
                       type="email"
                       value={formData.email}
-                      onChange={(e) => handleInputChange('email' as keyof FormData, '', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "email" as keyof FormData,
+                          "",
+                          e.target.value,
+                        )
+                      }
                       placeholder="Enter your email"
                       required
                     />
                   </div>
                   <div>
                     <Label htmlFor="phone">Phone Number</Label>
-                    <Input 
+                    <Input
                       id="phone"
                       type="tel"
                       value={formData.phone}
-                      onChange={(e) => handleInputChange('phone' as keyof FormData, '', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "phone" as keyof FormData,
+                          "",
+                          e.target.value,
+                        )
+                      }
                       placeholder="(555) 123-4567"
                     />
                   </div>
@@ -538,18 +629,26 @@ export default function GetStarted() {
                     <DateInput
                       label="Date of Birth"
                       value={formData.dateOfBirth}
-                      onChange={(value) => handleInputChange('dateOfBirth' as keyof FormData, '', value)}
+                      onChange={(value) =>
+                        handleInputChange(
+                          "dateOfBirth" as keyof FormData,
+                          "",
+                          value,
+                        )
+                      }
                       required={true}
                       constraints={{
                         minAge: 18,
                         maxAge: 120,
                         futureAllowed: false,
-                        pastRequired: true
+                        pastRequired: true,
                       }}
                       maxDate={new Date()}
                     />
-                    {validationErrors['dateOfBirth'] && (
-                      <p className="text-sm text-red-600 mt-1">{validationErrors['dateOfBirth']}</p>
+                    {validationErrors["dateOfBirth"] && (
+                      <p className="text-sm text-red-600 mt-1">
+                        {validationErrors["dateOfBirth"]}
+                      </p>
                     )}
                   </div>
                   <div>
@@ -557,7 +656,13 @@ export default function GetStarted() {
                     <Input
                       id="ssn"
                       value={formData.ssn}
-                      onChange={(e) => handleInputChange('ssn' as keyof FormData, '', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "ssn" as keyof FormData,
+                          "",
+                          e.target.value,
+                        )
+                      }
                       placeholder="XXX-XX-XXXX"
                       maxLength={11}
                       required
@@ -566,36 +671,64 @@ export default function GetStarted() {
                 </div>
 
                 <div className="space-y-4 border-t pt-6">
-                  <h3 className="text-lg font-semibold text-gray-900">Traditional Credit Information</h3>
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Traditional Credit Information
+                  </h3>
                   <div>
-                    <Label htmlFor="hasTraditionalCredit">Do you have a traditional credit score?</Label>
-                    <Select onValueChange={(value) => handleInputChange('hasTraditionalCredit' as keyof FormData, '', value)}>
+                    <Label htmlFor="hasTraditionalCredit">
+                      Do you have a traditional credit score?
+                    </Label>
+                    <Select
+                      onValueChange={(value) =>
+                        handleInputChange(
+                          "hasTraditionalCredit" as keyof FormData,
+                          "",
+                          value,
+                        )
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select an option" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="yes">Yes, I know my credit score</SelectItem>
-                        <SelectItem value="no">No, I have no credit history</SelectItem>
-                        <SelectItem value="limited">I have limited credit history</SelectItem>
+                        <SelectItem value="yes">
+                          Yes, I know my credit score
+                        </SelectItem>
+                        <SelectItem value="no">
+                          No, I have no credit history
+                        </SelectItem>
+                        <SelectItem value="limited">
+                          I have limited credit history
+                        </SelectItem>
                         <SelectItem value="unsure">I'm not sure</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
-                  {(formData.hasTraditionalCredit === 'yes' || formData.hasTraditionalCredit === 'limited') && (
+                  {(formData.hasTraditionalCredit === "yes" ||
+                    formData.hasTraditionalCredit === "limited") && (
                     <div>
-                      <Label htmlFor="traditionalCreditScore">Current Traditional Credit Score (FICO/VantageScore)</Label>
+                      <Label htmlFor="traditionalCreditScore">
+                        Current Traditional Credit Score (FICO/VantageScore)
+                      </Label>
                       <Input
                         id="traditionalCreditScore"
                         type="number"
                         min="300"
                         max="850"
                         value={formData.traditionalCreditScore}
-                        onChange={(e) => handleInputChange('traditionalCreditScore' as keyof FormData, '', e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "traditionalCreditScore" as keyof FormData,
+                            "",
+                            e.target.value,
+                          )
+                        }
                         placeholder="Enter your current credit score (300-850)"
                       />
                       <p className="text-sm text-gray-500 mt-1">
-                        You can find this on Credit Karma, your bank app, or credit card statements
+                        You can find this on Credit Karma, your bank app, or
+                        credit card statements
                       </p>
                     </div>
                   )}
@@ -603,27 +736,35 @@ export default function GetStarted() {
 
                 <div>
                   <Label htmlFor="street">Address</Label>
-                  <Input 
+                  <Input
                     id="street"
                     value={formData.address.street}
-                    onChange={(e) => handleInputChange('address', 'street', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("address", "street", e.target.value)
+                    }
                     placeholder="Street address"
                     className="mb-2"
                   />
                   <div className="grid md:grid-cols-3 gap-2">
-                    <Input 
+                    <Input
                       value={formData.address.city}
-                      onChange={(e) => handleInputChange('address', 'city', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("address", "city", e.target.value)
+                      }
                       placeholder="City"
                     />
-                    <Input 
+                    <Input
                       value={formData.address.state}
-                      onChange={(e) => handleInputChange('address', 'state', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("address", "state", e.target.value)
+                      }
                       placeholder="State"
                     />
-                    <Input 
+                    <Input
                       value={formData.address.zipCode}
-                      onChange={(e) => handleInputChange('address', 'zipCode', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("address", "zipCode", e.target.value)
+                      }
                       placeholder="ZIP Code"
                     />
                   </div>
@@ -637,20 +778,32 @@ export default function GetStarted() {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <Label htmlFor="employerName">Employer Name *</Label>
-                    <Input 
+                    <Input
                       id="employerName"
                       value={formData.employment.employerName}
-                      onChange={(e) => handleInputChange('employment', 'employerName', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "employment",
+                          "employerName",
+                          e.target.value,
+                        )
+                      }
                       placeholder="Enter your employer name"
                       required
                     />
                   </div>
                   <div>
                     <Label htmlFor="jobTitle">Job Title *</Label>
-                    <Input 
+                    <Input
                       id="jobTitle"
                       value={formData.employment.jobTitle}
-                      onChange={(e) => handleInputChange('employment', 'jobTitle', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "employment",
+                          "jobTitle",
+                          e.target.value,
+                        )
+                      }
                       placeholder="Enter your job title"
                       required
                     />
@@ -660,11 +813,17 @@ export default function GetStarted() {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <Label htmlFor="annualSalary">Annual Salary *</Label>
-                    <Input 
+                    <Input
                       id="annualSalary"
                       type="number"
                       value={formData.employment.annualSalary}
-                      onChange={(e) => handleInputChange('employment', 'annualSalary', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "employment",
+                          "annualSalary",
+                          e.target.value,
+                        )
+                      }
                       placeholder="Enter annual salary"
                       required
                     />
@@ -673,16 +832,20 @@ export default function GetStarted() {
                     <DateInput
                       label="Employment Start Date"
                       value={formData.employment.startDate}
-                      onChange={(value) => handleInputChange('employment', 'startDate', value)}
+                      onChange={(value) =>
+                        handleInputChange("employment", "startDate", value)
+                      }
                       constraints={{
                         futureAllowed: false,
-                        pastRequired: true
+                        pastRequired: true,
                       }}
                       maxDate={new Date()}
                       placeholder="When did you start this job?"
                     />
-                    {validationErrors['employment.startDate'] && (
-                      <p className="text-sm text-red-600 mt-1">{validationErrors['employment.startDate']}</p>
+                    {validationErrors["employment.startDate"] && (
+                      <p className="text-sm text-red-600 mt-1">
+                        {validationErrors["employment.startDate"]}
+                      </p>
                     )}
                   </div>
                 </div>
@@ -690,7 +853,11 @@ export default function GetStarted() {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <Label htmlFor="employmentType">Employment Type</Label>
-                    <Select onValueChange={(value) => handleInputChange('employment', 'employmentType', value)}>
+                    <Select
+                      onValueChange={(value) =>
+                        handleInputChange("employment", "employmentType", value)
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select employment type" />
                       </SelectTrigger>
@@ -698,7 +865,9 @@ export default function GetStarted() {
                         <SelectItem value="full-time">Full-time</SelectItem>
                         <SelectItem value="part-time">Part-time</SelectItem>
                         <SelectItem value="contract">Contract</SelectItem>
-                        <SelectItem value="self-employed">Self-employed</SelectItem>
+                        <SelectItem value="self-employed">
+                          Self-employed
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -706,10 +875,16 @@ export default function GetStarted() {
 
                 <div>
                   <Label htmlFor="workAddress">Work Address</Label>
-                  <Textarea 
+                  <Textarea
                     id="workAddress"
                     value={formData.employment.workAddress}
-                    onChange={(e) => handleInputChange('employment', 'workAddress', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange(
+                        "employment",
+                        "workAddress",
+                        e.target.value,
+                      )
+                    }
                     placeholder="Enter your work address"
                     rows={2}
                   />
@@ -722,7 +897,11 @@ export default function GetStarted() {
               <div className="space-y-6">
                 <div>
                   <Label htmlFor="housingType">Housing Type *</Label>
-                  <Select onValueChange={(value) => handleInputChange('housing', 'housingType', value)}>
+                  <Select
+                    onValueChange={(value) =>
+                      handleInputChange("housing", "housingType", value)
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select housing type" />
                     </SelectTrigger>
@@ -734,26 +913,42 @@ export default function GetStarted() {
                   </Select>
                 </div>
 
-                {formData.housing.housingType === 'rent' && (
+                {formData.housing.housingType === "rent" && (
                   <>
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
-                        <Label htmlFor="landlordName">Landlord/Property Manager Name *</Label>
-                        <Input 
+                        <Label htmlFor="landlordName">
+                          Landlord/Property Manager Name *
+                        </Label>
+                        <Input
                           id="landlordName"
                           value={formData.housing.landlordName}
-                          onChange={(e) => handleInputChange('housing', 'landlordName', e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange(
+                              "housing",
+                              "landlordName",
+                              e.target.value,
+                            )
+                          }
                           placeholder="Enter landlord name"
                           required
                         />
                       </div>
                       <div>
-                        <Label htmlFor="monthlyRent">Monthly Rent Amount *</Label>
-                        <Input 
+                        <Label htmlFor="monthlyRent">
+                          Monthly Rent Amount *
+                        </Label>
+                        <Input
                           id="monthlyRent"
                           type="number"
                           value={formData.housing.monthlyRent}
-                          onChange={(e) => handleInputChange('housing', 'monthlyRent', e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange(
+                              "housing",
+                              "monthlyRent",
+                              e.target.value,
+                            )
+                          }
                           placeholder="Enter monthly rent"
                           required
                         />
@@ -765,28 +960,50 @@ export default function GetStarted() {
                         <DateInput
                           label="Lease Start Date"
                           value={formData.housing.leaseStartDate}
-                          onChange={(value) => handleInputChange('housing', 'leaseStartDate', value)}
+                          onChange={(value) =>
+                            handleInputChange(
+                              "housing",
+                              "leaseStartDate",
+                              value,
+                            )
+                          }
                           constraints={{
                             futureAllowed: false,
-                            pastRequired: false
+                            pastRequired: false,
                           }}
                           placeholder="When did your lease start?"
                         />
-                        {validationErrors['housing.leaseStartDate'] && (
-                          <p className="text-sm text-red-600 mt-1">{validationErrors['housing.leaseStartDate']}</p>
+                        {validationErrors["housing.leaseStartDate"] && (
+                          <p className="text-sm text-red-600 mt-1">
+                            {validationErrors["housing.leaseStartDate"]}
+                          </p>
                         )}
                       </div>
                       <div>
-                        <Label htmlFor="rentPaymentMethod">Payment Method</Label>
-                        <Select onValueChange={(value) => handleInputChange('housing', 'rentPaymentMethod', value)}>
+                        <Label htmlFor="rentPaymentMethod">
+                          Payment Method
+                        </Label>
+                        <Select
+                          onValueChange={(value) =>
+                            handleInputChange(
+                              "housing",
+                              "rentPaymentMethod",
+                              value,
+                            )
+                          }
+                        >
                           <SelectTrigger>
                             <SelectValue placeholder="How do you pay rent?" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="bank-transfer">Bank Transfer</SelectItem>
+                            <SelectItem value="bank-transfer">
+                              Bank Transfer
+                            </SelectItem>
                             <SelectItem value="check">Check</SelectItem>
                             <SelectItem value="cash">Cash</SelectItem>
-                            <SelectItem value="online-portal">Online Portal</SelectItem>
+                            <SelectItem value="online-portal">
+                              Online Portal
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -800,21 +1017,33 @@ export default function GetStarted() {
             {currentStep === 4 && (
               <div className="space-y-8">
                 <div>
-                  <h3 className="text-lg font-semibold mb-4">Banking Information</h3>
+                  <h3 className="text-lg font-semibold mb-4">
+                    Banking Information
+                  </h3>
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <Label htmlFor="bankName">Bank Name *</Label>
-                      <Input 
+                      <Input
                         id="bankName"
                         value={formData.banking.bankName}
-                        onChange={(e) => handleInputChange('banking', 'bankName', e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "banking",
+                            "bankName",
+                            e.target.value,
+                          )
+                        }
                         placeholder="Enter your bank name"
                         required
                       />
                     </div>
                     <div>
                       <Label htmlFor="accountType">Account Type *</Label>
-                      <Select onValueChange={(value) => handleInputChange('banking', 'accountType', value)}>
+                      <Select
+                        onValueChange={(value) =>
+                          handleInputChange("banking", "accountType", value)
+                        }
+                      >
                         <SelectTrigger>
                           <SelectValue placeholder="Select account type" />
                         </SelectTrigger>
@@ -830,21 +1059,33 @@ export default function GetStarted() {
                   <div className="grid md:grid-cols-2 gap-6 mt-4">
                     <div>
                       <Label htmlFor="monthlyIncome">Monthly Income</Label>
-                      <Input 
+                      <Input
                         id="monthlyIncome"
                         type="number"
                         value={formData.banking.monthlyIncome}
-                        onChange={(e) => handleInputChange('banking', 'monthlyIncome', e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "banking",
+                            "monthlyIncome",
+                            e.target.value,
+                          )
+                        }
                         placeholder="Enter monthly income"
                       />
                     </div>
                     <div>
                       <Label htmlFor="monthlyExpenses">Monthly Expenses</Label>
-                      <Input 
+                      <Input
                         id="monthlyExpenses"
                         type="number"
                         value={formData.banking.monthlyExpenses}
-                        onChange={(e) => handleInputChange('banking', 'monthlyExpenses', e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "banking",
+                            "monthlyExpenses",
+                            e.target.value,
+                          )
+                        }
                         placeholder="Enter monthly expenses"
                       />
                     </div>
@@ -852,23 +1093,41 @@ export default function GetStarted() {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold mb-4">Utility Accounts</h3>
+                  <h3 className="text-lg font-semibold mb-4">
+                    Utility Accounts
+                  </h3>
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <Label htmlFor="electricProvider">Electric Provider</Label>
-                      <Input 
+                      <Label htmlFor="electricProvider">
+                        Electric Provider
+                      </Label>
+                      <Input
                         id="electricProvider"
                         value={formData.utilities.electricProvider}
-                        onChange={(e) => handleInputChange('utilities', 'electricProvider', e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "utilities",
+                            "electricProvider",
+                            e.target.value,
+                          )
+                        }
                         placeholder="e.g., ConEd, PG&E"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="electricAccount">Electric Account Number</Label>
-                      <Input 
+                      <Label htmlFor="electricAccount">
+                        Electric Account Number
+                      </Label>
+                      <Input
                         id="electricAccount"
                         value={formData.utilities.electricAccount}
-                        onChange={(e) => handleInputChange('utilities', 'electricAccount', e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "utilities",
+                            "electricAccount",
+                            e.target.value,
+                          )
+                        }
                         placeholder="Account number"
                       />
                     </div>
@@ -876,20 +1135,36 @@ export default function GetStarted() {
 
                   <div className="grid md:grid-cols-2 gap-6 mt-4">
                     <div>
-                      <Label htmlFor="internetProvider">Internet Provider</Label>
-                      <Input 
+                      <Label htmlFor="internetProvider">
+                        Internet Provider
+                      </Label>
+                      <Input
                         id="internetProvider"
                         value={formData.utilities.internetProvider}
-                        onChange={(e) => handleInputChange('utilities', 'internetProvider', e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "utilities",
+                            "internetProvider",
+                            e.target.value,
+                          )
+                        }
                         placeholder="e.g., Verizon, Comcast"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="internetAccount">Internet Account Number</Label>
-                      <Input 
+                      <Label htmlFor="internetAccount">
+                        Internet Account Number
+                      </Label>
+                      <Input
                         id="internetAccount"
                         value={formData.utilities.internetAccount}
-                        onChange={(e) => handleInputChange('utilities', 'internetAccount', e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "utilities",
+                            "internetAccount",
+                            e.target.value,
+                          )
+                        }
                         placeholder="Account number"
                       />
                     </div>
@@ -911,12 +1186,22 @@ export default function GetStarted() {
                   {isCalculating ? (
                     <div className="flex flex-col items-center space-y-4">
                       <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600"></div>
-                      <p className="text-gray-600">Calculating your personalized credit risk score...</p>
-                      <p className="text-sm text-gray-500">Analyzing traditional credit + alternative financial data</p>
+                      <p className="text-gray-600">
+                        Calculating your personalized credit risk score...
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        Analyzing traditional credit + alternative financial
+                        data
+                      </p>
                     </div>
                   ) : (
                     <div className="flex justify-center mb-8">
-                      <CreditScoreBar score={calculatedScore || 723} width={400} animated={true} showDetails={true} />
+                      <CreditScoreBar
+                        score={calculatedScore || 723}
+                        width={400}
+                        animated={true}
+                        showDetails={true}
+                      />
                     </div>
                   )}
                 </div>
@@ -925,22 +1210,32 @@ export default function GetStarted() {
                   <>
                     <Card className="border-blue-200 bg-blue-50 max-w-2xl mx-auto mb-6">
                       <CardContent className="p-6">
-                        <h4 className="font-semibold text-blue-900 mb-4">Your Hybrid Credit Risk Score Breakdown:</h4>
+                        <h4 className="font-semibold text-blue-900 mb-4">
+                          Your Hybrid Credit Risk Score Breakdown:
+                        </h4>
 
-                        {formData.hasTraditionalCredit === 'yes' && (
+                        {formData.hasTraditionalCredit === "yes" && (
                           <div className="mb-4 p-3 bg-white rounded">
                             <div className="flex justify-between items-center">
-                              <span className="text-sm font-medium">Traditional Credit Score (40% weight)</span>
-                              <span className="font-bold">{formData.traditionalCreditScore}</span>
+                              <span className="text-sm font-medium">
+                                Traditional Credit Score (40% weight)
+                              </span>
+                              <span className="font-bold">
+                                {formData.traditionalCreditScore}
+                              </span>
                             </div>
                           </div>
                         )}
 
-                        {formData.hasTraditionalCredit === 'limited' && (
+                        {formData.hasTraditionalCredit === "limited" && (
                           <div className="mb-4 p-3 bg-white rounded">
                             <div className="flex justify-between items-center">
-                              <span className="text-sm font-medium">Traditional Credit Score (25% weight)</span>
-                              <span className="font-bold">{formData.traditionalCreditScore}</span>
+                              <span className="text-sm font-medium">
+                                Traditional Credit Score (25% weight)
+                              </span>
+                              <span className="font-bold">
+                                {formData.traditionalCreditScore}
+                              </span>
                             </div>
                           </div>
                         )}
@@ -948,9 +1243,17 @@ export default function GetStarted() {
                         <div className="mb-4 p-3 bg-white rounded">
                           <div className="flex justify-between items-center mb-2">
                             <span className="text-sm font-medium">
-                              Alternative Financial Data ({formData.hasTraditionalCredit === 'yes' ? '60%' : formData.hasTraditionalCredit === 'limited' ? '75%' : '100%'} weight)
+                              Alternative Financial Data (
+                              {formData.hasTraditionalCredit === "yes"
+                                ? "60%"
+                                : formData.hasTraditionalCredit === "limited"
+                                  ? "75%"
+                                  : "100%"}{" "}
+                              weight)
                             </span>
-                            <span className="font-bold text-green-600">Strong</span>
+                            <span className="font-bold text-green-600">
+                              Strong
+                            </span>
                           </div>
                           <div className="text-xs text-gray-600 space-y-1">
                             <div>✓ Rent payment consistency</div>
@@ -983,36 +1286,70 @@ export default function GetStarted() {
 
                     <Card className="border-green-200 bg-green-50 max-w-2xl mx-auto">
                       <CardContent className="p-6">
-                        <h4 className="font-semibold text-green-900 mb-3">Why This Score is More Fair:</h4>
+                        <h4 className="font-semibold text-green-900 mb-3">
+                          Why This Score is More Fair:
+                        </h4>
                         <div className="text-sm text-green-800 space-y-2">
-                          {formData.hasTraditionalCredit === 'no' && (
+                          {formData.hasTraditionalCredit === "no" && (
                             <div className="flex items-start">
-                              <Badge className="mr-2 mt-0.5 bg-green-600 text-white text-xs">100% Alternative</Badge>
-                              <span>Your score is based entirely on your financial responsibility with rent, utilities, and banking - no credit history needed!</span>
+                              <Badge className="mr-2 mt-0.5 bg-green-600 text-white text-xs">
+                                100% Alternative
+                              </Badge>
+                              <span>
+                                Your score is based entirely on your financial
+                                responsibility with rent, utilities, and banking
+                                - no credit history needed!
+                              </span>
                             </div>
                           )}
-                          {formData.hasTraditionalCredit === 'limited' && (
+                          {formData.hasTraditionalCredit === "limited" && (
                             <div className="flex items-start">
-                              <Badge className="mr-2 mt-0.5 bg-blue-600 text-white text-xs">75% Alternative</Badge>
-                              <span>Your limited credit history is supplemented with strong alternative data for a more complete picture.</span>
+                              <Badge className="mr-2 mt-0.5 bg-blue-600 text-white text-xs">
+                                75% Alternative
+                              </Badge>
+                              <span>
+                                Your limited credit history is supplemented with
+                                strong alternative data for a more complete
+                                picture.
+                              </span>
                             </div>
                           )}
-                          {formData.hasTraditionalCredit === 'yes' && (
+                          {formData.hasTraditionalCredit === "yes" && (
                             <div className="flex items-start">
-                              <Badge className="mr-2 mt-0.5 bg-purple-600 text-white text-xs">60% Alternative</Badge>
-                              <span>Your traditional credit is enhanced with alternative data, potentially boosting your score beyond traditional limits.</span>
+                              <Badge className="mr-2 mt-0.5 bg-purple-600 text-white text-xs">
+                                60% Alternative
+                              </Badge>
+                              <span>
+                                Your traditional credit is enhanced with
+                                alternative data, potentially boosting your
+                                score beyond traditional limits.
+                              </span>
                             </div>
                           )}
-                          <div>• Rewards consistent rent and utility payments</div>
-                          <div>• Values employment stability and cash flow management</div>
-                          <div>• No penalty for limited traditional credit history</div>
+                          <div>
+                            • Rewards consistent rent and utility payments
+                          </div>
+                          <div>
+                            • Values employment stability and cash flow
+                            management
+                          </div>
+                          <div>
+                            • No penalty for limited traditional credit history
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
 
                     <div className="text-center">
                       <p className="text-gray-600 mb-6">
-                        Your hybrid Credit Risk Score combines {formData.hasTraditionalCredit === 'yes' ? 'traditional credit (40%) with alternative financial data (60%)' : formData.hasTraditionalCredit === 'limited' ? 'limited traditional credit (25%) with strong alternative data (75%)' : 'entirely alternative financial data (100%)'} for a more complete and fair assessment of your creditworthiness.
+                        Your hybrid Credit Risk Score combines{" "}
+                        {formData.hasTraditionalCredit === "yes"
+                          ? "traditional credit (40%) with alternative financial data (60%)"
+                          : formData.hasTraditionalCredit === "limited"
+                            ? "limited traditional credit (25%) with strong alternative data (75%)"
+                            : "entirely alternative financial data (100%)"}{" "}
+                        for a more complete and fair assessment of your
+                        creditworthiness.
                       </p>
                       <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Link to="/analytics">
@@ -1050,7 +1387,11 @@ export default function GetStarted() {
                 trigger="score-display"
                 onClose={() => setShowRatingPrompt(false)}
                 onSubmit={(rating, feedback) => {
-                  console.log('Rating submitted:', { rating, feedback, score: calculatedScore });
+                  console.log("Rating submitted:", {
+                    rating,
+                    feedback,
+                    score: calculatedScore,
+                  });
                   // Here you would typically save to your backend
                   setShowRatingPrompt(false);
                 }}
@@ -1062,18 +1403,15 @@ export default function GetStarted() {
         {/* Navigation Buttons */}
         {currentStep < 5 && (
           <div className="flex justify-between">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={handleBack}
               disabled={currentStep === 1}
             >
               Back
             </Button>
-            <Button 
-              onClick={handleNext}
-              disabled={!isStepValid(currentStep)}
-            >
-              {currentStep === 4 ? 'Calculate Score' : 'Next'}
+            <Button onClick={handleNext} disabled={!isStepValid(currentStep)}>
+              {currentStep === 4 ? "Calculate Score" : "Next"}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
@@ -1085,10 +1423,13 @@ export default function GetStarted() {
             <div className="flex items-start">
               <Shield className="h-6 w-6 text-blue-600 mr-4 mt-1" />
               <div>
-                <h3 className="font-semibold text-blue-900 mb-2">Your Data is Secure</h3>
+                <h3 className="font-semibold text-blue-900 mb-2">
+                  Your Data is Secure
+                </h3>
                 <p className="text-blue-800 text-sm">
-                  We use bank-level encryption and follow strict data protection standards. 
-                  Your personal and financial information is never shared without your consent.
+                  We use bank-level encryption and follow strict data protection
+                  standards. Your personal and financial information is never
+                  shared without your consent.
                 </p>
               </div>
             </div>

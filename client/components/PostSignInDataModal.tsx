@@ -1,14 +1,41 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { User, Briefcase, Home, DollarSign, Calendar, CreditCard, CheckCircle, ArrowRight } from "lucide-react";
+import {
+  User,
+  Briefcase,
+  Home,
+  DollarSign,
+  Calendar,
+  CreditCard,
+  CheckCircle,
+  ArrowRight,
+} from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -21,27 +48,30 @@ interface FormData {
   // Personal Info
   dateOfBirth: string;
   phone: string;
-  
+
   // Employment
   employerName: string;
   jobTitle: string;
   annualSalary: string;
   employmentType: string;
-  
+
   // Housing
   housingType: string;
   monthlyRent: string;
-  
+
   // Banking
   bankName: string;
   monthlyIncome: string;
   monthlyExpenses: string;
-  
+
   // Traditional Credit
   hasTraditionalCredit: string;
 }
 
-export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataModalProps) {
+export default function PostSignInDataModal({
+  isOpen,
+  onClose,
+}: PostSignInDataModalProps) {
   const { user, updateUser } = useAuth();
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
@@ -49,22 +79,22 @@ export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataM
   const totalSteps = 4;
 
   const [formData, setFormData] = useState<FormData>({
-    dateOfBirth: '',
-    phone: '',
-    employerName: '',
-    jobTitle: '',
-    annualSalary: '',
-    employmentType: '',
-    housingType: '',
-    monthlyRent: '',
-    bankName: '',
-    monthlyIncome: '',
-    monthlyExpenses: '',
-    hasTraditionalCredit: ''
+    dateOfBirth: "",
+    phone: "",
+    employerName: "",
+    jobTitle: "",
+    annualSalary: "",
+    employmentType: "",
+    housingType: "",
+    monthlyRent: "",
+    bankName: "",
+    monthlyIncome: "",
+    monthlyExpenses: "",
+    hasTraditionalCredit: "",
   });
 
   const updateFormData = (field: keyof FormData, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleNext = () => {
@@ -84,9 +114,9 @@ export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataM
     try {
       // Save data to user profile via API
       const response = await fetch(`/api/auth/profile/${user?.userId}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           personalInfo: {
@@ -108,11 +138,11 @@ export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataM
               bankName: formData.bankName,
               monthlyIncome: parseInt(formData.monthlyIncome) || 0,
               monthlyExpenses: parseInt(formData.monthlyExpenses) || 0,
-            }
+            },
           },
           traditionalCredit: {
-            hasCredit: formData.hasTraditionalCredit
-          }
+            hasCredit: formData.hasTraditionalCredit,
+          },
         }),
       });
 
@@ -121,10 +151,10 @@ export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataM
         updateUser({ hasCompletedProfile: true });
         onClose();
         // Navigate to dashboard or analytics
-        navigate('/analytics');
+        navigate("/analytics");
       }
     } catch (error) {
-      console.error('Error saving profile data:', error);
+      console.error("Error saving profile data:", error);
     } finally {
       setIsSubmitting(false);
     }
@@ -135,11 +165,21 @@ export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataM
       case 1:
         return formData.dateOfBirth && formData.phone;
       case 2:
-        return formData.employerName && formData.jobTitle && formData.annualSalary && formData.employmentType;
+        return (
+          formData.employerName &&
+          formData.jobTitle &&
+          formData.annualSalary &&
+          formData.employmentType
+        );
       case 3:
         return formData.housingType && formData.monthlyRent;
       case 4:
-        return formData.bankName && formData.monthlyIncome && formData.monthlyExpenses && formData.hasTraditionalCredit;
+        return (
+          formData.bankName &&
+          formData.monthlyIncome &&
+          formData.monthlyExpenses &&
+          formData.hasTraditionalCredit
+        );
       default:
         return false;
     }
@@ -149,20 +189,30 @@ export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataM
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-2xl">Let's Build Your Credit Profile</DialogTitle>
+          <DialogTitle className="text-2xl">
+            Let's Build Your Credit Profile
+          </DialogTitle>
           <DialogDescription>
-            We need some basic information to calculate your personalized credit score using alternative data.
+            We need some basic information to calculate your personalized credit
+            score using alternative data.
           </DialogDescription>
         </DialogHeader>
-        
+
         <div className="space-y-6">
           {/* Progress Bar */}
           <div className="space-y-2">
             <div className="flex justify-between text-sm text-gray-600">
-              <span>Step {currentStep} of {totalSteps}</span>
-              <span>{Math.round((currentStep / totalSteps) * 100)}% Complete</span>
+              <span>
+                Step {currentStep} of {totalSteps}
+              </span>
+              <span>
+                {Math.round((currentStep / totalSteps) * 100)}% Complete
+              </span>
             </div>
-            <Progress value={(currentStep / totalSteps) * 100} className="h-2" />
+            <Progress
+              value={(currentStep / totalSteps) * 100}
+              className="h-2"
+            />
           </div>
 
           {/* Step 1: Personal Information */}
@@ -173,7 +223,9 @@ export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataM
                   <User className="h-5 w-5 text-blue-600" />
                   <CardTitle>Personal Information</CardTitle>
                 </div>
-                <CardDescription>Basic information for identity verification</CardDescription>
+                <CardDescription>
+                  Basic information for identity verification
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
@@ -182,8 +234,14 @@ export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataM
                     id="dateOfBirth"
                     type="date"
                     value={formData.dateOfBirth}
-                    onChange={(e) => updateFormData('dateOfBirth', e.target.value)}
-                    max={new Date(Date.now() - 18 * 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
+                    onChange={(e) =>
+                      updateFormData("dateOfBirth", e.target.value)
+                    }
+                    max={
+                      new Date(Date.now() - 18 * 365 * 24 * 60 * 60 * 1000)
+                        .toISOString()
+                        .split("T")[0]
+                    }
                     required
                   />
                 </div>
@@ -194,7 +252,7 @@ export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataM
                     type="tel"
                     placeholder="(555) 123-4567"
                     value={formData.phone}
-                    onChange={(e) => updateFormData('phone', e.target.value)}
+                    onChange={(e) => updateFormData("phone", e.target.value)}
                     required
                   />
                 </div>
@@ -210,7 +268,9 @@ export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataM
                   <Briefcase className="h-5 w-5 text-blue-600" />
                   <CardTitle>Employment Information</CardTitle>
                 </div>
-                <CardDescription>Your work history helps build your credit profile</CardDescription>
+                <CardDescription>
+                  Your work history helps build your credit profile
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
@@ -219,7 +279,9 @@ export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataM
                     id="employerName"
                     placeholder="Company Inc."
                     value={formData.employerName}
-                    onChange={(e) => updateFormData('employerName', e.target.value)}
+                    onChange={(e) =>
+                      updateFormData("employerName", e.target.value)
+                    }
                     required
                   />
                 </div>
@@ -229,7 +291,7 @@ export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataM
                     id="jobTitle"
                     placeholder="Software Engineer"
                     value={formData.jobTitle}
-                    onChange={(e) => updateFormData('jobTitle', e.target.value)}
+                    onChange={(e) => updateFormData("jobTitle", e.target.value)}
                     required
                   />
                 </div>
@@ -240,13 +302,20 @@ export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataM
                     type="number"
                     placeholder="75000"
                     value={formData.annualSalary}
-                    onChange={(e) => updateFormData('annualSalary', e.target.value)}
+                    onChange={(e) =>
+                      updateFormData("annualSalary", e.target.value)
+                    }
                     required
                   />
                 </div>
                 <div>
                   <Label htmlFor="employmentType">Employment Type</Label>
-                  <Select onValueChange={(value) => updateFormData('employmentType', value)} required>
+                  <Select
+                    onValueChange={(value) =>
+                      updateFormData("employmentType", value)
+                    }
+                    required
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select employment type" />
                     </SelectTrigger>
@@ -254,7 +323,9 @@ export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataM
                       <SelectItem value="full-time">Full-time</SelectItem>
                       <SelectItem value="part-time">Part-time</SelectItem>
                       <SelectItem value="contract">Contract</SelectItem>
-                      <SelectItem value="self-employed">Self-employed</SelectItem>
+                      <SelectItem value="self-employed">
+                        Self-employed
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -270,12 +341,19 @@ export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataM
                   <Home className="h-5 w-5 text-blue-600" />
                   <CardTitle>Housing Information</CardTitle>
                 </div>
-                <CardDescription>Rent payments are a key factor in alternative credit scoring</CardDescription>
+                <CardDescription>
+                  Rent payments are a key factor in alternative credit scoring
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
                   <Label htmlFor="housingType">Housing Type</Label>
-                  <Select onValueChange={(value) => updateFormData('housingType', value)} required>
+                  <Select
+                    onValueChange={(value) =>
+                      updateFormData("housingType", value)
+                    }
+                    required
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select housing type" />
                     </SelectTrigger>
@@ -294,7 +372,9 @@ export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataM
                     type="number"
                     placeholder="1200"
                     value={formData.monthlyRent}
-                    onChange={(e) => updateFormData('monthlyRent', e.target.value)}
+                    onChange={(e) =>
+                      updateFormData("monthlyRent", e.target.value)
+                    }
                     required
                   />
                 </div>
@@ -310,7 +390,9 @@ export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataM
                   <DollarSign className="h-5 w-5 text-blue-600" />
                   <CardTitle>Financial Information</CardTitle>
                 </div>
-                <CardDescription>Banking history and income details</CardDescription>
+                <CardDescription>
+                  Banking history and income details
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
@@ -319,7 +401,7 @@ export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataM
                     id="bankName"
                     placeholder="Chase Bank"
                     value={formData.bankName}
-                    onChange={(e) => updateFormData('bankName', e.target.value)}
+                    onChange={(e) => updateFormData("bankName", e.target.value)}
                     required
                   />
                 </div>
@@ -331,7 +413,9 @@ export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataM
                       type="number"
                       placeholder="5000"
                       value={formData.monthlyIncome}
-                      onChange={(e) => updateFormData('monthlyIncome', e.target.value)}
+                      onChange={(e) =>
+                        updateFormData("monthlyIncome", e.target.value)
+                      }
                       required
                     />
                   </div>
@@ -342,20 +426,33 @@ export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataM
                       type="number"
                       placeholder="3500"
                       value={formData.monthlyExpenses}
-                      onChange={(e) => updateFormData('monthlyExpenses', e.target.value)}
+                      onChange={(e) =>
+                        updateFormData("monthlyExpenses", e.target.value)
+                      }
                       required
                     />
                   </div>
                 </div>
                 <div>
-                  <Label htmlFor="hasTraditionalCredit">Do you have traditional credit history?</Label>
-                  <Select onValueChange={(value) => updateFormData('hasTraditionalCredit', value)} required>
+                  <Label htmlFor="hasTraditionalCredit">
+                    Do you have traditional credit history?
+                  </Label>
+                  <Select
+                    onValueChange={(value) =>
+                      updateFormData("hasTraditionalCredit", value)
+                    }
+                    required
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select option" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="yes">Yes, I have credit cards/loans</SelectItem>
-                      <SelectItem value="limited">Limited credit history</SelectItem>
+                      <SelectItem value="yes">
+                        Yes, I have credit cards/loans
+                      </SelectItem>
+                      <SelectItem value="limited">
+                        Limited credit history
+                      </SelectItem>
                       <SelectItem value="no">No traditional credit</SelectItem>
                       <SelectItem value="unsure">Not sure</SelectItem>
                     </SelectContent>
@@ -367,24 +464,21 @@ export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataM
 
           {/* Navigation Buttons */}
           <div className="flex justify-between pt-4">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={handlePrevious}
               disabled={currentStep === 1}
             >
               Previous
             </Button>
-            
+
             {currentStep < totalSteps ? (
-              <Button 
-                onClick={handleNext}
-                disabled={!isStepValid()}
-              >
+              <Button onClick={handleNext} disabled={!isStepValid()}>
                 Next
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             ) : (
-              <Button 
+              <Button
                 onClick={handleSubmit}
                 disabled={!isStepValid() || isSubmitting}
               >
@@ -405,7 +499,9 @@ export default function PostSignInDataModal({ isOpen, onClose }: PostSignInDataM
 
           {/* Benefits info */}
           <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-            <h4 className="font-medium text-blue-900 mb-2">Why we need this information:</h4>
+            <h4 className="font-medium text-blue-900 mb-2">
+              Why we need this information:
+            </h4>
             <ul className="text-sm text-blue-800 space-y-1">
               <li>• Employment history shows income stability</li>
               <li>• Rent payments demonstrate financial responsibility</li>

@@ -1,16 +1,16 @@
-import fs from 'fs';
-import path from 'path';
-import { promisify } from 'util';
+import fs from "fs";
+import path from "path";
+import { promisify } from "util";
 
 const writeFile = promisify(fs.writeFile);
 const readFile = promisify(fs.readFile);
 const mkdir = promisify(fs.mkdir);
 
 // Storage directories
-const DATA_DIR = path.join(process.cwd(), 'data');
-const USERS_DIR = path.join(DATA_DIR, 'users');
-const ANALYTICS_DIR = path.join(DATA_DIR, 'analytics');
-const LOANS_DIR = path.join(DATA_DIR, 'loans');
+const DATA_DIR = path.join(process.cwd(), "data");
+const USERS_DIR = path.join(DATA_DIR, "users");
+const ANALYTICS_DIR = path.join(DATA_DIR, "analytics");
+const LOANS_DIR = path.join(DATA_DIR, "loans");
 
 // Ensure directories exist
 async function ensureDirectories() {
@@ -20,7 +20,7 @@ async function ensureDirectories() {
     await mkdir(ANALYTICS_DIR, { recursive: true });
     await mkdir(LOANS_DIR, { recursive: true });
   } catch (error) {
-    console.error('Error creating directories:', error);
+    console.error("Error creating directories:", error);
   }
 }
 
@@ -47,7 +47,7 @@ export interface UserProfile {
     };
   };
   traditionalCredit: {
-    hasCredit: 'yes' | 'no' | 'limited' | 'unsure';
+    hasCredit: "yes" | "no" | "limited" | "unsure";
     score?: number;
   };
   financialData: {
@@ -67,7 +67,7 @@ export interface UserProfile {
       rentPaymentHistory: Array<{
         date: string;
         amount: number;
-        status: 'on-time' | 'late' | 'missed';
+        status: "on-time" | "late" | "missed";
       }>;
     };
     banking: {
@@ -86,7 +86,7 @@ export interface UserProfile {
       paymentHistory: Array<{
         date: string;
         amount: number;
-        status: 'on-time' | 'late' | 'missed';
+        status: "on-time" | "late" | "missed";
       }>;
     }>;
   };
@@ -105,7 +105,7 @@ export interface UserProfile {
     strengths: string[];
     weaknesses: string[];
     recommendations: string[];
-    riskProfile: 'low' | 'medium' | 'high';
+    riskProfile: "low" | "medium" | "high";
     loanEligibility: {
       creditCards: boolean;
       personalLoans: boolean;
@@ -118,7 +118,7 @@ export interface UserProfile {
 export interface LoanOffer {
   bankId: string;
   bankName: string;
-  loanType: 'credit-card' | 'personal' | 'auto' | 'mortgage';
+  loanType: "credit-card" | "personal" | "auto" | "mortgage";
   productName: string;
   interestRate: number;
   maxAmount: number;
@@ -134,10 +134,10 @@ export class FileStorage {
     const filePath = path.join(USERS_DIR, `${profile.userId}.json`);
     const data = {
       ...profile,
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     };
-    await writeFile(filePath, JSON.stringify(data, null, 2), 'utf8');
-    
+    await writeFile(filePath, JSON.stringify(data, null, 2), "utf8");
+
     // Also save to all users index
     await this.updateUsersIndex(profile.userId, profile.email);
   }
@@ -145,7 +145,7 @@ export class FileStorage {
   static async loadUserProfile(userId: string): Promise<UserProfile | null> {
     try {
       const filePath = path.join(USERS_DIR, `${userId}.json`);
-      const data = await readFile(filePath, 'utf8');
+      const data = await readFile(filePath, "utf8");
       return JSON.parse(data);
     } catch (error) {
       return null;
@@ -154,10 +154,10 @@ export class FileStorage {
 
   static async findUserByEmail(email: string): Promise<UserProfile | null> {
     try {
-      const indexPath = path.join(USERS_DIR, 'index.json');
-      const indexData = await readFile(indexPath, 'utf8');
+      const indexPath = path.join(USERS_DIR, "index.json");
+      const indexData = await readFile(indexPath, "utf8");
       const index = JSON.parse(indexData);
-      
+
       const userId = index[email];
       if (userId) {
         return await this.loadUserProfile(userId);
@@ -169,18 +169,18 @@ export class FileStorage {
   }
 
   static async updateUsersIndex(userId: string, email: string): Promise<void> {
-    const indexPath = path.join(USERS_DIR, 'index.json');
+    const indexPath = path.join(USERS_DIR, "index.json");
     let index = {};
-    
+
     try {
-      const existingData = await readFile(indexPath, 'utf8');
+      const existingData = await readFile(indexPath, "utf8");
       index = JSON.parse(existingData);
     } catch (error) {
       // File doesn't exist, start with empty index
     }
-    
+
     index[email] = userId;
-    await writeFile(indexPath, JSON.stringify(index, null, 2), 'utf8');
+    await writeFile(indexPath, JSON.stringify(index, null, 2), "utf8");
   }
 
   static async saveAnalytics(userId: string, analytics: any): Promise<void> {
@@ -188,43 +188,46 @@ export class FileStorage {
     const data = {
       userId,
       analytics,
-      generatedAt: new Date().toISOString()
+      generatedAt: new Date().toISOString(),
     };
-    await writeFile(filePath, JSON.stringify(data, null, 2), 'utf8');
+    await writeFile(filePath, JSON.stringify(data, null, 2), "utf8");
   }
 
   static async loadAnalytics(userId: string): Promise<any | null> {
     try {
       const filePath = path.join(ANALYTICS_DIR, `${userId}.json`);
-      const data = await readFile(filePath, 'utf8');
+      const data = await readFile(filePath, "utf8");
       return JSON.parse(data);
     } catch (error) {
       return null;
     }
   }
 
-  static async saveLoanOffers(userId: string, offers: LoanOffer[]): Promise<void> {
+  static async saveLoanOffers(
+    userId: string,
+    offers: LoanOffer[],
+  ): Promise<void> {
     const filePath = path.join(LOANS_DIR, `${userId}.json`);
     const data = {
       userId,
       offers,
       generatedAt: new Date().toISOString(),
-      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() // 7 days
+      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days
     };
-    await writeFile(filePath, JSON.stringify(data, null, 2), 'utf8');
+    await writeFile(filePath, JSON.stringify(data, null, 2), "utf8");
   }
 
   static async loadLoanOffers(userId: string): Promise<LoanOffer[] | null> {
     try {
       const filePath = path.join(LOANS_DIR, `${userId}.json`);
-      const data = await readFile(filePath, 'utf8');
+      const data = await readFile(filePath, "utf8");
       const parsed = JSON.parse(data);
-      
+
       // Check if offers have expired
       if (new Date(parsed.expiresAt) < new Date()) {
         return null;
       }
-      
+
       return parsed.offers;
     } catch (error) {
       return null;
@@ -235,8 +238,8 @@ export class FileStorage {
     try {
       const files = await promisify(fs.readdir)(USERS_DIR);
       return files
-        .filter(file => file.endsWith('.json') && file !== 'index.json')
-        .map(file => file.replace('.json', ''));
+        .filter((file) => file.endsWith(".json") && file !== "index.json")
+        .map((file) => file.replace(".json", ""));
     } catch (error) {
       return [];
     }
@@ -245,23 +248,24 @@ export class FileStorage {
   static async getSystemStats(): Promise<any> {
     const userIds = await this.getAllUsers();
     const totalUsers = userIds.length;
-    
+
     let totalScores = 0;
     let totalRatings = 0;
-    
+
     for (const userId of userIds) {
       const profile = await this.loadUserProfile(userId);
       if (profile && profile.creditHistory.length > 0) {
-        const latestScore = profile.creditHistory[profile.creditHistory.length - 1].score;
+        const latestScore =
+          profile.creditHistory[profile.creditHistory.length - 1].score;
         totalScores += latestScore;
       }
     }
-    
+
     return {
       totalUsers,
       averageScore: totalUsers > 0 ? Math.round(totalScores / totalUsers) : 0,
       activeUsers: userIds.length,
-      dataPoints: userIds.length * 4 // Approximate data points per user
+      dataPoints: userIds.length * 4, // Approximate data points per user
     };
   }
 }

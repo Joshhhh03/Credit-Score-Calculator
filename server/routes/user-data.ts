@@ -36,7 +36,7 @@ interface UserData {
       rentPaymentHistory: Array<{
         date: string;
         amount: number;
-        status: 'on-time' | 'late' | 'missed';
+        status: "on-time" | "late" | "missed";
       }>;
     };
     utilities: Array<{
@@ -47,7 +47,7 @@ interface UserData {
       paymentHistory: Array<{
         date: string;
         amount: number;
-        status: 'on-time' | 'late' | 'missed';
+        status: "on-time" | "late" | "missed";
       }>;
     }>;
     banking: {
@@ -77,29 +77,34 @@ interface UserData {
 const users: Map<string, UserData> = new Map();
 
 // Generate mock historical data for demo purposes
-const generateMockHistory = (currentScore: number): UserData['creditHistory'] => {
-  const history: UserData['creditHistory'] = [];
+const generateMockHistory = (
+  currentScore: number,
+): UserData["creditHistory"] => {
+  const history: UserData["creditHistory"] = [];
   const today = new Date();
-  
+
   for (let i = 11; i >= 0; i--) {
     const date = new Date(today);
     date.setMonth(date.getMonth() - i);
-    
+
     // Generate realistic score progression
-    const baseScore = Math.max(300, currentScore - (i * 5) + Math.random() * 20 - 10);
-    
+    const baseScore = Math.max(
+      300,
+      currentScore - i * 5 + Math.random() * 20 - 10,
+    );
+
     history.push({
-      date: date.toISOString().split('T')[0],
+      date: date.toISOString().split("T")[0],
       score: Math.round(Math.min(850, Math.max(300, baseScore))),
       factors: {
         rentPayments: Math.round(Math.random() * 20 + 70),
         utilityPayments: Math.round(Math.random() * 15 + 70),
         cashFlow: Math.round(Math.random() * 25 + 60),
         employmentHistory: Math.round(Math.random() * 10 + 80),
-      }
+      },
     });
   }
-  
+
   return history;
 };
 
@@ -107,28 +112,29 @@ const generateMockHistory = (currentScore: number): UserData['creditHistory'] =>
 export const saveUserData: RequestHandler = (req, res) => {
   try {
     const { userId, ...userData } = req.body;
-    
+
     if (!userId) {
       return res.status(400).json({ error: "User ID is required" });
     }
 
     const existingUser = users.get(userId);
     const currentScore = userData.currentScore || 723;
-    
+
     const updatedUser: UserData = {
       id: userId,
       ...userData,
-      creditHistory: existingUser?.creditHistory || generateMockHistory(currentScore),
+      creditHistory:
+        existingUser?.creditHistory || generateMockHistory(currentScore),
       updatedAt: new Date().toISOString(),
       createdAt: existingUser?.createdAt || new Date().toISOString(),
     };
 
     users.set(userId, updatedUser);
 
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       message: "User data saved successfully",
-      user: updatedUser 
+      user: updatedUser,
     });
   } catch (error) {
     console.error("Error saving user data:", error);
@@ -140,13 +146,13 @@ export const saveUserData: RequestHandler = (req, res) => {
 export const getUserData: RequestHandler = (req, res) => {
   try {
     const { userId } = req.params;
-    
+
     if (!userId) {
       return res.status(400).json({ error: "User ID is required" });
     }
 
     const user = users.get(userId);
-    
+
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -163,39 +169,39 @@ export const updateCreditScore: RequestHandler = (req, res) => {
   try {
     const { userId } = req.params;
     const { score, factors } = req.body;
-    
+
     if (!userId || !score) {
       return res.status(400).json({ error: "User ID and score are required" });
     }
 
     const user = users.get(userId);
-    
+
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
     // Add new score to history
     const newEntry = {
-      date: new Date().toISOString().split('T')[0],
+      date: new Date().toISOString().split("T")[0],
       score: Math.round(score),
       factors: factors || {
         rentPayments: 80,
         utilityPayments: 75,
         cashFlow: 65,
         employmentHistory: 85,
-      }
+      },
     };
 
     user.creditHistory.push(newEntry);
     user.updatedAt = new Date().toISOString();
-    
+
     users.set(userId, user);
 
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       message: "Credit score updated successfully",
       newScore: newEntry,
-      history: user.creditHistory.slice(-12) // Return last 12 months
+      history: user.creditHistory.slice(-12), // Return last 12 months
     });
   } catch (error) {
     console.error("Error updating credit score:", error);
@@ -208,24 +214,27 @@ export const getCreditHistory: RequestHandler = (req, res) => {
   try {
     const { userId } = req.params;
     const { months = 12 } = req.query;
-    
+
     if (!userId) {
       return res.status(400).json({ error: "User ID is required" });
     }
 
     const user = users.get(userId);
-    
+
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
     const history = user.creditHistory.slice(-Number(months));
-    
-    res.json({ 
+
+    res.json({
       history,
       currentScore: history[history.length - 1]?.score || 0,
-      trend: history.length > 1 ? 
-        history[history.length - 1].score - history[history.length - 2].score : 0
+      trend:
+        history.length > 1
+          ? history[history.length - 1].score -
+            history[history.length - 2].score
+          : 0,
     });
   } catch (error) {
     console.error("Error fetching credit history:", error);
@@ -236,7 +245,8 @@ export const getCreditHistory: RequestHandler = (req, res) => {
 // Calculate new credit score based on financial data
 export const calculateCreditScore: RequestHandler = (req, res) => {
   try {
-    const { financialData, traditionalCreditScore, hasTraditionalCredit } = req.body;
+    const { financialData, traditionalCreditScore, hasTraditionalCredit } =
+      req.body;
 
     if (!financialData) {
       return res.status(400).json({ error: "Financial data is required" });
@@ -248,10 +258,10 @@ export const calculateCreditScore: RequestHandler = (req, res) => {
     let alternativeWeight = 1;
 
     // Determine weighting based on traditional credit availability
-    if (hasTraditionalCredit === 'yes' && traditionalCreditScore) {
+    if (hasTraditionalCredit === "yes" && traditionalCreditScore) {
       traditionalWeight = 0.4; // 40% traditional credit
       alternativeWeight = 0.6; // 60% alternative data
-    } else if (hasTraditionalCredit === 'limited' && traditionalCreditScore) {
+    } else if (hasTraditionalCredit === "limited" && traditionalCreditScore) {
       traditionalWeight = 0.25; // 25% traditional credit
       alternativeWeight = 0.75; // 75% alternative data
     } else {
@@ -270,7 +280,9 @@ export const calculateCreditScore: RequestHandler = (req, res) => {
     // Calculate rent payment factor
     if (financialData.housing?.rentPaymentHistory) {
       const rentHistory = financialData.housing.rentPaymentHistory;
-      const onTimePayments = rentHistory.filter((p: any) => p.status === 'on-time').length;
+      const onTimePayments = rentHistory.filter(
+        (p: any) => p.status === "on-time",
+      ).length;
       const onTimeRate = onTimePayments / rentHistory.length;
       factors.rentPayments = Math.round(onTimeRate * 100);
     }
@@ -283,7 +295,9 @@ export const calculateCreditScore: RequestHandler = (req, res) => {
       financialData.utilities.forEach((utility: any) => {
         if (utility.paymentHistory) {
           totalPayments += utility.paymentHistory.length;
-          totalOnTime += utility.paymentHistory.filter((p: any) => p.status === 'on-time').length;
+          totalOnTime += utility.paymentHistory.filter(
+            (p: any) => p.status === "on-time",
+          ).length;
         }
       });
 
@@ -295,11 +309,14 @@ export const calculateCreditScore: RequestHandler = (req, res) => {
 
     // Calculate cash flow factor
     if (financialData.banking) {
-      const { monthlyIncome, monthlyExpenses, averageBalance } = financialData.banking;
+      const { monthlyIncome, monthlyExpenses, averageBalance } =
+        financialData.banking;
       if (monthlyIncome && monthlyExpenses) {
         const savingsRate = (monthlyIncome - monthlyExpenses) / monthlyIncome;
         const balanceRatio = averageBalance / (monthlyIncome || 1);
-        factors.cashFlow = Math.round((savingsRate * 0.6 + balanceRatio * 0.4) * 100);
+        factors.cashFlow = Math.round(
+          (savingsRate * 0.6 + balanceRatio * 0.4) * 100,
+        );
       }
     }
 
@@ -319,25 +336,35 @@ export const calculateCreditScore: RequestHandler = (req, res) => {
     let alternativeScore = 500; // Base score for alternative data
 
     // Alternative data contributes to score improvement
-    if (factors.rentPayments > 0) alternativeScore += (factors.rentPayments / 100) * 80;
-    if (factors.utilityPayments > 0) alternativeScore += (factors.utilityPayments / 100) * 60;
+    if (factors.rentPayments > 0)
+      alternativeScore += (factors.rentPayments / 100) * 80;
+    if (factors.utilityPayments > 0)
+      alternativeScore += (factors.utilityPayments / 100) * 60;
     if (factors.cashFlow > 0) alternativeScore += (factors.cashFlow / 100) * 70;
-    if (factors.employmentHistory > 0) alternativeScore += (factors.employmentHistory / 100) * 50;
+    if (factors.employmentHistory > 0)
+      alternativeScore += (factors.employmentHistory / 100) * 50;
 
     alternativeScore = Math.min(850, Math.max(300, alternativeScore));
 
     // Calculate hybrid score
     if (traditionalWeight > 0) {
-      hybridScore = (traditionalCreditScore * traditionalWeight) + (alternativeScore * alternativeWeight);
+      hybridScore =
+        traditionalCreditScore * traditionalWeight +
+        alternativeScore * alternativeWeight;
     } else {
       hybridScore = alternativeScore;
     }
 
     // Apply risk adjustment based on alternative data strength
-    const alternativeDataStrength = (factors.rentPayments + factors.utilityPayments + factors.cashFlow + factors.employmentHistory) / 4;
+    const alternativeDataStrength =
+      (factors.rentPayments +
+        factors.utilityPayments +
+        factors.cashFlow +
+        factors.employmentHistory) /
+      4;
 
     // Boost score for users with strong alternative data but weak/no traditional credit
-    if (hasTraditionalCredit === 'no' || hasTraditionalCredit === 'limited') {
+    if (hasTraditionalCredit === "no" || hasTraditionalCredit === "limited") {
       if (alternativeDataStrength > 80) {
         hybridScore += 20; // Excellent alternative data bonus
       } else if (alternativeDataStrength > 70) {
@@ -356,19 +383,33 @@ export const calculateCreditScore: RequestHandler = (req, res) => {
       factors,
       weights: {
         traditional: traditionalWeight,
-        alternative: alternativeWeight
+        alternative: alternativeWeight,
       },
       breakdown: {
         traditionalScore: traditionalCreditScore || 0,
         alternativeScore: Math.round(alternativeScore),
         hybridScore: Math.round(hybridScore),
-        rentContribution: Math.round((factors.rentPayments / 100) * 80 * alternativeWeight),
-        utilityContribution: Math.round((factors.utilityPayments / 100) * 60 * alternativeWeight),
-        cashFlowContribution: Math.round((factors.cashFlow / 100) * 70 * alternativeWeight),
-        employmentContribution: Math.round((factors.employmentHistory / 100) * 50 * alternativeWeight),
-        alternativeDataBonus: hasTraditionalCredit === 'no' && alternativeDataStrength > 60 ?
-          (alternativeDataStrength > 80 ? 20 : alternativeDataStrength > 70 ? 15 : 10) : 0
-      }
+        rentContribution: Math.round(
+          (factors.rentPayments / 100) * 80 * alternativeWeight,
+        ),
+        utilityContribution: Math.round(
+          (factors.utilityPayments / 100) * 60 * alternativeWeight,
+        ),
+        cashFlowContribution: Math.round(
+          (factors.cashFlow / 100) * 70 * alternativeWeight,
+        ),
+        employmentContribution: Math.round(
+          (factors.employmentHistory / 100) * 50 * alternativeWeight,
+        ),
+        alternativeDataBonus:
+          hasTraditionalCredit === "no" && alternativeDataStrength > 60
+            ? alternativeDataStrength > 80
+              ? 20
+              : alternativeDataStrength > 70
+                ? 15
+                : 10
+            : 0,
+      },
     });
   } catch (error) {
     console.error("Error calculating credit score:", error);

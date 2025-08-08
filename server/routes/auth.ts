@@ -1,10 +1,10 @@
 import { RequestHandler } from "express";
 import { FileStorage, UserProfile } from "../utils/fileStorage";
-import crypto from 'crypto';
+import crypto from "crypto";
 
 // Simple password hashing (in production, use bcrypt)
 function hashPassword(password: string): string {
-  return crypto.createHash('sha256').update(password).digest('hex');
+  return crypto.createHash("sha256").update(password).digest("hex");
 }
 
 function verifyPassword(password: string, hash: string): boolean {
@@ -13,7 +13,7 @@ function verifyPassword(password: string, hash: string): boolean {
 
 // Generate unique user ID
 function generateUserId(): string {
-  return crypto.randomBytes(16).toString('hex');
+  return crypto.randomBytes(16).toString("hex");
 }
 
 // Sign up new user
@@ -23,7 +23,7 @@ export const signUp: RequestHandler = async (req, res) => {
 
     if (!email || !password || !firstName || !lastName) {
       return res.status(400).json({
-        error: "Email, password, first name, and last name are required"
+        error: "Email, password, first name, and last name are required",
       });
     }
 
@@ -31,14 +31,14 @@ export const signUp: RequestHandler = async (req, res) => {
     const existingUser = await FileStorage.findUserByEmail(email);
     if (existingUser) {
       return res.status(409).json({
-        error: "User with this email already exists"
+        error: "User with this email already exists",
       });
     }
 
     // Create new user profile
     const userId = generateUserId();
     const hashedPassword = hashPassword(password);
-    
+
     const newUser: UserProfile = {
       userId,
       email,
@@ -47,55 +47,55 @@ export const signUp: RequestHandler = async (req, res) => {
       personalInfo: {
         firstName,
         lastName,
-        phone: '',
-        dateOfBirth: '',
-        ssn: '',
+        phone: "",
+        dateOfBirth: "",
+        ssn: "",
         address: {
-          street: '',
-          city: '',
-          state: '',
-          zipCode: ''
-        }
+          street: "",
+          city: "",
+          state: "",
+          zipCode: "",
+        },
       },
       traditionalCredit: {
-        hasCredit: 'unsure'
+        hasCredit: "unsure",
       },
       financialData: {
         employment: {
-          employerName: '',
-          jobTitle: '',
+          employerName: "",
+          jobTitle: "",
           annualSalary: 0,
-          startDate: '',
-          employmentType: '',
-          workAddress: ''
+          startDate: "",
+          employmentType: "",
+          workAddress: "",
         },
         housing: {
-          housingType: '',
-          rentPaymentHistory: []
+          housingType: "",
+          rentPaymentHistory: [],
         },
         banking: {
-          bankName: '',
-          accountType: '',
-          routingNumber: '',
+          bankName: "",
+          accountType: "",
+          routingNumber: "",
           monthlyIncome: 0,
           monthlyExpenses: 0,
-          averageBalance: 0
+          averageBalance: 0,
         },
-        utilities: []
+        utilities: [],
       },
       creditHistory: [],
       analytics: {
         strengths: [],
         weaknesses: [],
         recommendations: [],
-        riskProfile: 'medium',
+        riskProfile: "medium",
         loanEligibility: {
           creditCards: false,
           personalLoans: false,
           autoLoans: false,
-          mortgages: false
-        }
-      }
+          mortgages: false,
+        },
+      },
     };
 
     await FileStorage.saveUserProfile(newUser);
@@ -108,14 +108,13 @@ export const signUp: RequestHandler = async (req, res) => {
         email,
         firstName,
         lastName,
-        createdAt: newUser.createdAt
-      }
+        createdAt: newUser.createdAt,
+      },
     });
-
   } catch (error) {
     console.error("Sign up error:", error);
     res.status(500).json({
-      error: "Failed to create user account"
+      error: "Failed to create user account",
     });
   }
 };
@@ -127,7 +126,7 @@ export const signIn: RequestHandler = async (req, res) => {
 
     if (!email || !password) {
       return res.status(400).json({
-        error: "Email and password are required"
+        error: "Email and password are required",
       });
     }
 
@@ -135,14 +134,14 @@ export const signIn: RequestHandler = async (req, res) => {
     const user = await FileStorage.findUserByEmail(email);
     if (!user) {
       return res.status(401).json({
-        error: "Invalid email or password"
+        error: "Invalid email or password",
       });
     }
 
     // Verify password
     if (!verifyPassword(password, user.password)) {
       return res.status(401).json({
-        error: "Invalid email or password"
+        error: "Invalid email or password",
       });
     }
 
@@ -163,14 +162,13 @@ export const signIn: RequestHandler = async (req, res) => {
           user.personalInfo.dateOfBirth &&
           user.financialData.employment.employerName &&
           user.financialData.housing.housingType
-        )
-      }
+        ),
+      },
     });
-
   } catch (error) {
     console.error("Sign in error:", error);
     res.status(500).json({
-      error: "Failed to sign in"
+      error: "Failed to sign in",
     });
   }
 };
@@ -183,7 +181,7 @@ export const getProfile: RequestHandler = async (req, res) => {
     const user = await FileStorage.loadUserProfile(userId);
     if (!user) {
       return res.status(404).json({
-        error: "User not found"
+        error: "User not found",
       });
     }
 
@@ -192,13 +190,12 @@ export const getProfile: RequestHandler = async (req, res) => {
 
     res.json({
       success: true,
-      user: userProfile
+      user: userProfile,
     });
-
   } catch (error) {
     console.error("Get profile error:", error);
     res.status(500).json({
-      error: "Failed to get user profile"
+      error: "Failed to get user profile",
     });
   }
 };
@@ -212,7 +209,7 @@ export const updateProfile: RequestHandler = async (req, res) => {
     const user = await FileStorage.loadUserProfile(userId);
     if (!user) {
       return res.status(404).json({
-        error: "User not found"
+        error: "User not found",
       });
     }
 
@@ -222,28 +219,28 @@ export const updateProfile: RequestHandler = async (req, res) => {
       ...updateData,
       personalInfo: {
         ...user.personalInfo,
-        ...updateData.personalInfo
+        ...updateData.personalInfo,
       },
       traditionalCredit: {
         ...user.traditionalCredit,
-        ...updateData.traditionalCredit
+        ...updateData.traditionalCredit,
       },
       financialData: {
         ...user.financialData,
         ...updateData.financialData,
         employment: {
           ...user.financialData.employment,
-          ...updateData.financialData?.employment
+          ...updateData.financialData?.employment,
         },
         housing: {
           ...user.financialData.housing,
-          ...updateData.financialData?.housing
+          ...updateData.financialData?.housing,
         },
         banking: {
           ...user.financialData.banking,
-          ...updateData.financialData?.banking
-        }
-      }
+          ...updateData.financialData?.banking,
+        },
+      },
     };
 
     await FileStorage.saveUserProfile(updatedUser);
@@ -254,13 +251,12 @@ export const updateProfile: RequestHandler = async (req, res) => {
     res.json({
       success: true,
       message: "Profile updated successfully",
-      user: userProfile
+      user: userProfile,
     });
-
   } catch (error) {
     console.error("Update profile error:", error);
     res.status(500).json({
-      error: "Failed to update profile"
+      error: "Failed to update profile",
     });
   }
 };
@@ -273,21 +269,21 @@ export const changePassword: RequestHandler = async (req, res) => {
 
     if (!currentPassword || !newPassword) {
       return res.status(400).json({
-        error: "Current password and new password are required"
+        error: "Current password and new password are required",
       });
     }
 
     const user = await FileStorage.loadUserProfile(userId);
     if (!user) {
       return res.status(404).json({
-        error: "User not found"
+        error: "User not found",
       });
     }
 
     // Verify current password
     if (!verifyPassword(currentPassword, user.password)) {
       return res.status(401).json({
-        error: "Current password is incorrect"
+        error: "Current password is incorrect",
       });
     }
 
@@ -297,13 +293,12 @@ export const changePassword: RequestHandler = async (req, res) => {
 
     res.json({
       success: true,
-      message: "Password changed successfully"
+      message: "Password changed successfully",
     });
-
   } catch (error) {
     console.error("Change password error:", error);
     res.status(500).json({
-      error: "Failed to change password"
+      error: "Failed to change password",
     });
   }
 };
@@ -316,7 +311,7 @@ export const validateSession: RequestHandler = async (req, res) => {
     if (!userId) {
       return res.status(400).json({
         valid: false,
-        error: "User ID is required"
+        error: "User ID is required",
       });
     }
 
@@ -324,15 +319,15 @@ export const validateSession: RequestHandler = async (req, res) => {
     if (!user) {
       return res.status(404).json({
         valid: false,
-        error: "User not found"
+        error: "User not found",
       });
     }
 
     // Check if account is active (not deleted)
-    if (user.email.startsWith('deleted_')) {
+    if (user.email.startsWith("deleted_")) {
       return res.status(401).json({
         valid: false,
-        error: "Account has been deleted"
+        error: "Account has been deleted",
       });
     }
 
@@ -348,15 +343,14 @@ export const validateSession: RequestHandler = async (req, res) => {
           user.personalInfo.dateOfBirth &&
           user.financialData.employment.employerName &&
           user.financialData.housing.housingType
-        )
-      }
+        ),
+      },
     });
-
   } catch (error) {
     console.error("Session validation error:", error);
     res.status(500).json({
       valid: false,
-      error: "Failed to validate session"
+      error: "Failed to validate session",
     });
   }
 };
@@ -370,14 +364,14 @@ export const deleteAccount: RequestHandler = async (req, res) => {
     const user = await FileStorage.loadUserProfile(userId);
     if (!user) {
       return res.status(404).json({
-        error: "User not found"
+        error: "User not found",
       });
     }
 
     // Verify password before deletion
     if (!verifyPassword(password, user.password)) {
       return res.status(401).json({
-        error: "Password is incorrect"
+        error: "Password is incorrect",
       });
     }
 
@@ -388,13 +382,12 @@ export const deleteAccount: RequestHandler = async (req, res) => {
 
     res.json({
       success: true,
-      message: "Account deleted successfully"
+      message: "Account deleted successfully",
     });
-
   } catch (error) {
     console.error("Delete account error:", error);
     res.status(500).json({
-      error: "Failed to delete account"
+      error: "Failed to delete account",
     });
   }
 };

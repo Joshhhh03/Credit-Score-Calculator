@@ -1,16 +1,22 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Star, 
-  ThumbsUp, 
-  MessageCircle, 
-  X, 
+import {
+  Star,
+  ThumbsUp,
+  MessageCircle,
+  X,
   Send,
   Heart,
-  Sparkles
+  Sparkles,
 } from "lucide-react";
 
 interface RatingPromptProps {
@@ -21,15 +27,17 @@ interface RatingPromptProps {
   trigger?: "score-display" | "dashboard-visit" | "manual";
 }
 
-export default function RatingPrompt({ 
+export default function RatingPrompt({
   userScore = 723,
   userName = "there",
   onClose,
   onSubmit,
-  trigger = "score-display"
+  trigger = "score-display",
 }: RatingPromptProps) {
   const [isVisible, setIsVisible] = useState(true);
-  const [currentStep, setCurrentStep] = useState<"rating" | "feedback" | "thanks">("rating");
+  const [currentStep, setCurrentStep] = useState<
+    "rating" | "feedback" | "thanks"
+  >("rating");
   const [selectedRating, setSelectedRating] = useState<number>(0);
   const [hoverRating, setHoverRating] = useState<number>(0);
   const [feedbackText, setFeedbackText] = useState("");
@@ -56,10 +64,10 @@ export default function RatingPrompt({
 
     try {
       // Submit rating to backend API
-      const response = await fetch('/api/ratings', {
-        method: 'POST',
+      const response = await fetch("/api/ratings", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           rating: selectedRating,
@@ -67,22 +75,21 @@ export default function RatingPrompt({
           userScore: userScore,
           trigger: trigger,
           userName: userName,
-          userId: `user_${Date.now()}` // In a real app, this would come from auth
-        })
+          userId: `user_${Date.now()}`, // In a real app, this would come from auth
+        }),
       });
 
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Failed to submit rating');
+        throw new Error(result.error || "Failed to submit rating");
       }
 
-      console.log('Rating submitted successfully:', result);
+      console.log("Rating submitted successfully:", result);
       onSubmit?.(selectedRating, feedbackText);
       setCurrentStep("thanks");
-
     } catch (error) {
-      console.error('Error submitting rating:', error);
+      console.error("Error submitting rating:", error);
       // Still show thanks screen even if API fails
       onSubmit?.(selectedRating, feedbackText);
       setCurrentStep("thanks");
@@ -98,23 +105,35 @@ export default function RatingPrompt({
 
   const getRatingText = (rating: number) => {
     switch (rating) {
-      case 1: return "Poor";
-      case 2: return "Fair";
-      case 3: return "Good";
-      case 4: return "Great";
-      case 5: return "Excellent";
-      default: return "";
+      case 1:
+        return "Poor";
+      case 2:
+        return "Fair";
+      case 3:
+        return "Good";
+      case 4:
+        return "Great";
+      case 5:
+        return "Excellent";
+      default:
+        return "";
     }
   };
 
   const getRatingEmoji = (rating: number) => {
     switch (rating) {
-      case 1: return "😞";
-      case 2: return "😐";
-      case 3: return "🙂";
-      case 4: return "😊";
-      case 5: return "🤩";
-      default: return "";
+      case 1:
+        return "😞";
+      case 2:
+        return "😐";
+      case 3:
+        return "🙂";
+      case 4:
+        return "😊";
+      case 5:
+        return "🤩";
+      default:
+        return "";
     }
   };
 
@@ -137,12 +156,14 @@ export default function RatingPrompt({
             </div>
             <div>
               <CardTitle className="text-lg">
-                {currentStep === "rating" && `Hey ${userName}! ${getScoreMessage()}`}
+                {currentStep === "rating" &&
+                  `Hey ${userName}! ${getScoreMessage()}`}
                 {currentStep === "feedback" && "Tell us more!"}
                 {currentStep === "thanks" && "Thank you! 🙏"}
               </CardTitle>
               <CardDescription>
-                {currentStep === "rating" && "How was your CreditBridge experience?"}
+                {currentStep === "rating" &&
+                  "How was your CreditBridge experience?"}
                 {currentStep === "feedback" && "Your feedback helps us improve"}
                 {currentStep === "thanks" && "Your feedback has been submitted"}
               </CardDescription>
@@ -166,7 +187,7 @@ export default function RatingPrompt({
             <p className="text-gray-600">
               Rate your experience with our credit scoring platform
             </p>
-            
+
             <div className="flex justify-center space-x-2">
               {[1, 2, 3, 4, 5].map((rating) => (
                 <button
@@ -179,8 +200,8 @@ export default function RatingPrompt({
                   <Star
                     className={`h-8 w-8 transition-all duration-200 ${
                       rating <= (hoverRating || selectedRating)
-                        ? 'text-yellow-400 fill-current scale-110'
-                        : 'text-gray-300 hover:text-yellow-200'
+                        ? "text-yellow-400 fill-current scale-110"
+                        : "text-gray-300 hover:text-yellow-200"
                     }`}
                   />
                   {(hoverRating === rating || selectedRating === rating) && (
@@ -197,7 +218,8 @@ export default function RatingPrompt({
             {selectedRating > 0 && (
               <div className="text-center">
                 <Badge className="bg-yellow-100 text-yellow-800">
-                  {selectedRating} star{selectedRating !== 1 ? 's' : ''} - {getRatingText(selectedRating)}!
+                  {selectedRating} star{selectedRating !== 1 ? "s" : ""} -{" "}
+                  {getRatingText(selectedRating)}!
                 </Badge>
               </div>
             )}
@@ -214,24 +236,24 @@ export default function RatingPrompt({
                     key={rating}
                     className={`h-5 w-5 ${
                       rating <= selectedRating
-                        ? 'text-yellow-400 fill-current'
-                        : 'text-gray-300'
+                        ? "text-yellow-400 fill-current"
+                        : "text-gray-300"
                     }`}
                   />
                 ))}
               </div>
               <p className="text-sm text-gray-600">
-                {selectedRating >= 4 
+                {selectedRating >= 4
                   ? "We're thrilled you had a great experience! Any specific feedback?"
-                  : "We'd love to know how we can improve your experience."
-                }
+                  : "We'd love to know how we can improve your experience."}
               </p>
             </div>
 
             <Textarea
-              placeholder={selectedRating >= 4 
-                ? "What did you like most about CreditBridge? (optional)"
-                : "What can we do better? Your feedback helps us improve."
+              placeholder={
+                selectedRating >= 4
+                  ? "What did you like most about CreditBridge? (optional)"
+                  : "What can we do better? Your feedback helps us improve."
               }
               value={feedbackText}
               onChange={(e) => setFeedbackText(e.target.value)}
@@ -287,10 +309,9 @@ export default function RatingPrompt({
                 Thank you for your feedback!
               </h3>
               <p className="text-gray-600">
-                {selectedRating >= 4 
+                {selectedRating >= 4
                   ? "Your positive review means the world to us! We'll continue working hard to provide you with the best credit scoring experience."
-                  : "We appreciate your honest feedback. Our team will review your comments and work on improvements."
-                }
+                  : "We appreciate your honest feedback. Our team will review your comments and work on improvements."}
               </p>
             </div>
 

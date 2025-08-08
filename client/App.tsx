@@ -48,7 +48,7 @@ const App = () => (
                     description="View personalized loan offers based on your CreditBridge score. Connect your data to unlock exclusive rates and terms from our lending partners."
                     suggestedActions={[
                       { label: "Connect Data", href: "/data-sources" },
-                      { label: "Dashboard", href: "/dashboard" }
+                      { label: "Dashboard", href: "/dashboard" },
                     ]}
                   />
                 }
@@ -61,7 +61,7 @@ const App = () => (
                     description="Monitor your credit score changes in real-time and get alerts when your score improves or factors change."
                     suggestedActions={[
                       { label: "Dashboard", href: "/dashboard" },
-                      { label: "Coaching", href: "/coaching" }
+                      { label: "Coaching", href: "/coaching" },
                     ]}
                   />
                 }
@@ -74,7 +74,7 @@ const App = () => (
                     description="Generate detailed credit reports showing all factors affecting your score with clear explanations and improvement recommendations."
                     suggestedActions={[
                       { label: "Dashboard", href: "/dashboard" },
-                      { label: "View Score", href: "/get-started" }
+                      { label: "View Score", href: "/get-started" },
                     ]}
                   />
                 }

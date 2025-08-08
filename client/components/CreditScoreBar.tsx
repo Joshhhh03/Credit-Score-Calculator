@@ -9,44 +9,45 @@ interface CreditScoreBarProps {
   showDetails?: boolean;
 }
 
-export default function CreditScoreBar({ 
-  score, 
-  width = 400, 
+export default function CreditScoreBar({
+  score,
+  width = 400,
   height = 120,
   animated = true,
-  showDetails = true
+  showDetails = true,
 }: CreditScoreBarProps) {
   const [animatedScore, setAnimatedScore] = useState(0);
-  
+
   useEffect(() => {
     if (animated) {
       const startScore = animatedScore;
       const targetScore = score;
       const duration = 2000; // 2 seconds for smooth animation
       const startTime = Date.now();
-      
+
       const animateScore = () => {
         const currentTime = Date.now();
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        
+
         // Ease-out cubic function for smooth deceleration
         const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
         const easedProgress = easeOutCubic(progress);
-        
-        const currentScore = startScore + (targetScore - startScore) * easedProgress;
+
+        const currentScore =
+          startScore + (targetScore - startScore) * easedProgress;
         setAnimatedScore(currentScore);
-        
+
         if (progress < 1) {
           requestAnimationFrame(animateScore);
         }
       };
-      
+
       // Start animation after a short delay
       const timer = setTimeout(() => {
         requestAnimationFrame(animateScore);
       }, 300);
-      
+
       return () => clearTimeout(timer);
     } else {
       setAnimatedScore(score);
@@ -56,8 +57,11 @@ export default function CreditScoreBar({
   // Score ranges and colors
   const minScore = 300;
   const maxScore = 850;
-  const scorePercentage = Math.min(Math.max((animatedScore - minScore) / (maxScore - minScore) * 100, 0), 100);
-  
+  const scorePercentage = Math.min(
+    Math.max(((animatedScore - minScore) / (maxScore - minScore)) * 100, 0),
+    100,
+  );
+
   // Get color based on score
   const getScoreColor = (score: number) => {
     if (score >= 750) return "#10b981"; // green-500
@@ -89,22 +93,23 @@ export default function CreditScoreBar({
     { min: 300, max: 579, label: "Poor", color: "#ef4444" },
     { min: 580, max: 649, label: "Fair", color: "#f59e0b" },
     { min: 650, max: 699, label: "Good", color: "#3b82f6" },
-    { min: 700, max: 850, label: "Excellent", color: "#10b981" }
+    { min: 700, max: 850, label: "Excellent", color: "#10b981" },
   ];
 
   return (
-    <div className="flex flex-col items-center space-y-6" style={{ width: Math.max(width, 300) }}>
+    <div
+      className="flex flex-col items-center space-y-6"
+      style={{ width: Math.max(width, 300) }}
+    >
       {/* Score Display */}
       <div className="text-center">
-        <div 
+        <div
           className="text-5xl font-bold transition-colors duration-500"
           style={{ color: scoreColor }}
         >
           {Math.round(animatedScore)}
         </div>
-        <Badge className={`mt-2 ${scoreLevelColor}`}>
-          {scoreLevel}
-        </Badge>
+        <Badge className={`mt-2 ${scoreLevelColor}`}>{scoreLevel}</Badge>
       </div>
 
       {/* Horizontal Progress Bar */}
@@ -112,22 +117,40 @@ export default function CreditScoreBar({
         {/* Score range indicators */}
         {showDetails && (
           <div className="flex justify-between text-xs text-gray-500 mb-2">
-            <span>Poor<br/>300-579</span>
-            <span>Fair<br/>580-649</span>
-            <span>Good<br/>650-699</span>
-            <span>Excellent<br/>700-850</span>
+            <span>
+              Poor
+              <br />
+              300-579
+            </span>
+            <span>
+              Fair
+              <br />
+              580-649
+            </span>
+            <span>
+              Good
+              <br />
+              650-699
+            </span>
+            <span>
+              Excellent
+              <br />
+              700-850
+            </span>
           </div>
         )}
-        
+
         {/* Main progress bar container */}
         <div className="relative">
           {/* Background bar with range colors */}
           <div className="w-full h-8 rounded-full overflow-hidden bg-gray-200 relative">
             {ranges.map((range, index) => {
-              const rangeStart = ((range.min - minScore) / (maxScore - minScore)) * 100;
-              const rangeEnd = ((range.max - minScore) / (maxScore - minScore)) * 100;
+              const rangeStart =
+                ((range.min - minScore) / (maxScore - minScore)) * 100;
+              const rangeEnd =
+                ((range.max - minScore) / (maxScore - minScore)) * 100;
               const rangeWidth = rangeEnd - rangeStart;
-              
+
               return (
                 <div
                   key={index}
@@ -141,30 +164,30 @@ export default function CreditScoreBar({
               );
             })}
           </div>
-          
+
           {/* Progress fill */}
           <div
             className="absolute top-0 left-0 h-8 rounded-full transition-all ease-out"
             style={{
-              transitionDuration: '2s',
+              transitionDuration: "2s",
               width: `${scorePercentage}%`,
               backgroundColor: scoreColor,
-              boxShadow: `0 0 20px ${scoreColor}40`
+              boxShadow: `0 0 20px ${scoreColor}40`,
             }}
           />
-          
+
           {/* Score marker/pointer */}
           <div
             className="absolute top-0 w-1 h-8 bg-gray-800 transition-all ease-out"
             style={{
-              transitionDuration: '2s',
+              transitionDuration: "2s",
               left: `${scorePercentage}%`,
-              transform: 'translateX(-50%)',
-              boxShadow: '0 0 8px rgba(0,0,0,0.3)'
+              transform: "translateX(-50%)",
+              boxShadow: "0 0 8px rgba(0,0,0,0.3)",
             }}
           />
         </div>
-        
+
         {/* Score range labels */}
         {showDetails && (
           <div className="flex justify-between text-xs text-gray-400 mt-2">
@@ -181,10 +204,16 @@ export default function CreditScoreBar({
       {showDetails && (
         <div className="text-center">
           <p className="text-sm text-gray-600">
-            {animatedScore < 650 && "Focus on consistent payments to improve your score"}
-            {animatedScore >= 650 && animatedScore < 700 && "You're in good territory! Keep building your credit history"}
-            {animatedScore >= 700 && animatedScore < 750 && "Excellent work! You qualify for premium rates"}
-            {animatedScore >= 750 && "Outstanding credit! You have access to the best rates and terms"}
+            {animatedScore < 650 &&
+              "Focus on consistent payments to improve your score"}
+            {animatedScore >= 650 &&
+              animatedScore < 700 &&
+              "You're in good territory! Keep building your credit history"}
+            {animatedScore >= 700 &&
+              animatedScore < 750 &&
+              "Excellent work! You qualify for premium rates"}
+            {animatedScore >= 750 &&
+              "Outstanding credit! You have access to the best rates and terms"}
           </p>
         </div>
       )}

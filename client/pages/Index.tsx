@@ -1,20 +1,26 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
-  CreditCard, 
-  TrendingUp, 
-  Shield, 
-  Users, 
-  BarChart3, 
-  CheckCircle, 
+import {
+  CreditCard,
+  TrendingUp,
+  Shield,
+  Users,
+  BarChart3,
+  CheckCircle,
   ArrowRight,
   Star,
   Building,
   DollarSign,
   Calendar,
-  Zap
+  Zap,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import UserRatingsSection from "@/components/UserRatingsSection";
@@ -23,37 +29,57 @@ export default function Index() {
   const [stats, setStats] = useState({
     usersHelped: 49000000,
     avgScoreImprovement: 127,
-    approvalRate: 78
+    approvalRate: 78,
   });
 
   const features = [
     {
       icon: <CreditCard className="h-6 w-6" />,
       title: "Alternative Data Sources",
-      description: "We analyze rent payments, utility bills, bank transactions, and educational history to build a complete financial picture."
+      description:
+        "We analyze rent payments, utility bills, bank transactions, and educational history to build a complete financial picture.",
     },
     {
       icon: <Shield className="h-6 w-6" />,
       title: "Fair & Transparent",
-      description: "Our AI explains every decision clearly. See exactly what factors affect your score and how to improve them."
+      description:
+        "Our AI explains every decision clearly. See exactly what factors affect your score and how to improve them.",
     },
     {
       icon: <TrendingUp className="h-6 w-6" />,
       title: "Credit Building Tools",
-      description: "Get personalized coaching and actionable insights to improve your creditworthiness over time."
+      description:
+        "Get personalized coaching and actionable insights to improve your creditworthiness over time.",
     },
     {
       icon: <BarChart3 className="h-6 w-6" />,
       title: "Real-time Scoring",
-      description: "Watch your score update in real-time as you add new financial data and improve your habits."
-    }
+      description:
+        "Watch your score update in real-time as you add new financial data and improve your habits.",
+    },
   ];
 
   const dataTypes = [
-    { icon: <Building />, name: "Rent Payments", color: "bg-blue-100 text-blue-700" },
-    { icon: <Zap />, name: "Utility Bills", color: "bg-green-100 text-green-700" },
-    { icon: <DollarSign />, name: "Cash Flow", color: "bg-purple-100 text-purple-700" },
-    { icon: <Calendar />, name: "Employment History", color: "bg-orange-100 text-orange-700" }
+    {
+      icon: <Building />,
+      name: "Rent Payments",
+      color: "bg-blue-100 text-blue-700",
+    },
+    {
+      icon: <Zap />,
+      name: "Utility Bills",
+      color: "bg-green-100 text-green-700",
+    },
+    {
+      icon: <DollarSign />,
+      name: "Cash Flow",
+      color: "bg-purple-100 text-purple-700",
+    },
+    {
+      icon: <Calendar />,
+      name: "Employment History",
+      color: "bg-orange-100 text-orange-700",
+    },
   ];
 
   return (
@@ -67,7 +93,9 @@ export default function Index() {
                 <div className="h-8 w-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
                   <CreditCard className="h-5 w-5 text-white" />
                 </div>
-                <span className="ml-2 text-xl font-bold text-gray-900">CreditBridge</span>
+                <span className="ml-2 text-xl font-bold text-gray-900">
+                  CreditBridge
+                </span>
               </div>
             </div>
             <div className="flex items-center space-x-4">
@@ -97,12 +125,16 @@ export default function Index() {
               </span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Traditional credit scores exclude 49 million Americans. We use alternative data like rent payments, 
-              utility bills, and cash flow to give everyone a fair chance at credit approval.
+              Traditional credit scores exclude 49 million Americans. We use
+              alternative data like rent payments, utility bills, and cash flow
+              to give everyone a fair chance at credit approval.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/get-started">
-                <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+                >
                   Check Your Score
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -119,7 +151,9 @@ export default function Index() {
           <div className="mt-16 grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="text-3xl font-bold text-blue-600">49M+</div>
-              <div className="text-gray-600">Americans with thin credit files</div>
+              <div className="text-gray-600">
+                Americans with thin credit files
+              </div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-green-600">+127</div>
@@ -141,8 +175,9 @@ export default function Index() {
               We Look Beyond Traditional Credit
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Your financial story is more than just traditional credit. We analyze multiple data sources 
-              to create a complete picture of your creditworthiness.
+              Your financial story is more than just traditional credit. We
+              analyze multiple data sources to create a complete picture of your
+              creditworthiness.
             </p>
           </div>
 
@@ -150,7 +185,9 @@ export default function Index() {
             {dataTypes.map((type, index) => (
               <Card key={index} className="hover:shadow-lg transition-shadow">
                 <CardContent className="p-6 text-center">
-                  <div className={`h-12 w-12 rounded-full ${type.color} flex items-center justify-center mx-auto mb-4`}>
+                  <div
+                    className={`h-12 w-12 rounded-full ${type.color} flex items-center justify-center mx-auto mb-4`}
+                  >
                     {type.icon}
                   </div>
                   <h3 className="font-semibold text-gray-900">{type.name}</h3>
@@ -182,7 +219,9 @@ export default function Index() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="text-base">{feature.description}</CardDescription>
+                  <CardDescription className="text-base">
+                    {feature.description}
+                  </CardDescription>
                 </CardContent>
               </Card>
             ))}
@@ -205,21 +244,30 @@ export default function Index() {
                 <span className="text-2xl font-bold text-blue-600">1</span>
               </div>
               <h3 className="text-xl font-semibold mb-2">Connect Your Data</h3>
-              <p className="text-gray-600">Securely link your bank accounts, rent payments, and utility bills to build your financial profile.</p>
+              <p className="text-gray-600">
+                Securely link your bank accounts, rent payments, and utility
+                bills to build your financial profile.
+              </p>
             </div>
             <div className="text-center">
               <div className="h-16 w-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-green-600">2</span>
               </div>
               <h3 className="text-xl font-semibold mb-2">Get Your Score</h3>
-              <p className="text-gray-600">Our AI analyzes your data and generates a comprehensive credit score with full transparency.</p>
+              <p className="text-gray-600">
+                Our AI analyzes your data and generates a comprehensive credit
+                score with full transparency.
+              </p>
             </div>
             <div className="text-center">
               <div className="h-16 w-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-purple-600">3</span>
               </div>
               <h3 className="text-xl font-semibold mb-2">Improve & Apply</h3>
-              <p className="text-gray-600">Follow personalized coaching to improve your score and apply for credit with confidence.</p>
+              <p className="text-gray-600">
+                Follow personalized coaching to improve your score and apply for
+                credit with confidence.
+              </p>
             </div>
           </div>
         </div>
@@ -235,11 +283,15 @@ export default function Index() {
             Ready to Build Your Credit Score?
           </h2>
           <p className="text-xl text-blue-100 mb-8">
-            Join millions of Americans who are building credit with alternative data. 
-            Get started in just 5 minutes.
+            Join millions of Americans who are building credit with alternative
+            data. Get started in just 5 minutes.
           </p>
           <Link to="/get-started">
-            <Button size="lg" variant="secondary" className="bg-white text-blue-600 hover:bg-gray-100">
+            <Button
+              size="lg"
+              variant="secondary"
+              className="bg-white text-blue-600 hover:bg-gray-100"
+            >
               Get Started Free
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
@@ -258,7 +310,8 @@ export default function Index() {
               <span className="ml-2 text-xl font-bold">CreditBridge</span>
             </div>
             <div className="text-gray-400">
-              © 2024 CreditBridge. Empowering financial inclusion through alternative credit scoring.
+              © 2024 CreditBridge. Empowering financial inclusion through
+              alternative credit scoring.
             </div>
           </div>
         </div>

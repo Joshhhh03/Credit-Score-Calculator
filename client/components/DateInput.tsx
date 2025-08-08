@@ -3,16 +3,26 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
-import { 
-  Calendar as CalendarIcon, 
-  Keyboard, 
+import {
+  Calendar as CalendarIcon,
+  Keyboard,
   List,
   AlertCircle,
-  CheckCircle
+  CheckCircle,
 } from "lucide-react";
 import { format, parse, isValid, isBefore, isAfter } from "date-fns";
 
@@ -33,7 +43,7 @@ interface DateInputProps {
   className?: string;
 }
 
-type InputMode = 'calendar' | 'dropdown' | 'text';
+type InputMode = "calendar" | "dropdown" | "text";
 
 export default function DateInput({
   label,
@@ -44,25 +54,27 @@ export default function DateInput({
   minDate,
   maxDate,
   constraints,
-  className
+  className,
 }: DateInputProps) {
-  const [inputMode, setInputMode] = useState<InputMode>('calendar');
+  const [inputMode, setInputMode] = useState<InputMode>("calendar");
   const [isOpen, setIsOpen] = useState(false);
   const [textInput, setTextInput] = useState(value);
-  const [dropdownMonth, setDropdownMonth] = useState('');
-  const [dropdownDay, setDropdownDay] = useState('');
-  const [dropdownYear, setDropdownYear] = useState('');
-  const [validationError, setValidationError] = useState('');
+  const [dropdownMonth, setDropdownMonth] = useState("");
+  const [dropdownDay, setDropdownDay] = useState("");
+  const [dropdownYear, setDropdownYear] = useState("");
+  const [validationError, setValidationError] = useState("");
 
   // Parse current value
-  const currentDate = value ? parse(value, 'yyyy-MM-dd', new Date()) : null;
+  const currentDate = value ? parse(value, "yyyy-MM-dd", new Date()) : null;
   const isCurrentDateValid = currentDate && isValid(currentDate);
 
   // Initialize dropdown values from current date
   useState(() => {
     if (isCurrentDateValid) {
-      setDropdownMonth((currentDate.getMonth() + 1).toString().padStart(2, '0'));
-      setDropdownDay(currentDate.getDate().toString().padStart(2, '0'));
+      setDropdownMonth(
+        (currentDate.getMonth() + 1).toString().padStart(2, "0"),
+      );
+      setDropdownDay(currentDate.getDate().toString().padStart(2, "0"));
       setDropdownYear(currentDate.getFullYear().toString());
     }
   });
@@ -74,16 +86,17 @@ export default function DateInput({
     }
 
     if (minDate && isBefore(date, minDate)) {
-      return `Date must be after ${format(minDate, 'MMM dd, yyyy')}`;
+      return `Date must be after ${format(minDate, "MMM dd, yyyy")}`;
     }
 
     if (maxDate && isAfter(date, maxDate)) {
-      return `Date must be before ${format(maxDate, 'MMM dd, yyyy')}`;
+      return `Date must be before ${format(maxDate, "MMM dd, yyyy")}`;
     }
 
     if (constraints) {
       const today = new Date();
-      const age = (today.getTime() - date.getTime()) / (1000 * 60 * 60 * 24 * 365.25);
+      const age =
+        (today.getTime() - date.getTime()) / (1000 * 60 * 60 * 24 * 365.25);
 
       if (constraints.minAge && age < constraints.minAge) {
         return `You must be at least ${constraints.minAge} years old`;
@@ -102,19 +115,19 @@ export default function DateInput({
       }
     }
 
-    return '';
+    return "";
   };
 
   // Handle calendar selection
   const handleCalendarSelect = (date: Date | undefined) => {
     if (date) {
-      const dateString = format(date, 'yyyy-MM-dd');
+      const dateString = format(date, "yyyy-MM-dd");
       const error = validateDate(date, dateString);
-      
+
       if (error) {
         setValidationError(error);
       } else {
-        setValidationError('');
+        setValidationError("");
         onChange(dateString);
         setIsOpen(false);
       }
@@ -124,19 +137,19 @@ export default function DateInput({
   // Handle text input
   const handleTextInputChange = (inputValue: string) => {
     setTextInput(inputValue);
-    
+
     // Try to parse various date formats
     const formats = [
-      'yyyy-MM-dd',
-      'MM/dd/yyyy',
-      'dd/MM/yyyy',
-      'MM-dd-yyyy',
-      'MMM dd, yyyy',
-      'MMMM dd, yyyy'
+      "yyyy-MM-dd",
+      "MM/dd/yyyy",
+      "dd/MM/yyyy",
+      "MM-dd-yyyy",
+      "MMM dd, yyyy",
+      "MMMM dd, yyyy",
     ];
 
     let parsedDate: Date | null = null;
-    let validFormat = '';
+    let validFormat = "";
 
     for (const formatStr of formats) {
       try {
@@ -152,39 +165,44 @@ export default function DateInput({
     }
 
     if (parsedDate) {
-      const dateString = format(parsedDate, 'yyyy-MM-dd');
+      const dateString = format(parsedDate, "yyyy-MM-dd");
       const error = validateDate(parsedDate, dateString);
-      
+
       if (error) {
         setValidationError(error);
       } else {
-        setValidationError('');
+        setValidationError("");
         onChange(dateString);
       }
     } else if (inputValue.trim()) {
-      setValidationError('Please enter a valid date (MM/DD/YYYY, DD/MM/YYYY, or MMM DD, YYYY)');
+      setValidationError(
+        "Please enter a valid date (MM/DD/YYYY, DD/MM/YYYY, or MMM DD, YYYY)",
+      );
     } else {
-      setValidationError('');
-      onChange('');
+      setValidationError("");
+      onChange("");
     }
   };
 
   // Handle dropdown change
-  const handleDropdownChange = (type: 'month' | 'day' | 'year', value: string) => {
+  const handleDropdownChange = (
+    type: "month" | "day" | "year",
+    value: string,
+  ) => {
     let newMonth = dropdownMonth;
     let newDay = dropdownDay;
     let newYear = dropdownYear;
 
     switch (type) {
-      case 'month':
+      case "month":
         newMonth = value;
         setDropdownMonth(value);
         break;
-      case 'day':
+      case "day":
         newDay = value;
         setDropdownDay(value);
         break;
-      case 'year':
+      case "year":
         newYear = value;
         setDropdownYear(value);
         break;
@@ -192,52 +210,52 @@ export default function DateInput({
 
     if (newMonth && newDay && newYear) {
       try {
-        const dateString = `${newYear}-${newMonth.padStart(2, '0')}-${newDay.padStart(2, '0')}`;
-        const date = parse(dateString, 'yyyy-MM-dd', new Date());
-        
+        const dateString = `${newYear}-${newMonth.padStart(2, "0")}-${newDay.padStart(2, "0")}`;
+        const date = parse(dateString, "yyyy-MM-dd", new Date());
+
         if (isValid(date)) {
           const error = validateDate(date, dateString);
-          
+
           if (error) {
             setValidationError(error);
           } else {
-            setValidationError('');
+            setValidationError("");
             onChange(dateString);
           }
         } else {
-          setValidationError('Invalid date combination');
+          setValidationError("Invalid date combination");
         }
       } catch (e) {
-        setValidationError('Invalid date');
+        setValidationError("Invalid date");
       }
     }
   };
 
   // Generate options for dropdowns
   const months = [
-    { value: '01', label: 'January' },
-    { value: '02', label: 'February' },
-    { value: '03', label: 'March' },
-    { value: '04', label: 'April' },
-    { value: '05', label: 'May' },
-    { value: '06', label: 'June' },
-    { value: '07', label: 'July' },
-    { value: '08', label: 'August' },
-    { value: '09', label: 'September' },
-    { value: '10', label: 'October' },
-    { value: '11', label: 'November' },
-    { value: '12', label: 'December' }
+    { value: "01", label: "January" },
+    { value: "02", label: "February" },
+    { value: "03", label: "March" },
+    { value: "04", label: "April" },
+    { value: "05", label: "May" },
+    { value: "06", label: "June" },
+    { value: "07", label: "July" },
+    { value: "08", label: "August" },
+    { value: "09", label: "September" },
+    { value: "10", label: "October" },
+    { value: "11", label: "November" },
+    { value: "12", label: "December" },
   ];
 
   const days = Array.from({ length: 31 }, (_, i) => ({
-    value: (i + 1).toString().padStart(2, '0'),
-    label: (i + 1).toString()
+    value: (i + 1).toString().padStart(2, "0"),
+    label: (i + 1).toString(),
   }));
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 100 }, (_, i) => ({
     value: (currentYear - i).toString(),
-    label: (currentYear - i).toString()
+    label: (currentYear - i).toString(),
   }));
 
   return (
@@ -246,33 +264,33 @@ export default function DateInput({
         <Label className="text-sm font-medium">
           {label} {required && <span className="text-red-500">*</span>}
         </Label>
-        
+
         {/* Input mode selector */}
         <div className="flex border rounded-md">
           <Button
             type="button"
-            variant={inputMode === 'calendar' ? 'default' : 'ghost'}
+            variant={inputMode === "calendar" ? "default" : "ghost"}
             size="sm"
             className="h-8 px-2"
-            onClick={() => setInputMode('calendar')}
+            onClick={() => setInputMode("calendar")}
           >
             <CalendarIcon className="h-3 w-3" />
           </Button>
           <Button
             type="button"
-            variant={inputMode === 'dropdown' ? 'default' : 'ghost'}
+            variant={inputMode === "dropdown" ? "default" : "ghost"}
             size="sm"
             className="h-8 px-2"
-            onClick={() => setInputMode('dropdown')}
+            onClick={() => setInputMode("dropdown")}
           >
             <List className="h-3 w-3" />
           </Button>
           <Button
             type="button"
-            variant={inputMode === 'text' ? 'default' : 'ghost'}
+            variant={inputMode === "text" ? "default" : "ghost"}
             size="sm"
             className="h-8 px-2"
-            onClick={() => setInputMode('text')}
+            onClick={() => setInputMode("text")}
           >
             <Keyboard className="h-3 w-3" />
           </Button>
@@ -280,7 +298,7 @@ export default function DateInput({
       </div>
 
       {/* Calendar Mode */}
-      {inputMode === 'calendar' && (
+      {inputMode === "calendar" && (
         <Popover open={isOpen} onOpenChange={setIsOpen}>
           <PopoverTrigger asChild>
             <Button
@@ -288,11 +306,11 @@ export default function DateInput({
               className={cn(
                 "w-full justify-start text-left font-normal",
                 !value && "text-muted-foreground",
-                validationError && "border-red-500"
+                validationError && "border-red-500",
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
-              {isCurrentDateValid ? format(currentDate, 'PPP') : placeholder}
+              {isCurrentDateValid ? format(currentDate, "PPP") : placeholder}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
@@ -312,9 +330,12 @@ export default function DateInput({
       )}
 
       {/* Dropdown Mode */}
-      {inputMode === 'dropdown' && (
+      {inputMode === "dropdown" && (
         <div className="grid grid-cols-3 gap-2">
-          <Select value={dropdownMonth} onValueChange={(value) => handleDropdownChange('month', value)}>
+          <Select
+            value={dropdownMonth}
+            onValueChange={(value) => handleDropdownChange("month", value)}
+          >
             <SelectTrigger className={cn(validationError && "border-red-500")}>
               <SelectValue placeholder="Month" />
             </SelectTrigger>
@@ -327,7 +348,10 @@ export default function DateInput({
             </SelectContent>
           </Select>
 
-          <Select value={dropdownDay} onValueChange={(value) => handleDropdownChange('day', value)}>
+          <Select
+            value={dropdownDay}
+            onValueChange={(value) => handleDropdownChange("day", value)}
+          >
             <SelectTrigger className={cn(validationError && "border-red-500")}>
               <SelectValue placeholder="Day" />
             </SelectTrigger>
@@ -340,7 +364,10 @@ export default function DateInput({
             </SelectContent>
           </Select>
 
-          <Select value={dropdownYear} onValueChange={(value) => handleDropdownChange('year', value)}>
+          <Select
+            value={dropdownYear}
+            onValueChange={(value) => handleDropdownChange("year", value)}
+          >
             <SelectTrigger className={cn(validationError && "border-red-500")}>
               <SelectValue placeholder="Year" />
             </SelectTrigger>
@@ -356,7 +383,7 @@ export default function DateInput({
       )}
 
       {/* Text Mode */}
-      {inputMode === 'text' && (
+      {inputMode === "text" && (
         <div>
           <Input
             type="text"
@@ -376,10 +403,10 @@ export default function DateInput({
         {value && isCurrentDateValid && !validationError && (
           <div className="flex items-center text-green-600">
             <CheckCircle className="h-3 w-3 mr-1" />
-            <span>{format(currentDate, 'MMM dd, yyyy')}</span>
+            <span>{format(currentDate, "MMM dd, yyyy")}</span>
           </div>
         )}
-        
+
         {validationError && (
           <div className="flex items-center text-red-600">
             <AlertCircle className="h-3 w-3 mr-1" />

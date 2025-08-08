@@ -1,14 +1,20 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CreditScoreBar from "@/components/CreditScoreBar";
 import ScoreHistoryChart from "@/components/ScoreHistoryChart";
-import { 
-  CreditCard, 
-  TrendingUp, 
+import {
+  CreditCard,
+  TrendingUp,
   TrendingDown,
   Calendar,
   DollarSign,
@@ -20,7 +26,7 @@ import {
   RefreshCw,
   Eye,
   Target,
-  Award
+  Award,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import RatingPrompt from "@/components/RatingPrompt";
@@ -42,11 +48,11 @@ export default function Dashboard() {
 
   // Show rating prompt for returning users (simulate check for first-time vs returning)
   useEffect(() => {
-    const hasSeenRating = localStorage.getItem('creditbridge-rating-shown');
+    const hasSeenRating = localStorage.getItem("creditbridge-rating-shown");
     if (!hasSeenRating) {
       const timer = setTimeout(() => {
         setShowRatingPrompt(true);
-        localStorage.setItem('creditbridge-rating-shown', 'true');
+        localStorage.setItem("creditbridge-rating-shown", "true");
       }, 5000); // Show after 5 seconds on dashboard
 
       return () => clearTimeout(timer);
@@ -60,15 +66,21 @@ export default function Dashboard() {
       score: 85,
       description: "24 months of on-time rent payments",
       icon: <Building className="h-5 w-5" />,
-      recommendations: ["Continue making on-time payments", "Consider asking landlord for reference letter"]
+      recommendations: [
+        "Continue making on-time payments",
+        "Consider asking landlord for reference letter",
+      ],
     },
     {
       category: "Utility Payments",
-      impact: "positive", 
+      impact: "positive",
       score: 78,
       description: "Consistent utility payment history",
       icon: <Zap className="h-5 w-5" />,
-      recommendations: ["Set up autopay for all utilities", "Consider consolidating utility accounts"]
+      recommendations: [
+        "Set up autopay for all utilities",
+        "Consider consolidating utility accounts",
+      ],
     },
     {
       category: "Cash Flow",
@@ -76,7 +88,11 @@ export default function Dashboard() {
       score: 65,
       description: "Moderate income stability",
       icon: <DollarSign className="h-5 w-5" />,
-      recommendations: ["Increase savings rate", "Consider additional income sources", "Build emergency fund"]
+      recommendations: [
+        "Increase savings rate",
+        "Consider additional income sources",
+        "Build emergency fund",
+      ],
     },
     {
       category: "Employment History",
@@ -84,8 +100,11 @@ export default function Dashboard() {
       score: 82,
       description: "3+ years at current employer",
       icon: <Calendar className="h-5 w-5" />,
-      recommendations: ["Maintain stable employment", "Update income information when promoted"]
-    }
+      recommendations: [
+        "Maintain stable employment",
+        "Update income information when promoted",
+      ],
+    },
   ];
 
   const getScoreColor = (score: number) => {
@@ -96,7 +115,7 @@ export default function Dashboard() {
 
   const getScoreLevel = (score: number) => {
     if (score >= 750) return "Excellent";
-    if (score >= 700) return "Good"; 
+    if (score >= 700) return "Good";
     if (score >= 650) return "Fair";
     return "Poor";
   };
@@ -128,8 +147,12 @@ export default function Dashboard() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Your Credit Dashboard</h1>
-          <p className="text-gray-600">Track your alternative credit score and see what's affecting it</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Your Credit Dashboard
+          </h1>
+          <p className="text-gray-600">
+            Track your alternative credit score and see what's affecting it
+          </p>
         </div>
 
         {/* Credit Score Card */}
@@ -138,17 +161,27 @@ export default function Dashboard() {
             <CardHeader>
               <div className="flex justify-between items-start">
                 <div>
-                  <CardTitle className="text-2xl">Your CreditBridge Score</CardTitle>
+                  <CardTitle className="text-2xl">
+                    Your CreditBridge Score
+                  </CardTitle>
                   <CardDescription>Updated {lastUpdated}</CardDescription>
                 </div>
-                <Badge variant="secondary" className="bg-green-100 text-green-700">
+                <Badge
+                  variant="secondary"
+                  className="bg-green-100 text-green-700"
+                >
                   {scoreChange} this month
                 </Badge>
               </div>
             </CardHeader>
             <CardContent>
               <div className="px-4">
-                <CreditScoreBar score={creditScore} width={500} animated={true} showDetails={true} />
+                <CreditScoreBar
+                  score={creditScore}
+                  width={500}
+                  animated={true}
+                  showDetails={true}
+                />
               </div>
             </CardContent>
           </Card>
@@ -164,7 +197,9 @@ export default function Dashboard() {
               <div className="space-y-4">
                 <div className="flex items-center">
                   <CheckCircle className="h-5 w-5 text-green-600 mr-3" />
-                  <span className="text-sm">Approved for most credit cards</span>
+                  <span className="text-sm">
+                    Approved for most credit cards
+                  </span>
                 </div>
                 <div className="flex items-center">
                   <CheckCircle className="h-5 w-5 text-green-600 mr-3" />
@@ -193,7 +228,10 @@ export default function Dashboard() {
           <TabsContent value="factors" className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">
               {scoreFactors.map((factor, index) => (
-                <Card key={index} className={`border-2 ${getImpactColor(factor.impact)}`}>
+                <Card
+                  key={index}
+                  className={`border-2 ${getImpactColor(factor.impact)}`}
+                >
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center">
@@ -201,13 +239,19 @@ export default function Dashboard() {
                           {factor.icon}
                         </div>
                         <div>
-                          <CardTitle className="text-lg">{factor.category}</CardTitle>
-                          <CardDescription>{factor.description}</CardDescription>
+                          <CardTitle className="text-lg">
+                            {factor.category}
+                          </CardTitle>
+                          <CardDescription>
+                            {factor.description}
+                          </CardDescription>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
                         {getImpactIcon(factor.impact)}
-                        <span className="font-bold text-lg">{factor.score}/100</span>
+                        <span className="font-bold text-lg">
+                          {factor.score}/100
+                        </span>
                       </div>
                     </div>
                   </CardHeader>
@@ -231,7 +275,8 @@ export default function Dashboard() {
               <CardHeader>
                 <CardTitle>Add More Data Sources</CardTitle>
                 <CardDescription>
-                  Connect additional financial data to improve your score accuracy
+                  Connect additional financial data to improve your score
+                  accuracy
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -333,7 +378,11 @@ export default function Dashboard() {
               trigger="dashboard-visit"
               onClose={() => setShowRatingPrompt(false)}
               onSubmit={(rating, feedback) => {
-                console.log('Dashboard rating submitted:', { rating, feedback, score: creditScore });
+                console.log("Dashboard rating submitted:", {
+                  rating,
+                  feedback,
+                  score: creditScore,
+                });
                 // Here you would typically save to your backend
                 setShowRatingPrompt(false);
               }}

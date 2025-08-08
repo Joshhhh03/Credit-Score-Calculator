@@ -7,14 +7,14 @@ import {
   getUserData,
   updateCreditScore,
   getCreditHistory,
-  calculateCreditScore
+  calculateCreditScore,
 } from "./routes/user-data";
 import {
   submitRating,
   getRatingStats,
   getUserRatings,
   updateRating,
-  getTestimonials
+  getTestimonials,
 } from "./routes/ratings";
 import {
   signUp,
@@ -23,12 +23,12 @@ import {
   updateProfile,
   changePassword,
   deleteAccount,
-  validateSession
+  validateSession,
 } from "./routes/auth";
 import {
   generateAnalytics,
   getAnalytics,
-  getLoanOffers
+  getLoanOffers,
 } from "./routes/analytics";
 
 export function createServer() {

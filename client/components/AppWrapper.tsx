@@ -18,25 +18,31 @@ export default function AppWrapper({ children }: AppWrapperProps) {
 
   // Show welcome modal on first visit
   useEffect(() => {
-    const hasSeenWelcome = localStorage.getItem('creditbridge-welcome-seen');
-    const isHomePage = location.pathname === '/';
-    
+    const hasSeenWelcome = localStorage.getItem("creditbridge-welcome-seen");
+    const isHomePage = location.pathname === "/";
+
     if (!hasSeenWelcome && isHomePage && !isLoading) {
       const timer = setTimeout(() => {
         setShowWelcomeModal(true);
       }, 1000); // Show after 1 second on homepage
-      
+
       return () => clearTimeout(timer);
     }
   }, [location.pathname, isLoading]);
 
   const handleWelcomeClose = () => {
     setShowWelcomeModal(false);
-    localStorage.setItem('creditbridge-welcome-seen', 'true');
+    localStorage.setItem("creditbridge-welcome-seen", "true");
   };
 
   // Pages that should show navigation
-  const showNavigation = ['/dashboard', '/data-sources', '/coaching', '/analytics', '/get-started'].includes(location.pathname);
+  const showNavigation = [
+    "/dashboard",
+    "/data-sources",
+    "/coaching",
+    "/analytics",
+    "/get-started",
+  ].includes(location.pathname);
 
   return (
     <>
@@ -50,7 +56,9 @@ export default function AppWrapper({ children }: AppWrapperProps) {
                   <div className="h-8 w-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
                     <CreditCard className="h-5 w-5 text-white" />
                   </div>
-                  <span className="ml-2 text-xl font-bold text-gray-900">CreditBridge</span>
+                  <span className="ml-2 text-xl font-bold text-gray-900">
+                    CreditBridge
+                  </span>
                 </Link>
               </div>
               <div className="flex items-center space-x-4">
@@ -68,7 +76,7 @@ export default function AppWrapper({ children }: AppWrapperProps) {
                     <Link to="/analytics">
                       <Button variant="ghost">Analytics</Button>
                     </Link>
-                    {location.pathname === '/analytics' && (
+                    {location.pathname === "/analytics" && (
                       <Button
                         variant="outline"
                         size="sm"
@@ -100,10 +108,7 @@ export default function AppWrapper({ children }: AppWrapperProps) {
       {children}
 
       {/* Welcome Modal */}
-      <WelcomeModal 
-        isOpen={showWelcomeModal} 
-        onClose={handleWelcomeClose} 
-      />
+      <WelcomeModal isOpen={showWelcomeModal} onClose={handleWelcomeClose} />
     </>
   );
 }

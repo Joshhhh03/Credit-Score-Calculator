@@ -8,7 +8,7 @@ export interface UserPersonalInfo {
   dateOfBirth: string;
   ssn: string;
   traditionalCreditScore?: number;
-  hasTraditionalCredit: 'yes' | 'no' | 'limited' | 'unsure';
+  hasTraditionalCredit: "yes" | "no" | "limited" | "unsure";
   address: {
     street: string;
     city: string;
@@ -22,18 +22,18 @@ export interface Employment {
   jobTitle: string;
   annualSalary: number;
   startDate: string;
-  employmentType: 'full-time' | 'part-time' | 'contract' | 'self-employed';
+  employmentType: "full-time" | "part-time" | "contract" | "self-employed";
   workAddress: string;
 }
 
 export interface PaymentHistory {
   date: string;
   amount: number;
-  status: 'on-time' | 'late' | 'missed';
+  status: "on-time" | "late" | "missed";
 }
 
 export interface Housing {
-  housingType: 'rent' | 'own' | 'family';
+  housingType: "rent" | "own" | "family";
   landlordName?: string;
   monthlyRent?: number;
   leaseStartDate?: string;
@@ -44,7 +44,7 @@ export interface Housing {
 
 export interface Utility {
   provider: string;
-  type: 'electric' | 'gas' | 'water' | 'internet' | 'phone';
+  type: "electric" | "gas" | "water" | "internet" | "phone";
   accountNumber: string;
   monthlyAmount: number;
   paymentHistory: PaymentHistory[];
@@ -52,7 +52,7 @@ export interface Utility {
 
 export interface Banking {
   bankName: string;
-  accountType: 'checking' | 'savings' | 'both';
+  accountType: "checking" | "savings" | "both";
   routingNumber: string;
   averageBalance: number;
   monthlyIncome: number;
@@ -136,7 +136,7 @@ export interface GetCreditHistoryResponse {
 
 export interface CalculateCreditScoreRequest {
   traditionalCreditScore?: number;
-  hasTraditionalCredit: 'yes' | 'no' | 'limited' | 'unsure';
+  hasTraditionalCredit: "yes" | "no" | "limited" | "unsure";
   financialData: Partial<FinancialData>;
 }
 

@@ -19,18 +19,11 @@ const ratings: Map<string, UserRating> = new Map();
 // Submit a new rating
 export const submitRating: RequestHandler = (req, res) => {
   try {
-    const { 
-      rating, 
-      feedback, 
-      userScore, 
-      trigger, 
-      userName, 
-      userId 
-    } = req.body;
+    const { rating, feedback, userScore, trigger, userName, userId } = req.body;
 
     if (!rating || rating < 1 || rating > 5) {
-      return res.status(400).json({ 
-        error: "Rating must be between 1 and 5" 
+      return res.status(400).json({
+        error: "Rating must be between 1 and 5",
       });
     }
 
@@ -44,8 +37,8 @@ export const submitRating: RequestHandler = (req, res) => {
       trigger,
       userName: userName || "Anonymous",
       timestamp: new Date().toISOString(),
-      userAgent: req.headers['user-agent'],
-      ipAddress: req.ip || req.connection.remoteAddress
+      userAgent: req.headers["user-agent"],
+      ipAddress: req.ip || req.connection.remoteAddress,
     };
 
     ratings.set(ratingId, newRating);
@@ -56,14 +49,13 @@ export const submitRating: RequestHandler = (req, res) => {
       ratingId: ratingId,
       data: {
         rating: newRating.rating,
-        timestamp: newRating.timestamp
-      }
+        timestamp: newRating.timestamp,
+      },
     });
-
   } catch (error) {
     console.error("Error submitting rating:", error);
-    res.status(500).json({ 
-      error: "Failed to submit rating" 
+    res.status(500).json({
+      error: "Failed to submit rating",
     });
   }
 };
@@ -72,35 +64,42 @@ export const submitRating: RequestHandler = (req, res) => {
 export const getRatingStats: RequestHandler = (req, res) => {
   try {
     const allRatings = Array.from(ratings.values());
-    
+
     if (allRatings.length === 0) {
       return res.json({
         totalRatings: 0,
         averageRating: 0,
         distribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
-        recentRatings: []
+        recentRatings: [],
       });
     }
 
     const totalRatings = allRatings.length;
-    const averageRating = allRatings.reduce((sum, r) => sum + r.rating, 0) / totalRatings;
-    
-    const distribution = allRatings.reduce((dist, r) => {
-      dist[r.rating as keyof typeof dist]++;
-      return dist;
-    }, { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 });
+    const averageRating =
+      allRatings.reduce((sum, r) => sum + r.rating, 0) / totalRatings;
+
+    const distribution = allRatings.reduce(
+      (dist, r) => {
+        dist[r.rating as keyof typeof dist]++;
+        return dist;
+      },
+      { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+    );
 
     const recentRatings = allRatings
-      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+      .sort(
+        (a, b) =>
+          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+      )
       .slice(0, 10)
-      .map(r => ({
+      .map((r) => ({
         id: r.id,
         rating: r.rating,
         feedback: r.feedback,
         userName: r.userName,
         timestamp: r.timestamp,
         userScore: r.userScore,
-        trigger: r.trigger
+        trigger: r.trigger,
       }));
 
     res.json({
@@ -108,14 +107,15 @@ export const getRatingStats: RequestHandler = (req, res) => {
       averageRating: Math.round(averageRating * 10) / 10,
       distribution,
       recentRatings,
-      highRatingPercentage: Math.round(((distribution[4] + distribution[5]) / totalRatings) * 100),
-      responseRate: totalRatings // In a real app, this would be calculated against total users
+      highRatingPercentage: Math.round(
+        ((distribution[4] + distribution[5]) / totalRatings) * 100,
+      ),
+      responseRate: totalRatings, // In a real app, this would be calculated against total users
     });
-
   } catch (error) {
     console.error("Error getting rating stats:", error);
-    res.status(500).json({ 
-      error: "Failed to get rating statistics" 
+    res.status(500).json({
+      error: "Failed to get rating statistics",
     });
   }
 };
@@ -124,35 +124,37 @@ export const getRatingStats: RequestHandler = (req, res) => {
 export const getUserRatings: RequestHandler = (req, res) => {
   try {
     const { userId } = req.params;
-    
+
     if (!userId) {
-      return res.status(400).json({ 
-        error: "User ID is required" 
+      return res.status(400).json({
+        error: "User ID is required",
       });
     }
 
     const userRatings = Array.from(ratings.values())
-      .filter(r => r.userId === userId)
-      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+      .filter((r) => r.userId === userId)
+      .sort(
+        (a, b) =>
+          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+      );
 
     res.json({
       userId,
-      ratings: userRatings.map(r => ({
+      ratings: userRatings.map((r) => ({
         id: r.id,
         rating: r.rating,
         feedback: r.feedback,
         timestamp: r.timestamp,
         trigger: r.trigger,
-        userScore: r.userScore
+        userScore: r.userScore,
       })),
       totalSubmitted: userRatings.length,
-      latestRating: userRatings[0] || null
+      latestRating: userRatings[0] || null,
     });
-
   } catch (error) {
     console.error("Error getting user ratings:", error);
-    res.status(500).json({ 
-      error: "Failed to get user ratings" 
+    res.status(500).json({
+      error: "Failed to get user ratings",
     });
   }
 };
@@ -165,14 +167,14 @@ export const updateRating: RequestHandler = (req, res) => {
 
     const existingRating = ratings.get(ratingId);
     if (!existingRating) {
-      return res.status(404).json({ 
-        error: "Rating not found" 
+      return res.status(404).json({
+        error: "Rating not found",
       });
     }
 
     if (rating && (rating < 1 || rating > 5)) {
-      return res.status(400).json({ 
-        error: "Rating must be between 1 and 5" 
+      return res.status(400).json({
+        error: "Rating must be between 1 and 5",
       });
     }
 
@@ -180,7 +182,7 @@ export const updateRating: RequestHandler = (req, res) => {
       ...existingRating,
       rating: rating || existingRating.rating,
       feedback: feedback !== undefined ? feedback : existingRating.feedback,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
 
     ratings.set(ratingId, updatedRating);
@@ -191,14 +193,13 @@ export const updateRating: RequestHandler = (req, res) => {
       data: {
         rating: updatedRating.rating,
         feedback: updatedRating.feedback,
-        timestamp: updatedRating.timestamp
-      }
+        timestamp: updatedRating.timestamp,
+      },
     });
-
   } catch (error) {
     console.error("Error updating rating:", error);
-    res.status(500).json({ 
-      error: "Failed to update rating" 
+    res.status(500).json({
+      error: "Failed to update rating",
     });
   }
 };
@@ -207,29 +208,35 @@ export const updateRating: RequestHandler = (req, res) => {
 export const getTestimonials: RequestHandler = (req, res) => {
   try {
     const { limit = 10 } = req.query;
-    
+
     const testimonials = Array.from(ratings.values())
-      .filter(r => r.rating >= 4 && r.feedback && r.feedback.trim().length > 10)
-      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+      .filter(
+        (r) => r.rating >= 4 && r.feedback && r.feedback.trim().length > 10,
+      )
+      .sort(
+        (a, b) =>
+          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+      )
       .slice(0, parseInt(limit as string))
-      .map(r => ({
+      .map((r) => ({
         id: r.id,
         rating: r.rating,
         feedback: r.feedback,
-        userName: r.userName?.split(' ')[0] || 'Anonymous', // Only first name for privacy
+        userName: r.userName?.split(" ")[0] || "Anonymous", // Only first name for privacy
         timestamp: r.timestamp,
-        scoreImprovement: r.userScore ? Math.max(0, r.userScore - 600) : undefined
+        scoreImprovement: r.userScore
+          ? Math.max(0, r.userScore - 600)
+          : undefined,
       }));
 
     res.json({
       testimonials,
-      total: testimonials.length
+      total: testimonials.length,
     });
-
   } catch (error) {
     console.error("Error getting testimonials:", error);
-    res.status(500).json({ 
-      error: "Failed to get testimonials" 
+    res.status(500).json({
+      error: "Failed to get testimonials",
     });
   }
 };

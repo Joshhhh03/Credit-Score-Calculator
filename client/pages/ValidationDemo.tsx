@@ -1,18 +1,24 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import DateInput from "@/components/DateInput";
 import { CreditDataValidator } from "@/utils/validation";
-import { 
-  CreditCard, 
-  CheckCircle, 
+import {
+  CreditCard,
+  CheckCircle,
   AlertCircle,
   Calendar,
   List,
-  Keyboard
+  Keyboard,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -24,47 +30,49 @@ export default function ValidationDemo() {
     employmentStart: "",
     leaseStart: "",
     annualSalary: "",
-    ssn: ""
+    ssn: "",
   });
 
-  const [validationResults, setValidationResults] = useState<{[key: string]: any}>({});
+  const [validationResults, setValidationResults] = useState<{
+    [key: string]: any;
+  }>({});
   const [showValidation, setShowValidation] = useState(false);
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    
+    setFormData((prev) => ({ ...prev, [field]: value }));
+
     if (showValidation) {
       validateField(field, value);
     }
   };
 
   const validateField = (field: string, value: string) => {
-    let result = { isValid: true, error: '', warning: '' };
-    
+    let result = { isValid: true, error: "", warning: "" };
+
     switch (field) {
-      case 'firstName':
-        result = CreditDataValidator.validateName(value, 'First name');
+      case "firstName":
+        result = CreditDataValidator.validateName(value, "First name");
         break;
-      case 'email':
+      case "email":
         result = CreditDataValidator.validateEmail(value);
         break;
-      case 'dateOfBirth':
+      case "dateOfBirth":
         result = CreditDataValidator.validateDateOfBirth(value);
         break;
-      case 'employmentStart':
+      case "employmentStart":
         result = CreditDataValidator.validateEmploymentStartDate(value);
         break;
-      case 'annualSalary':
+      case "annualSalary":
         result = CreditDataValidator.validateAnnualSalary(value);
         break;
-      case 'ssn':
+      case "ssn":
         result = CreditDataValidator.validateSSN(value);
         break;
     }
-    
-    setValidationResults(prev => ({
+
+    setValidationResults((prev) => ({
       ...prev,
-      [field]: result
+      [field]: result,
     }));
   };
 
@@ -85,7 +93,9 @@ export default function ValidationDemo() {
               <div className="h-8 w-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
                 <CreditCard className="h-5 w-5 text-white" />
               </div>
-              <span className="ml-2 text-xl font-bold text-gray-900">CreditBridge</span>
+              <span className="ml-2 text-xl font-bold text-gray-900">
+                CreditBridge
+              </span>
             </Link>
             <Link to="/get-started">
               <Button variant="ghost">Back to Get Started</Button>
@@ -100,7 +110,8 @@ export default function ValidationDemo() {
             Enhanced Date Input & Validation Demo
           </h1>
           <p className="text-xl text-gray-600">
-            Try the new date input methods and see real-time validation in action
+            Try the new date input methods and see real-time validation in
+            action
           </p>
         </div>
 
@@ -137,13 +148,13 @@ export default function ValidationDemo() {
               <DateInput
                 label="Date of Birth"
                 value={formData.dateOfBirth}
-                onChange={(value) => handleInputChange('dateOfBirth', value)}
+                onChange={(value) => handleInputChange("dateOfBirth", value)}
                 required={true}
                 constraints={{
                   minAge: 18,
                   maxAge: 120,
                   futureAllowed: false,
-                  pastRequired: true
+                  pastRequired: true,
                 }}
                 maxDate={new Date()}
               />
@@ -151,10 +162,12 @@ export default function ValidationDemo() {
               <DateInput
                 label="Employment Start Date"
                 value={formData.employmentStart}
-                onChange={(value) => handleInputChange('employmentStart', value)}
+                onChange={(value) =>
+                  handleInputChange("employmentStart", value)
+                }
                 constraints={{
                   futureAllowed: false,
-                  pastRequired: true
+                  pastRequired: true,
                 }}
                 maxDate={new Date()}
                 placeholder="When did you start your current job?"
@@ -163,7 +176,7 @@ export default function ValidationDemo() {
               <DateInput
                 label="Lease Start Date"
                 value={formData.leaseStart}
-                onChange={(value) => handleInputChange('leaseStart', value)}
+                onChange={(value) => handleInputChange("leaseStart", value)}
                 placeholder="When did your lease begin?"
               />
             </CardContent>
@@ -186,12 +199,20 @@ export default function ValidationDemo() {
                 <Input
                   id="firstName"
                   value={formData.firstName}
-                  onChange={(e) => handleInputChange('firstName', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("firstName", e.target.value)
+                  }
                   placeholder="Enter your first name"
-                  className={showValidation && !validationResults.firstName?.isValid ? 'border-red-500' : ''}
+                  className={
+                    showValidation && !validationResults.firstName?.isValid
+                      ? "border-red-500"
+                      : ""
+                  }
                 />
                 {showValidation && validationResults.firstName?.error && (
-                  <p className="text-sm text-red-600 mt-1">{validationResults.firstName.error}</p>
+                  <p className="text-sm text-red-600 mt-1">
+                    {validationResults.firstName.error}
+                  </p>
                 )}
               </div>
 
@@ -201,12 +222,18 @@ export default function ValidationDemo() {
                   id="email"
                   type="email"
                   value={formData.email}
-                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  onChange={(e) => handleInputChange("email", e.target.value)}
                   placeholder="Enter your email"
-                  className={showValidation && !validationResults.email?.isValid ? 'border-red-500' : ''}
+                  className={
+                    showValidation && !validationResults.email?.isValid
+                      ? "border-red-500"
+                      : ""
+                  }
                 />
                 {showValidation && validationResults.email?.error && (
-                  <p className="text-sm text-red-600 mt-1">{validationResults.email.error}</p>
+                  <p className="text-sm text-red-600 mt-1">
+                    {validationResults.email.error}
+                  </p>
                 )}
               </div>
 
@@ -216,15 +243,25 @@ export default function ValidationDemo() {
                   id="annualSalary"
                   type="number"
                   value={formData.annualSalary}
-                  onChange={(e) => handleInputChange('annualSalary', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("annualSalary", e.target.value)
+                  }
                   placeholder="Enter your annual salary"
-                  className={showValidation && !validationResults.annualSalary?.isValid ? 'border-red-500' : ''}
+                  className={
+                    showValidation && !validationResults.annualSalary?.isValid
+                      ? "border-red-500"
+                      : ""
+                  }
                 />
                 {showValidation && validationResults.annualSalary?.error && (
-                  <p className="text-sm text-red-600 mt-1">{validationResults.annualSalary.error}</p>
+                  <p className="text-sm text-red-600 mt-1">
+                    {validationResults.annualSalary.error}
+                  </p>
                 )}
                 {showValidation && validationResults.annualSalary?.warning && (
-                  <p className="text-sm text-yellow-600 mt-1">{validationResults.annualSalary.warning}</p>
+                  <p className="text-sm text-yellow-600 mt-1">
+                    {validationResults.annualSalary.warning}
+                  </p>
                 )}
               </div>
 
@@ -233,12 +270,18 @@ export default function ValidationDemo() {
                 <Input
                   id="ssn"
                   value={formData.ssn}
-                  onChange={(e) => handleInputChange('ssn', e.target.value)}
+                  onChange={(e) => handleInputChange("ssn", e.target.value)}
                   placeholder="XXX-XX-XXXX"
-                  className={showValidation && !validationResults.ssn?.isValid ? 'border-red-500' : ''}
+                  className={
+                    showValidation && !validationResults.ssn?.isValid
+                      ? "border-red-500"
+                      : ""
+                  }
                 />
                 {showValidation && validationResults.ssn?.error && (
-                  <p className="text-sm text-red-600 mt-1">{validationResults.ssn.error}</p>
+                  <p className="text-sm text-red-600 mt-1">
+                    {validationResults.ssn.error}
+                  </p>
                 )}
               </div>
 
@@ -281,7 +324,7 @@ export default function ValidationDemo() {
                   </li>
                 </ul>
               </div>
-              
+
               <div>
                 <h3 className="font-semibold mb-3">Validation Enhancements</h3>
                 <ul className="space-y-2 text-sm">
@@ -291,7 +334,8 @@ export default function ValidationDemo() {
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="h-4 w-4 text-green-600 mr-2" />
-                    Business logic constraints (minimum age 18, realistic salaries)
+                    Business logic constraints (minimum age 18, realistic
+                    salaries)
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="h-4 w-4 text-green-600 mr-2" />
@@ -311,8 +355,9 @@ export default function ValidationDemo() {
           <Alert className="border-blue-200 bg-blue-50 max-w-2xl mx-auto">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription className="text-blue-800">
-              All validations ensure data quality for accurate credit score calculations. 
-              The system now prevents invalid data from affecting your credit assessment.
+              All validations ensure data quality for accurate credit score
+              calculations. The system now prevents invalid data from affecting
+              your credit assessment.
             </AlertDescription>
           </Alert>
         </div>

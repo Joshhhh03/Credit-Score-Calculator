@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -16,7 +22,7 @@ import {
   Lock,
   Shield,
   TrendingUp,
-  CheckCircle
+  CheckCircle,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -31,7 +37,7 @@ export default function Auth() {
   // Sign in form state
   const [signInData, setSignInData] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   // Sign up form state
@@ -40,7 +46,7 @@ export default function Auth() {
     lastName: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
 
   const handleSignIn = async (e: React.FormEvent) => {
@@ -81,7 +87,7 @@ export default function Auth() {
       signUpData.email,
       signUpData.password,
       signUpData.firstName,
-      signUpData.lastName
+      signUpData.lastName,
     );
 
     if (result.success) {
@@ -103,7 +109,9 @@ export default function Auth() {
               <div className="h-8 w-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
                 <CreditCard className="h-5 w-5 text-white" />
               </div>
-              <span className="ml-2 text-xl font-bold text-gray-900">CreditBridge</span>
+              <span className="ml-2 text-xl font-bold text-gray-900">
+                CreditBridge
+              </span>
             </Link>
             <Link to="/">
               <Button variant="ghost">Back to Home</Button>
@@ -162,7 +170,12 @@ export default function Auth() {
                           type="email"
                           placeholder="Enter your email"
                           value={signInData.email}
-                          onChange={(e) => setSignInData(prev => ({ ...prev, email: e.target.value }))}
+                          onChange={(e) =>
+                            setSignInData((prev) => ({
+                              ...prev,
+                              email: e.target.value,
+                            }))
+                          }
                           required
                           className="pl-10"
                         />
@@ -178,7 +191,12 @@ export default function Auth() {
                           type={showPassword ? "text" : "password"}
                           placeholder="Enter your password"
                           value={signInData.password}
-                          onChange={(e) => setSignInData(prev => ({ ...prev, password: e.target.value }))}
+                          onChange={(e) =>
+                            setSignInData((prev) => ({
+                              ...prev,
+                              password: e.target.value,
+                            }))
+                          }
                           required
                           className="pl-10 pr-10"
                         />
@@ -188,7 +206,11 @@ export default function Auth() {
                           onClick={() => setShowPassword(!showPassword)}
                           className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
                         >
-                          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                          {showPassword ? (
+                            <EyeOff className="h-4 w-4" />
+                          ) : (
+                            <Eye className="h-4 w-4" />
+                          )}
                         </button>
                       </div>
                     </div>
@@ -232,14 +254,19 @@ export default function Auth() {
                             type="text"
                             placeholder="First name"
                             value={signUpData.firstName}
-                            onChange={(e) => setSignUpData(prev => ({ ...prev, firstName: e.target.value }))}
+                            onChange={(e) =>
+                              setSignUpData((prev) => ({
+                                ...prev,
+                                firstName: e.target.value,
+                              }))
+                            }
                             required
                             className="pl-10"
                           />
                           <User className="h-4 w-4 absolute left-3 top-3 text-gray-400" />
                         </div>
                       </div>
-                      
+
                       <div>
                         <Label htmlFor="signup-lastname">Last Name</Label>
                         <Input
@@ -247,7 +274,12 @@ export default function Auth() {
                           type="text"
                           placeholder="Last name"
                           value={signUpData.lastName}
-                          onChange={(e) => setSignUpData(prev => ({ ...prev, lastName: e.target.value }))}
+                          onChange={(e) =>
+                            setSignUpData((prev) => ({
+                              ...prev,
+                              lastName: e.target.value,
+                            }))
+                          }
                           required
                         />
                       </div>
@@ -261,7 +293,12 @@ export default function Auth() {
                           type="email"
                           placeholder="Enter your email"
                           value={signUpData.email}
-                          onChange={(e) => setSignUpData(prev => ({ ...prev, email: e.target.value }))}
+                          onChange={(e) =>
+                            setSignUpData((prev) => ({
+                              ...prev,
+                              email: e.target.value,
+                            }))
+                          }
                           required
                           className="pl-10"
                         />
@@ -277,7 +314,12 @@ export default function Auth() {
                           type={showPassword ? "text" : "password"}
                           placeholder="Create a password"
                           value={signUpData.password}
-                          onChange={(e) => setSignUpData(prev => ({ ...prev, password: e.target.value }))}
+                          onChange={(e) =>
+                            setSignUpData((prev) => ({
+                              ...prev,
+                              password: e.target.value,
+                            }))
+                          }
                           required
                           className="pl-10 pr-10"
                         />
@@ -287,7 +329,11 @@ export default function Auth() {
                           onClick={() => setShowPassword(!showPassword)}
                           className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
                         >
-                          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                          {showPassword ? (
+                            <EyeOff className="h-4 w-4" />
+                          ) : (
+                            <Eye className="h-4 w-4" />
+                          )}
                         </button>
                       </div>
                       <p className="text-xs text-gray-500 mt-1">
@@ -302,7 +348,12 @@ export default function Auth() {
                         type="password"
                         placeholder="Confirm your password"
                         value={signUpData.confirmPassword}
-                        onChange={(e) => setSignUpData(prev => ({ ...prev, confirmPassword: e.target.value }))}
+                        onChange={(e) =>
+                          setSignUpData((prev) => ({
+                            ...prev,
+                            confirmPassword: e.target.value,
+                          }))
+                        }
                         required
                       />
                     </div>
@@ -330,15 +381,21 @@ export default function Auth() {
           {/* Benefits */}
           <Card className="border-blue-200 bg-blue-50">
             <CardContent className="p-6">
-              <h3 className="font-semibold text-blue-900 mb-4">Why Choose CreditBridge?</h3>
+              <h3 className="font-semibold text-blue-900 mb-4">
+                Why Choose CreditBridge?
+              </h3>
               <div className="space-y-3">
                 <div className="flex items-center text-sm text-blue-800">
                   <CheckCircle className="h-4 w-4 text-blue-600 mr-3" />
-                  <span>Uses alternative data like rent and utility payments</span>
+                  <span>
+                    Uses alternative data like rent and utility payments
+                  </span>
                 </div>
                 <div className="flex items-center text-sm text-blue-800">
                   <TrendingUp className="h-4 w-4 text-blue-600 mr-3" />
-                  <span>Fair scoring for 49M+ Americans with thin credit files</span>
+                  <span>
+                    Fair scoring for 49M+ Americans with thin credit files
+                  </span>
                 </div>
                 <div className="flex items-center text-sm text-blue-800">
                   <Shield className="h-4 w-4 text-blue-600 mr-3" />
