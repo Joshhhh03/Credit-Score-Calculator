@@ -869,6 +869,25 @@ export default function GetStarted() {
           </CardContent>
         </Card>
 
+        {/* Rating Prompt */}
+        {showRatingPrompt && calculatedScore && (
+          <Card className="mt-6">
+            <CardContent className="p-6">
+              <RatingPrompt
+                userScore={calculatedScore}
+                userName={formData.firstName || "there"}
+                trigger="score-display"
+                onClose={() => setShowRatingPrompt(false)}
+                onSubmit={(rating, feedback) => {
+                  console.log('Rating submitted:', { rating, feedback, score: calculatedScore });
+                  // Here you would typically save to your backend
+                  setShowRatingPrompt(false);
+                }}
+              />
+            </CardContent>
+          </Card>
+        )}
+
         {/* Navigation Buttons */}
         {currentStep < 5 && (
           <div className="flex justify-between">
