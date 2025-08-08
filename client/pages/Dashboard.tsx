@@ -351,6 +351,23 @@ export default function Dashboard() {
             </div>
           </TabsContent>
         </Tabs>
+
+        {/* Rating Prompt for Dashboard Users */}
+        {showRatingPrompt && (
+          <div className="mt-8">
+            <RatingPrompt
+              userScore={creditScore}
+              userName="there" // In a real app, you'd get this from user data
+              trigger="dashboard-visit"
+              onClose={() => setShowRatingPrompt(false)}
+              onSubmit={(rating, feedback) => {
+                console.log('Dashboard rating submitted:', { rating, feedback, score: creditScore });
+                // Here you would typically save to your backend
+                setShowRatingPrompt(false);
+              }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
