@@ -349,6 +349,12 @@ export default function Auth() {
           </Card>
         </div>
       </div>
+
+      {/* Post Sign-In Data Collection Modal */}
+      <PostSignInDataModal
+        isOpen={showDataModal}
+        onClose={() => setShowDataModal(false)}
+      />
     </div>
   );
 }
