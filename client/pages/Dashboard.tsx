@@ -160,8 +160,8 @@ export default function Dashboard() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="flex items-center justify-center">
-                <CreditScoreGauge score={creditScore} size={280} animated={true} />
+              <div className="px-4">
+                <CreditScoreBar score={creditScore} width={500} animated={true} showDetails={true} />
               </div>
             </CardContent>
           </Card>
