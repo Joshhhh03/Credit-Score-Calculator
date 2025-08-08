@@ -236,18 +236,35 @@ export const getCreditHistory: RequestHandler = (req, res) => {
 // Calculate new credit score based on financial data
 export const calculateCreditScore: RequestHandler = (req, res) => {
   try {
-    const { financialData } = req.body;
-    
+    const { financialData, traditionalCreditScore, hasTraditionalCredit } = req.body;
+
     if (!financialData) {
       return res.status(400).json({ error: "Financial data is required" });
     }
 
-    let baseScore = 600;
+    // Hybrid scoring algorithm that combines traditional and alternative data
+    let hybridScore = 0;
+    let traditionalWeight = 0;
+    let alternativeWeight = 1;
+
+    // Determine weighting based on traditional credit availability
+    if (hasTraditionalCredit === 'yes' && traditionalCreditScore) {
+      traditionalWeight = 0.4; // 40% traditional credit
+      alternativeWeight = 0.6; // 60% alternative data
+    } else if (hasTraditionalCredit === 'limited' && traditionalCreditScore) {
+      traditionalWeight = 0.25; // 25% traditional credit
+      alternativeWeight = 0.75; // 75% alternative data
+    } else {
+      traditionalWeight = 0; // 0% traditional credit
+      alternativeWeight = 1; // 100% alternative data
+    }
+
     const factors = {
       rentPayments: 0,
       utilityPayments: 0,
       cashFlow: 0,
       employmentHistory: 0,
+      traditionalCredit: traditionalCreditScore || 0,
     };
 
     // Calculate rent payment factor
