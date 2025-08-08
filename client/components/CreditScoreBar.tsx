@@ -154,8 +154,9 @@ export default function CreditScoreBar({
           />
           
           {/* Score marker/pointer */}
-          <div 
-            className="absolute top-0 w-1 h-8 bg-gray-800 transition-all duration-[2s] ease-out"
+          <div
+            className="absolute top-0 w-1 h-8 bg-gray-800 transition-all ease-out"
+            style={{ transitionDuration: '2s' }}
             style={{
               left: `${scorePercentage}%`,
               transform: 'translateX(-50%)',
