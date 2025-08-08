@@ -849,15 +849,20 @@ export default function GetStarted() {
                         Your hybrid Credit Risk Score combines {formData.hasTraditionalCredit === 'yes' ? 'traditional credit (40%) with alternative financial data (60%)' : formData.hasTraditionalCredit === 'limited' ? 'limited traditional credit (25%) with strong alternative data (75%)' : 'entirely alternative financial data (100%)'} for a more complete and fair assessment of your creditworthiness.
                       </p>
                       <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link to="/dashboard">
+                        <Link to="/analytics">
                           <Button size="lg">
-                            View Full Dashboard
+                            View Analytics Report
                             <ArrowRight className="ml-2 h-4 w-4" />
+                          </Button>
+                        </Link>
+                        <Link to="/dashboard">
+                          <Button size="lg" variant="outline">
+                            Dashboard
                           </Button>
                         </Link>
                         <Link to="/coaching">
                           <Button size="lg" variant="outline">
-                            Get Personalized Coaching
+                            Coaching
                           </Button>
                         </Link>
                       </div>
