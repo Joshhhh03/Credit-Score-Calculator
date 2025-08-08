@@ -91,13 +91,22 @@ export interface UserData {
 
 export interface CreditScoreCalculation {
   score: number;
+  scoreType: string;
+  algorithm: string;
   factors: CreditScoreFactors;
+  weights: {
+    traditional: number;
+    alternative: number;
+  };
   breakdown: {
-    baseScore: number;
+    traditionalScore: number;
+    alternativeScore: number;
+    hybridScore: number;
     rentContribution: number;
     utilityContribution: number;
     cashFlowContribution: number;
     employmentContribution: number;
+    alternativeDataBonus: number;
   };
 }
 
