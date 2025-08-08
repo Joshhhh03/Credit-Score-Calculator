@@ -1,0 +1,82 @@
+{
+  "userId": "b444301e55ee53d38615d6a56338b393",
+  "email": "joshwady.social@gmail.com",
+  "password": "0f896cd5e5a4af7ba64a0f48bb0218f88f8c3a06f1fac9386343ed9a26db0d85",
+  "createdAt": "2025-08-08T02:07:07.918Z",
+  "personalInfo": {
+    "firstName": "Joshwa",
+    "lastName": "D Y",
+    "phone": "",
+    "dateOfBirth": "",
+    "ssn": "",
+    "address": {
+      "street": "",
+      "city": "",
+      "state": "",
+      "zipCode": ""
+    }
+  },
+  "traditionalCredit": {
+    "hasCredit": "unsure"
+  },
+  "financialData": {
+    "employment": {
+      "employerName": "",
+      "jobTitle": "",
+      "annualSalary": 0,
+      "startDate": "",
+      "employmentType": "",
+      "workAddress": ""
+    },
+    "housing": {
+      "housingType": "",
+      "rentPaymentHistory": []
+    },
+    "banking": {
+      "bankName": "",
+      "accountType": "",
+      "routingNumber": "",
+      "monthlyIncome": 0,
+      "monthlyExpenses": 0,
+      "averageBalance": 0
+    },
+    "utilities": []
+  },
+  "creditHistory": [
+    {
+      "date": "2025-08-08",
+      "score": 500,
+      "factors": {
+        "rentPayments": 0,
+        "utilityPayments": 0,
+        "cashFlow": 0,
+        "employmentHistory": 0,
+        "traditionalCredit": 0
+      }
+    }
+  ],
+  "analytics": {
+    "strengths": [],
+    "weaknesses": [
+      "Inconsistent Rent Payments",
+      "Utility Payment Issues",
+      "Employment Instability",
+      "Cash Flow Challenges"
+    ],
+    "recommendations": [
+      "Set up automatic rent payments to ensure consistency",
+      "Set up autopay for all utilities to avoid late payments",
+      "Focus on job stability and building tenure with current employer",
+      "Build an emergency fund and reduce monthly expenses"
+    ],
+    "riskProfile": "high",
+    "loanEligibility": {
+      "creditCards": false,
+      "personalLoans": false,
+      "autoLoans": false,
+      "mortgages": false
+    }
+  },
+  "updatedAt": "2025-08-08T02:08:40.273Z",
+  "lastLogin": "2025-08-08T02:08:40.273Z"
+}

@@ -1,0 +1,129 @@
+{
+  "userId": "b444301e55ee53d38615d6a56338b393",
+  "analytics": {
+    "currentScore": {
+      "score": 500,
+      "factors": {
+        "rentPayments": 0,
+        "utilityPayments": 0,
+        "cashFlow": 0,
+        "employmentHistory": 0,
+        "traditionalCredit": 0
+      },
+      "weights": {
+        "traditional": 0,
+        "alternative": 1
+      },
+      "alternativeScore": 500,
+      "alternativeDataStrength": 0
+    },
+    "historicalData": [
+      {
+        "date": "2024-09-08",
+        "score": 568,
+        "month": "Sep 2024"
+      },
+      {
+        "date": "2024-10-08",
+        "score": 558,
+        "month": "Oct 2024"
+      },
+      {
+        "date": "2024-11-08",
+        "score": 566,
+        "month": "Nov 2024"
+      },
+      {
+        "date": "2024-12-08",
+        "score": 555,
+        "month": "Dec 2024"
+      },
+      {
+        "date": "2025-01-08",
+        "score": 556,
+        "month": "Jan 2025"
+      },
+      {
+        "date": "2025-02-08",
+        "score": 543,
+        "month": "Feb 2025"
+      },
+      {
+        "date": "2025-03-08",
+        "score": 530,
+        "month": "Mar 2025"
+      },
+      {
+        "date": "2025-04-08",
+        "score": 533,
+        "month": "Apr 2025"
+      },
+      {
+        "date": "2025-05-08",
+        "score": 530,
+        "month": "May 2025"
+      },
+      {
+        "date": "2025-06-08",
+        "score": 514,
+        "month": "Jun 2025"
+      },
+      {
+        "date": "2025-07-08",
+        "score": 500,
+        "month": "Jul 2025"
+      },
+      {
+        "date": "2025-08-08",
+        "score": 500,
+        "month": "Aug 2025"
+      }
+    ],
+    "analysis": {
+      "strengths": [],
+      "weaknesses": [
+        {
+          "title": "Inconsistent Rent Payments",
+          "description": "Improving rent payment consistency could significantly boost your score",
+          "score": 0,
+          "impact": "high"
+        },
+        {
+          "title": "Utility Payment Issues",
+          "description": "Late utility payments are affecting your credit profile",
+          "score": 0,
+          "impact": "medium"
+        },
+        {
+          "title": "Employment Instability",
+          "description": "Frequent job changes may be impacting your creditworthiness",
+          "score": 0,
+          "impact": "medium"
+        },
+        {
+          "title": "Cash Flow Challenges",
+          "description": "Improving your savings rate and reducing expenses could help",
+          "score": 0,
+          "impact": "high"
+        }
+      ],
+      "recommendations": [
+        "Set up automatic rent payments to ensure consistency",
+        "Set up autopay for all utilities to avoid late payments",
+        "Focus on job stability and building tenure with current employer",
+        "Build an emergency fund and reduce monthly expenses"
+      ],
+      "riskProfile": "high",
+      "loanEligibility": {
+        "creditCards": false,
+        "personalLoans": false,
+        "autoLoans": false,
+        "mortgages": false
+      },
+      "overallStrength": 0
+    },
+    "loanOffers": [],
+    "generatedAt": "2025-08-08T02:07:59.097Z"
+  },
+  "generatedAt": "2025-08-08T02:07:59.097Z"
+}
