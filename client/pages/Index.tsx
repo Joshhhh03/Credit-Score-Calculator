@@ -17,6 +17,7 @@ import {
   Zap
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import UserRatingsSection from "@/components/UserRatingsSection";
 
 export default function Index() {
   const [stats, setStats] = useState({
