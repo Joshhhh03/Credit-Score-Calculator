@@ -53,18 +53,47 @@ export default function RatingPrompt({
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    onSubmit?.(selectedRating, feedbackText);
-    setCurrentStep("thanks");
-    setIsSubmitting(false);
-    
-    // Auto-close after showing thanks
-    setTimeout(() => {
-      handleClose();
-    }, 3000);
+
+    try {
+      // Submit rating to backend API
+      const response = await fetch('/api/ratings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          rating: selectedRating,
+          feedback: feedbackText,
+          userScore: userScore,
+          trigger: trigger,
+          userName: userName,
+          userId: `user_${Date.now()}` // In a real app, this would come from auth
+        })
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to submit rating');
+      }
+
+      console.log('Rating submitted successfully:', result);
+      onSubmit?.(selectedRating, feedbackText);
+      setCurrentStep("thanks");
+
+    } catch (error) {
+      console.error('Error submitting rating:', error);
+      // Still show thanks screen even if API fails
+      onSubmit?.(selectedRating, feedbackText);
+      setCurrentStep("thanks");
+    } finally {
+      setIsSubmitting(false);
+
+      // Auto-close after showing thanks
+      setTimeout(() => {
+        handleClose();
+      }, 3000);
+    }
   };
 
   const getRatingText = (rating: number) => {
