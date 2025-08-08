@@ -673,13 +673,20 @@ export default function GetStarted() {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="startDate">Employment Start Date</Label>
-                    <Input 
-                      id="startDate"
-                      type="date"
+                    <DateInput
+                      label="Employment Start Date"
                       value={formData.employment.startDate}
-                      onChange={(e) => handleInputChange('employment', 'startDate', e.target.value)}
+                      onChange={(value) => handleInputChange('employment', 'startDate', value)}
+                      constraints={{
+                        futureAllowed: false,
+                        pastRequired: true
+                      }}
+                      maxDate={new Date()}
+                      placeholder="When did you start this job?"
                     />
+                    {validationErrors['employment.startDate'] && (
+                      <p className="text-sm text-red-600 mt-1">{validationErrors['employment.startDate']}</p>
+                    )}
                   </div>
                 </div>
 
