@@ -143,8 +143,9 @@ export default function CreditScoreBar({
           </div>
           
           {/* Progress fill */}
-          <div 
-            className="absolute top-0 left-0 h-8 rounded-full transition-all duration-[2s] ease-out"
+          <div
+            className="absolute top-0 left-0 h-8 rounded-full transition-all ease-out"
+            style={{ transitionDuration: '2s' }}
             style={{
               width: `${scorePercentage}%`,
               backgroundColor: scoreColor,
