@@ -112,14 +112,54 @@ export default function Coaching() {
       duration: "15 min",
       difficulty: "Beginner",
       completed: true,
-      category: "Education",
+      category: "Credit Education",
       icon: <BookOpen className="h-5 w-5" />
     },
     {
-      id: "budgeting",
-      title: "Smart Budgeting Strategies",
-      description: "Master budgeting techniques that improve your financial profile",
+      id: "alternative-credit",
+      title: "Alternative Credit Data Sources",
+      description: "Understand how rent, utilities, and employment history impact your score",
       duration: "20 min",
+      difficulty: "Beginner",
+      completed: false,
+      category: "Credit Education",
+      icon: <Building className="h-5 w-5" />
+    },
+    {
+      id: "traditional-vs-alternative",
+      title: "Traditional vs Alternative Credit",
+      description: "Compare traditional FICO scoring with alternative credit models",
+      duration: "18 min",
+      difficulty: "Intermediate",
+      completed: false,
+      category: "Credit Education",
+      icon: <CreditCard className="h-5 w-5" />
+    },
+    {
+      id: "credit-factors",
+      title: "Key Credit Score Factors",
+      description: "Deep dive into payment history, utilization, and credit mix",
+      duration: "25 min",
+      difficulty: "Intermediate",
+      completed: false,
+      category: "Credit Education",
+      icon: <Target className="h-5 w-5" />
+    },
+    {
+      id: "improving-score",
+      title: "Credit Score Improvement Strategies",
+      description: "Proven tactics to boost your credit score in 30-90 days",
+      duration: "35 min",
+      difficulty: "Intermediate",
+      completed: false,
+      category: "Credit Building",
+      icon: <TrendingUp className="h-5 w-5" />
+    },
+    {
+      id: "budgeting",
+      title: "Smart Budgeting for Credit Health",
+      description: "Create budgets that support strong credit profiles and financial stability",
+      duration: "30 min",
       difficulty: "Beginner",
       completed: false,
       category: "Financial Planning",
@@ -128,7 +168,7 @@ export default function Coaching() {
     {
       id: "emergency-fund",
       title: "Building Your Emergency Fund",
-      description: "Step-by-step guide to building financial resilience",
+      description: "Step-by-step guide to building financial resilience and credit backup",
       duration: "25 min",
       difficulty: "Intermediate",
       completed: false,
@@ -136,14 +176,54 @@ export default function Coaching() {
       icon: <Target className="h-5 w-5" />
     },
     {
-      id: "credit-building",
-      title: "Advanced Credit Building",
-      description: "Advanced strategies for optimizing your alternative credit profile",
-      duration: "30 min",
+      id: "debt-management",
+      title: "Debt Management Mastery",
+      description: "Strategies for paying down debt while maintaining good credit",
+      duration: "40 min",
+      difficulty: "Intermediate",
+      completed: false,
+      category: "Debt Management",
+      icon: <AlertTriangle className="h-5 w-5" />
+    },
+    {
+      id: "loan-preparation",
+      title: "Preparing for Loan Applications",
+      description: "How to present your best credit profile to lenders",
+      duration: "22 min",
       difficulty: "Advanced",
       completed: false,
-      category: "Credit Building",
-      icon: <TrendingUp className="h-5 w-5" />
+      category: "Lending",
+      icon: <CheckCircle className="h-5 w-5" />
+    },
+    {
+      id: "credit-monitoring",
+      title: "Credit Monitoring & Protection",
+      description: "Learn to monitor your credit and protect against identity theft",
+      duration: "28 min",
+      difficulty: "Beginner",
+      completed: false,
+      category: "Credit Protection",
+      icon: <Zap className="h-5 w-5" />
+    },
+    {
+      id: "rent-reporting",
+      title: "Maximizing Rent Reporting Benefits",
+      description: "How to leverage rent payments for maximum credit impact",
+      duration: "20 min",
+      difficulty: "Beginner",
+      completed: false,
+      category: "Alternative Credit",
+      icon: <Building className="h-5 w-5" />
+    },
+    {
+      id: "financial-goals",
+      title: "Setting Financial Goals",
+      description: "Create SMART financial goals that improve your credit over time",
+      duration: "30 min",
+      difficulty: "Beginner",
+      completed: false,
+      category: "Financial Planning",
+      icon: <Award className="h-5 w-5" />
     }
   ];
 
