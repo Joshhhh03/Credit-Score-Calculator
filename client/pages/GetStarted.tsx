@@ -190,6 +190,8 @@ export default function GetStarted() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          traditionalCreditScore: formData.traditionalCreditScore ? parseFloat(formData.traditionalCreditScore) : null,
+          hasTraditionalCredit: formData.hasTraditionalCredit,
           financialData: {
             employment: {
               ...formData.employment,
