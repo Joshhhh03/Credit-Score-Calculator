@@ -144,6 +144,9 @@ export default function Dashboard() {
               <Link to="/coaching">
                 <Button variant="ghost">Coaching</Button>
               </Link>
+              <Link to="/analytics">
+                <Button variant="ghost">Analytics</Button>
+              </Link>
               <Button variant="outline" size="sm">
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Refresh Score
