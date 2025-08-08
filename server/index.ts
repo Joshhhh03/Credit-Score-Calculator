@@ -40,5 +40,12 @@ export function createServer() {
   app.get("/api/users/:userId/credit-history", getCreditHistory);
   app.post("/api/calculate-credit-score", calculateCreditScore);
 
+  // Rating and feedback API routes
+  app.post("/api/ratings", submitRating);
+  app.get("/api/ratings/stats", getRatingStats);
+  app.get("/api/ratings/testimonials", getTestimonials);
+  app.get("/api/users/:userId/ratings", getUserRatings);
+  app.put("/api/ratings/:ratingId", updateRating);
+
   return app;
 }
