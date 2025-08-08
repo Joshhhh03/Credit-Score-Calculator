@@ -94,8 +94,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const data = await response.json();
 
       if (data.success) {
-        setUser(data.user);
-        localStorage.setItem('creditbridge_user', JSON.stringify(data.user));
+        const userWithTimestamp = {
+          ...data.user,
+          lastLogin: new Date().toISOString()
+        };
+        setUser(userWithTimestamp);
+        localStorage.setItem('creditbridge_user', JSON.stringify(userWithTimestamp));
         return { success: true };
       } else {
         return { success: false, error: data.error };
@@ -132,6 +136,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signOut = () => {
     setUser(null);
     localStorage.removeItem('creditbridge_user');
+    // Clear any other stored session data
+    localStorage.removeItem('creditbridge-welcome-seen');
+    localStorage.removeItem('creditbridge-rating-shown');
   };
 
   const updateUser = (userData: Partial<User>) => {
