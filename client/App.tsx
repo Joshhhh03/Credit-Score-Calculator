@@ -14,6 +14,7 @@ import Coaching from "./pages/Coaching";
 import GetStarted from "./pages/GetStarted";
 import Auth from "./pages/Auth";
 import Analytics from "./pages/Analytics";
+import ValidationDemo from "./pages/ValidationDemo";
 import PlaceholderPage from "./pages/PlaceholderPage";
 import NotFound from "./pages/NotFound";
 import ChatAssistant from "./components/ChatAssistant";
