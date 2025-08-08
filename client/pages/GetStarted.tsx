@@ -256,7 +256,7 @@ export default function GetStarted() {
   const isStepValid = (step: number) => {
     switch (step) {
       case 1:
-        return formData.firstName && formData.lastName && formData.email && formData.dateOfBirth && formData.ssn;
+        return formData.firstName && formData.lastName && formData.email && formData.dateOfBirth && formData.ssn && formData.hasTraditionalCredit;
       case 2:
         return formData.employment.employerName && formData.employment.jobTitle && formData.employment.annualSalary;
       case 3:
