@@ -10,10 +10,11 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import CreditScoreBar from "@/components/CreditScoreBar";
 import DateInput from "@/components/DateInput";
 import { CreditDataValidator } from "@/utils/validation";
-import { 
-  CreditCard, 
-  ArrowRight, 
+import {
+  CreditCard,
+  ArrowRight,
   CheckCircle,
+  AlertCircle,
   Shield,
   User,
   Building,
