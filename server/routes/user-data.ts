@@ -273,25 +273,23 @@ export const calculateCreditScore: RequestHandler = (req, res) => {
       const onTimePayments = rentHistory.filter((p: any) => p.status === 'on-time').length;
       const onTimeRate = onTimePayments / rentHistory.length;
       factors.rentPayments = Math.round(onTimeRate * 100);
-      baseScore += onTimeRate * 30;
     }
 
     // Calculate utility payment factor
     if (financialData.utilities?.length > 0) {
       let totalOnTime = 0;
       let totalPayments = 0;
-      
+
       financialData.utilities.forEach((utility: any) => {
         if (utility.paymentHistory) {
           totalPayments += utility.paymentHistory.length;
           totalOnTime += utility.paymentHistory.filter((p: any) => p.status === 'on-time').length;
         }
       });
-      
+
       if (totalPayments > 0) {
         const onTimeRate = totalOnTime / totalPayments;
         factors.utilityPayments = Math.round(onTimeRate * 100);
-        baseScore += onTimeRate * 15;
       }
     }
 
@@ -302,7 +300,6 @@ export const calculateCreditScore: RequestHandler = (req, res) => {
         const savingsRate = (monthlyIncome - monthlyExpenses) / monthlyIncome;
         const balanceRatio = averageBalance / (monthlyIncome || 1);
         factors.cashFlow = Math.round((savingsRate * 0.6 + balanceRatio * 0.4) * 100);
-        baseScore += factors.cashFlow * 0.25;
       }
     }
 
@@ -312,11 +309,10 @@ export const calculateCreditScore: RequestHandler = (req, res) => {
       const startYear = new Date(startDate).getFullYear();
       const currentYear = new Date().getFullYear();
       const yearsEmployed = currentYear - startYear;
-      
+
       const stabilityScore = Math.min(yearsEmployed * 20, 80);
       const salaryScore = Math.min((annualSalary || 0) / 1000, 20);
       factors.employmentHistory = Math.round(stabilityScore + salaryScore);
-      baseScore += factors.employmentHistory * 0.2;
     }
 
     // Calculate alternative data score (300-850 range)
