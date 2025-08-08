@@ -168,6 +168,31 @@ export default function GetStarted() {
         [field]: value
       } : value
     }));
+
+    // Real-time validation for immediate feedback
+    if (showValidation) {
+      const errorKey = `${section}.${field}`;
+
+      // Validate specific field based on section and field
+      let validation = { isValid: true, error: '' };
+
+      if (section === 'firstName' || section === 'lastName') {
+        validation = CreditDataValidator.validateName(value, field);
+      } else if (section === 'email') {
+        validation = CreditDataValidator.validateEmail(value);
+      } else if (section === 'phone') {
+        validation = CreditDataValidator.validatePhoneNumber(value);
+      } else if (section === 'dateOfBirth') {
+        validation = CreditDataValidator.validateDateOfBirth(value);
+      } else if (section === 'ssn') {
+        validation = CreditDataValidator.validateSSN(value);
+      }
+
+      setValidationErrors(prev => ({
+        ...prev,
+        [errorKey]: validation.error || ''
+      }));
+    }
   };
 
   const handleNext = async () => {
