@@ -80,6 +80,7 @@ export default function GetStarted() {
   const [currentStep, setCurrentStep] = useState(1);
   const [calculatedScore, setCalculatedScore] = useState<number | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
+  const [showRatingPrompt, setShowRatingPrompt] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
