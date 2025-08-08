@@ -217,10 +217,13 @@ export default function GetStarted() {
       
       const result = await response.json();
       setCalculatedScore(result.score);
+      // Show rating prompt after a short delay to let user see their score
+      setTimeout(() => setShowRatingPrompt(true), 3000);
     } catch (error) {
       console.error('Error calculating credit score:', error);
       // Fallback calculation
       setCalculatedScore(680 + Math.floor(Math.random() * 100));
+      setTimeout(() => setShowRatingPrompt(true), 3000);
     } finally {
       setIsCalculating(false);
     }
