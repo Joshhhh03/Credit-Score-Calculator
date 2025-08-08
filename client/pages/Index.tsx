@@ -225,6 +225,9 @@ export default function Index() {
         </div>
       </section>
 
+      {/* User Ratings Section */}
+      <UserRatingsSection />
+
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-r from-blue-600 to-indigo-600">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
