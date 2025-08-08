@@ -293,17 +293,59 @@ export default function GetStarted() {
   const isStepValid = (step: number) => {
     switch (step) {
       case 1:
-        return formData.firstName && formData.lastName && formData.email && formData.dateOfBirth && formData.ssn && formData.hasTraditionalCredit;
+        const personalValidation = CreditDataValidator.validatePersonalInfo({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          dateOfBirth: formData.dateOfBirth,
+          ssn: formData.ssn,
+          address: formData.address
+        });
+
+        return personalValidation.firstName.isValid &&
+               personalValidation.lastName.isValid &&
+               personalValidation.email.isValid &&
+               personalValidation.dateOfBirth.isValid &&
+               personalValidation.ssn.isValid &&
+               formData.hasTraditionalCredit;
+
       case 2:
-        return formData.employment.employerName && formData.employment.jobTitle && formData.employment.annualSalary;
+        const employmentValidation = CreditDataValidator.validateEmployment({
+          employerName: formData.employment.employerName,
+          jobTitle: formData.employment.jobTitle,
+          annualSalary: formData.employment.annualSalary,
+          startDate: formData.employment.startDate,
+          employmentType: formData.employment.employmentType
+        });
+
+        return employmentValidation.employerName.isValid &&
+               employmentValidation.jobTitle.isValid &&
+               employmentValidation.annualSalary.isValid;
+
       case 3:
-        return formData.housing.housingType && (
-          formData.housing.housingType === 'rent' ? 
-            formData.housing.landlordName && formData.housing.monthlyRent :
-            true
-        );
+        const housingValidation = CreditDataValidator.validateHousing({
+          housingType: formData.housing.housingType,
+          landlordName: formData.housing.landlordName,
+          monthlyRent: formData.housing.monthlyRent,
+          leaseStartDate: formData.housing.leaseStartDate
+        });
+
+        return housingValidation.housingType.isValid &&
+               housingValidation.landlordName.isValid &&
+               housingValidation.monthlyRent.isValid;
+
       case 4:
-        return formData.banking.bankName && formData.banking.accountType;
+        const bankingValidation = CreditDataValidator.validateBanking({
+          bankName: formData.banking.bankName,
+          accountType: formData.banking.accountType,
+          monthlyIncome: formData.banking.monthlyIncome,
+          monthlyExpenses: formData.banking.monthlyExpenses
+        });
+
+        return bankingValidation.bankName.isValid &&
+               bankingValidation.accountType.isValid;
+
       default:
         return true;
     }
