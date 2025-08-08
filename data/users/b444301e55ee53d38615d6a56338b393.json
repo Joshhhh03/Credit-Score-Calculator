@@ -6,8 +6,8 @@
   "personalInfo": {
     "firstName": "Joshwa",
     "lastName": "D Y",
-    "phone": "",
-    "dateOfBirth": "",
+    "phone": "555 123 4567",
+    "dateOfBirth": "2000-01-01",
     "ssn": "",
     "address": {
       "street": "",
@@ -21,23 +21,24 @@
   },
   "financialData": {
     "employment": {
-      "employerName": "",
-      "jobTitle": "",
-      "annualSalary": 0,
+      "employerName": "Tej",
+      "jobTitle": "Software Engineer",
+      "annualSalary": 75000,
       "startDate": "",
-      "employmentType": "",
+      "employmentType": "full-time",
       "workAddress": ""
     },
     "housing": {
-      "housingType": "",
-      "rentPaymentHistory": []
+      "housingType": "own",
+      "rentPaymentHistory": [],
+      "monthlyRent": 1000
     },
     "banking": {
-      "bankName": "",
+      "bankName": "Bank of Baroda",
       "accountType": "",
       "routingNumber": "",
-      "monthlyIncome": 0,
-      "monthlyExpenses": 0,
+      "monthlyIncome": 5000,
+      "monthlyExpenses": 2500,
       "averageBalance": 0
     },
     "utilities": []
@@ -77,6 +78,6 @@
       "mortgages": false
     }
   },
-  "updatedAt": "2025-08-08T02:57:22.788Z",
-  "lastLogin": "2025-08-08T02:57:22.788Z"
+  "updatedAt": "2025-08-08T03:10:50.884Z",
+  "lastLogin": "2025-08-08T03:09:44.474Z"
 }
