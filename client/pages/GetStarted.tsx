@@ -175,23 +175,23 @@ export default function GetStarted() {
       const errorKey = `${section}.${field}`;
 
       // Validate specific field based on section and field
-      let validation = { isValid: true, error: '' };
+      let validationResult = { isValid: true, error: undefined as string | undefined };
 
       if (section === 'firstName' || section === 'lastName') {
-        validation = CreditDataValidator.validateName(value, field);
+        validationResult = CreditDataValidator.validateName(value, field);
       } else if (section === 'email') {
-        validation = CreditDataValidator.validateEmail(value);
+        validationResult = CreditDataValidator.validateEmail(value);
       } else if (section === 'phone') {
-        validation = CreditDataValidator.validatePhoneNumber(value);
+        validationResult = CreditDataValidator.validatePhoneNumber(value);
       } else if (section === 'dateOfBirth') {
-        validation = CreditDataValidator.validateDateOfBirth(value);
+        validationResult = CreditDataValidator.validateDateOfBirth(value);
       } else if (section === 'ssn') {
-        validation = CreditDataValidator.validateSSN(value);
+        validationResult = CreditDataValidator.validateSSN(value);
       }
 
       setValidationErrors(prev => ({
         ...prev,
-        [errorKey]: validation.error || ''
+        [errorKey]: validationResult.error || ''
       }));
     }
   };
