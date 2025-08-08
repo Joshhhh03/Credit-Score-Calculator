@@ -765,13 +765,19 @@ export default function GetStarted() {
 
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
-                        <Label htmlFor="leaseStartDate">Lease Start Date</Label>
-                        <Input 
-                          id="leaseStartDate"
-                          type="date"
+                        <DateInput
+                          label="Lease Start Date"
                           value={formData.housing.leaseStartDate}
-                          onChange={(e) => handleInputChange('housing', 'leaseStartDate', e.target.value)}
+                          onChange={(value) => handleInputChange('housing', 'leaseStartDate', value)}
+                          constraints={{
+                            futureAllowed: false,
+                            pastRequired: false
+                          }}
+                          placeholder="When did your lease start?"
                         />
+                        {validationErrors['housing.leaseStartDate'] && (
+                          <p className="text-sm text-red-600 mt-1">{validationErrors['housing.leaseStartDate']}</p>
+                        )}
                       </div>
                       <div>
                         <Label htmlFor="rentPaymentMethod">Payment Method</Label>
