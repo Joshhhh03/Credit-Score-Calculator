@@ -197,12 +197,88 @@ export default function GetStarted() {
 
   const handleNext = async () => {
     if (currentStep < 5) {
+      // Enable validation display to show errors
+      setShowValidation(true);
+
+      // Check if current step is valid
+      if (!isStepValid(currentStep)) {
+        // Show validation errors for current step
+        validateCurrentStep();
+        return;
+      }
+
       if (currentStep === 4) {
         // Calculate credit score when moving to final step
         await calculateCreditScore();
       }
       setCurrentStep(currentStep + 1);
     }
+  };
+
+  const validateCurrentStep = () => {
+    const errors: {[key: string]: string} = {};
+
+    switch (currentStep) {
+      case 1:
+        const personalValidation = CreditDataValidator.validatePersonalInfo({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          dateOfBirth: formData.dateOfBirth,
+          ssn: formData.ssn,
+          address: formData.address
+        });
+
+        if (!personalValidation.firstName.isValid) errors['firstName'] = personalValidation.firstName.error || '';
+        if (!personalValidation.lastName.isValid) errors['lastName'] = personalValidation.lastName.error || '';
+        if (!personalValidation.email.isValid) errors['email'] = personalValidation.email.error || '';
+        if (!personalValidation.dateOfBirth.isValid) errors['dateOfBirth'] = personalValidation.dateOfBirth.error || '';
+        if (!personalValidation.ssn.isValid) errors['ssn'] = personalValidation.ssn.error || '';
+        if (!formData.hasTraditionalCredit) errors['hasTraditionalCredit'] = 'Please select an option';
+        break;
+
+      case 2:
+        const employmentValidation = CreditDataValidator.validateEmployment({
+          employerName: formData.employment.employerName,
+          jobTitle: formData.employment.jobTitle,
+          annualSalary: formData.employment.annualSalary,
+          startDate: formData.employment.startDate,
+          employmentType: formData.employment.employmentType
+        });
+
+        if (!employmentValidation.employerName.isValid) errors['employment.employerName'] = employmentValidation.employerName.error || '';
+        if (!employmentValidation.jobTitle.isValid) errors['employment.jobTitle'] = employmentValidation.jobTitle.error || '';
+        if (!employmentValidation.annualSalary.isValid) errors['employment.annualSalary'] = employmentValidation.annualSalary.error || '';
+        break;
+
+      case 3:
+        const housingValidation = CreditDataValidator.validateHousing({
+          housingType: formData.housing.housingType,
+          landlordName: formData.housing.landlordName,
+          monthlyRent: formData.housing.monthlyRent,
+          leaseStartDate: formData.housing.leaseStartDate
+        });
+
+        if (!housingValidation.housingType.isValid) errors['housing.housingType'] = housingValidation.housingType.error || '';
+        if (!housingValidation.landlordName.isValid) errors['housing.landlordName'] = housingValidation.landlordName.error || '';
+        if (!housingValidation.monthlyRent.isValid) errors['housing.monthlyRent'] = housingValidation.monthlyRent.error || '';
+        break;
+
+      case 4:
+        const bankingValidation = CreditDataValidator.validateBanking({
+          bankName: formData.banking.bankName,
+          accountType: formData.banking.accountType,
+          monthlyIncome: formData.banking.monthlyIncome,
+          monthlyExpenses: formData.banking.monthlyExpenses
+        });
+
+        if (!bankingValidation.bankName.isValid) errors['banking.bankName'] = bankingValidation.bankName.error || '';
+        if (!bankingValidation.accountType.isValid) errors['banking.accountType'] = bankingValidation.accountType.error || '';
+        break;
+    }
+
+    setValidationErrors(errors);
   };
 
   const handleBack = () => {
