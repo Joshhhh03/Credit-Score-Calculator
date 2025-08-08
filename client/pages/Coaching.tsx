@@ -402,47 +402,54 @@ export default function Coaching() {
 
           <TabsContent value="learning" className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">
-              {learningModules.map((module) => (
-                <Card key={module.id} className={`hover:shadow-lg transition-shadow ${module.completed ? 'border-green-200 bg-green-50' : ''}`}>
-                  <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <div className={`p-2 rounded-lg mr-3 ${module.completed ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'}`}>
-                          {module.completed ? <CheckCircle className="h-5 w-5" /> : module.icon}
-                        </div>
-                        <div>
-                          <CardTitle className="text-lg">{module.title}</CardTitle>
-                          <CardDescription>{module.description}</CardDescription>
+              {learningModules.map((module) => {
+                const isCompleted = completedCourses.has(module.id);
+                return (
+                  <Card key={module.id} className={`hover:shadow-lg transition-shadow ${isCompleted ? 'border-green-200 bg-green-50' : ''}`}>
+                    <CardHeader>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <div className={`p-2 rounded-lg mr-3 ${isCompleted ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'}`}>
+                            {isCompleted ? <CheckCircle className="h-5 w-5" /> : module.icon}
+                          </div>
+                          <div>
+                            <CardTitle className="text-lg">{module.title}</CardTitle>
+                            <CardDescription>{module.description}</CardDescription>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-2">
-                        <Clock className="h-4 w-4 text-gray-500" />
-                        <span className="text-sm text-gray-600">{module.duration}</span>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-2">
+                          <Clock className="h-4 w-4 text-gray-500" />
+                          <span className="text-sm text-gray-600">{module.duration}</span>
+                        </div>
+                        <Badge className={getDifficultyBadgeColor(module.difficulty)}>
+                          {module.difficulty}
+                        </Badge>
                       </div>
-                      <Badge className={getDifficultyBadgeColor(module.difficulty)}>
-                        {module.difficulty}
-                      </Badge>
-                    </div>
-                    <Button className="w-full" variant={module.completed ? "outline" : "default"}>
-                      {module.completed ? (
-                        <>
-                          <CheckCircle className="h-4 w-4 mr-2" />
-                          Review Module
-                        </>
-                      ) : (
-                        <>
-                          <ArrowRight className="h-4 w-4 mr-2" />
-                          Start Learning
-                        </>
-                      )}
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
+                      <Button
+                        className="w-full"
+                        variant={isCompleted ? "outline" : "default"}
+                        onClick={() => handleStartCourse(module.id)}
+                      >
+                        {isCompleted ? (
+                          <>
+                            <CheckCircle className="h-4 w-4 mr-2" />
+                            Review Module
+                          </>
+                        ) : (
+                          <>
+                            <PlayCircle className="h-4 w-4 mr-2" />
+                            Start Learning
+                          </>
+                        )}
+                      </Button>
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
 
             <Card className="border-dashed border-2 border-gray-300">
