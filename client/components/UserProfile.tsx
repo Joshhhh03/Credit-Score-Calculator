@@ -31,7 +31,9 @@ export default function UserProfile() {
             </Avatar>
             <div className="flex flex-col items-start">
               <span className="text-sm font-medium">{user.firstName} {user.lastName}</span>
-              <span className="text-xs text-gray-500">Member</span>
+              <span className="text-xs text-gray-500">
+                {user.lastLogin ? 'Signed in' : 'Member'}
+              </span>
             </div>
           </div>
         </Button>
