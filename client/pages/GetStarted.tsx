@@ -86,6 +86,8 @@ export default function GetStarted() {
     phone: "",
     dateOfBirth: "",
     ssn: "",
+    traditionalCreditScore: "",
+    hasTraditionalCredit: "",
     address: {
       street: "",
       city: "",
