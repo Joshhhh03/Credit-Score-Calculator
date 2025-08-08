@@ -60,5 +60,18 @@ export function createServer() {
   app.get("/api/users/:userId/ratings", getUserRatings);
   app.put("/api/ratings/:ratingId", updateRating);
 
+  // Authentication API routes
+  app.post("/api/auth/signup", signUp);
+  app.post("/api/auth/signin", signIn);
+  app.get("/api/auth/profile/:userId", getProfile);
+  app.put("/api/auth/profile/:userId", updateProfile);
+  app.put("/api/auth/password/:userId", changePassword);
+  app.delete("/api/auth/account/:userId", deleteAccount);
+
+  // Analytics API routes
+  app.post("/api/analytics/:userId/generate", generateAnalytics);
+  app.get("/api/analytics/:userId", getAnalytics);
+  app.get("/api/analytics/:userId/loans", getLoanOffers);
+
   return app;
 }
