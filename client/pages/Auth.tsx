@@ -6,12 +6,13 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/contexts/AuthContext";
-import { 
-  CreditCard, 
-  Eye, 
-  EyeOff, 
-  User, 
-  Mail, 
+import PostSignInDataModal from "@/components/PostSignInDataModal";
+import {
+  CreditCard,
+  Eye,
+  EyeOff,
+  User,
+  Mail,
   Lock,
   Shield,
   TrendingUp,
@@ -23,7 +24,8 @@ export default function Auth() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const { signIn, signUp } = useAuth();
+  const [showDataModal, setShowDataModal] = useState(false);
+  const { signIn, signUp, user } = useAuth();
   const navigate = useNavigate();
 
   // Sign in form state
@@ -47,13 +49,14 @@ export default function Auth() {
     setError("");
 
     const result = await signIn(signInData.email, signInData.password);
-    
+
     if (result.success) {
-      navigate("/dashboard");
+      // Check if user has completed profile setup
+      setShowDataModal(true);
     } else {
       setError(result.error || "Sign in failed");
     }
-    
+
     setIsLoading(false);
   };
 
@@ -75,18 +78,18 @@ export default function Auth() {
     }
 
     const result = await signUp(
-      signUpData.email, 
-      signUpData.password, 
-      signUpData.firstName, 
+      signUpData.email,
+      signUpData.password,
+      signUpData.firstName,
       signUpData.lastName
     );
-    
+
     if (result.success) {
-      navigate("/get-started");
+      setShowDataModal(true);
     } else {
       setError(result.error || "Sign up failed");
     }
-    
+
     setIsLoading(false);
   };
 
